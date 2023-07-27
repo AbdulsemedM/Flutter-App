@@ -164,7 +164,7 @@ class _Login_pageState extends State<Login_page> {
                               .primmary1, // You can use your color here
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.05),
+                      SizedBox(height: screenHeight * 0.03),
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: screenWidth * 0.1,
