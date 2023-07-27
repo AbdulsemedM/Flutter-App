@@ -146,10 +146,10 @@ class _Login_pageState extends State<Login_page> {
                           ],
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.1),
+                      SizedBox(height: screenHeight * 0.02),
                       Center(
                         child: Image.asset(
-                          'assets/images/cooplay3.png',
+                          'assets/images/Cap.png',
                           height: screenHeight * 0.3,
                           width: screenWidth * 0.6,
                         ),
