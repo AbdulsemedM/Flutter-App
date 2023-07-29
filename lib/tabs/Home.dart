@@ -22,24 +22,30 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Widget _menuSelector(@required String image, @required String name) {
+  Widget _menuSelector({required IconData icon, required String name}) {
     return Container(
+      width: 60, // Adjust the width of the container as needed
+      height: 80, // Adjust the height of the container as needed
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors_selector.grey, width: 2)),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-          height: 80,
-          decoration: BoxDecoration(
-            image: DecorationImage(image: AssetImage(image)),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey, width: 2),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 40, // Adjust the icon size as needed
+            color: Colors_selector
+                .secondaryColor, // Adjust the icon color as needed
           ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          name,
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        )
-      ]),
+          SizedBox(height: 10),
+          Text(
+            name,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     );
   }
 
@@ -49,10 +55,11 @@ class _HomeState extends State<Home> {
 
   final List<String> images = [
     'https://media.licdn.cn/dms/image/C4E1BAQHkN7Cli0qSYw/company-background_10000/0/1607605666419?e=2159024400&v=beta&t=hylf9iaLVH9MRMFrjyPsTA7jV9kq81sVfuECjLlHp38',
-    'https://i0.wp.com/www.elelanjobs.com/wp-content/uploads/2022/07/photo_2022-07-11_11-45-13.jpg?w=1280&ssl=1',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQigbYPGO85v2rNJ1CGfXqPzJqyKwvSjke425KRb3niXZKKCYfEu6f3ZpNVwN3gUS0bCbw&usqp=CAU',
     'https://pbs.twimg.com/media/FgtTwl2X0AAG4fg.jpg',
     'https://pbs.twimg.com/media/FhWwJI4WAAQ6vao?format=jpg&name=large',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbYLjD2pzvno_e9lVCDpt8OWmyfH_2Cu3NZw&usqp=CAU',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnBXSQib9AIRl9t3hThI3xUWBPf5dCjRg4NswOK3Qz0usA8TvnE6WOeBY4pQn3n30hd-s&usqp=CAU',
   ];
   List<Widget> generateImagesTiles() {
     return images
@@ -136,23 +143,22 @@ class _HomeState extends State<Home> {
                             crossAxisCount: 2,
                             crossAxisSpacing: 12,
                             mainAxisSpacing: 8,
-                            childAspectRatio: 1,
+                            childAspectRatio: 1.5,
                             children: [
                               GestureDetector(
                                 onTap: () {
                                   showChallengeDialog(context);
                                 },
                                 child: _menuSelector(
-                                    "assets/images/Challenges.png",
-                                    "Challenges".tr),
+                                    icon: Icons.games, name: "Challenges".tr),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   ShowSimpleDialog(context);
                                 },
                                 child: _menuSelector(
-                                    "assets/images/coin_Exchange.png",
-                                    "Convert Coins".tr),
+                                    icon: Icons.change_circle,
+                                    name: "Convert Coins".tr),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -162,8 +168,8 @@ class _HomeState extends State<Home> {
                                           builder: (context) => Register()));
                                 },
                                 child: _menuSelector(
-                                    "assets/images/customer.png",
-                                    "Register".tr),
+                                    icon: Icons.person_add,
+                                    name: "Register".tr),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -173,8 +179,8 @@ class _HomeState extends State<Home> {
                                           builder: (context) => Locations()));
                                 },
                                 child: _menuSelector(
-                                    "assets/images/location.png",
-                                    "Locations".tr),
+                                    icon: Icons.location_on,
+                                    name: "Locations".tr),
                               ),
                               GestureDetector(
                                   onTap: () {
@@ -185,7 +191,7 @@ class _HomeState extends State<Home> {
                                     );
                                   },
                                   child: _menuSelector(
-                                      "assets/images/Share.png", "Share".tr)),
+                                      icon: Icons.share, name: "Share".tr)),
                               GestureDetector(
                                   onTap: () {
                                     Navigator.push(
@@ -195,14 +201,14 @@ class _HomeState extends State<Home> {
                                     );
                                   },
                                   child: _menuSelector(
-                                      "assets/images/help.png", "Help".tr)),
+                                      icon: Icons.help, name: "Help".tr)),
                               GestureDetector(
                                 onTap: () {
                                   LaunchReview.launch(
                                       androidAppId: "com.example.CooPlay");
                                 },
                                 child: _menuSelector(
-                                    "assets/images/golden.png", "Rate us".tr),
+                                    icon: Icons.star_rate, name: "Rate us".tr),
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -211,8 +217,9 @@ class _HomeState extends State<Home> {
                                       MaterialPageRoute(
                                           builder: (context) => Products()));
                                 },
-                                child: _menuSelector("assets/images/other.png",
-                                    "Other products".tr),
+                                child: _menuSelector(
+                                    icon: Icons.shopping_cart,
+                                    name: "Other products".tr),
                               ),
                             ],
                           ),

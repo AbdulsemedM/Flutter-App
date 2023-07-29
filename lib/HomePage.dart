@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
                 child: Image.network(
-                  "https://media.licdn.com/dms/image/C4E03AQH5LjXhQmWWrg/profile-displayphoto-shrink_100_100/0/1657298878780?e=1678924800&v=beta&t=PbUKUn0qwRpF43rYt0bISoE6PYYusRI3BrvkMU3SP0Y",
+                  "https://media.licdn.com/dms/image/C4E03AQH5LjXhQmWWrg/profile-displayphoto-shrink_800_800/0/1657298878780?e=2147483647&v=beta&t=uEtiMEuRFMp1gmPv3orz0TTxgo-tSTbHpAc8W2LGqkU",
                   height: 50.0,
                   width: 50.0,
                   fit: BoxFit.cover,
