@@ -176,11 +176,11 @@ class _FavoriteState extends State<Favorite> {
                             Icons.privacy_tip_outlined,
                             color: Colors_selector.secondaryColor,
                           ),
-                          trailing: Icon(Icons.keyboard_arrow_right),
+                          trailing: const Icon(Icons.keyboard_arrow_right),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
                         width: 5,
                         height: 1,
                         color: Colors_selector.grey,
