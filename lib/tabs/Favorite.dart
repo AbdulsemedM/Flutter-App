@@ -39,8 +39,8 @@ class _FavoriteState extends State<Favorite> {
       setState(() {
         Colors_selector.pair1 = Color(0xffe0f7fa);
         Colors_selector.pair2 = Color(0xffe1f5fe);
-        Colors_selector.primaryColor = Colors.cyanAccent[400];
-        Colors_selector.primmary1 = Color(0xff00e5ff);
+        Colors_selector.primaryColor = Colors.lightBlue[400];
+        Colors_selector.primmary1 = Color(0xFF08B1F0);
       });
     }
   }

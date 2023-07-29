@@ -1,8 +1,10 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:loyalty_app/colors.dart';
-import 'package:loyalty_app/login_page.dart';
+// import 'package:loyalty_app/login_page.dart';
 import 'package:loyalty_app/menu/Challenges.dart';
 import 'package:loyalty_app/menu/Help.dart';
 import 'package:loyalty_app/menu/Locations.dart';
@@ -64,6 +66,7 @@ class _HomeState extends State<Home> {
   List<Widget> generateImagesTiles() {
     return images
         .map((element) => ClipRRect(
+              // ignore: sort_child_properties_last
               child: Image.network(
                 element,
                 fit: BoxFit.cover,
@@ -93,21 +96,21 @@ class _HomeState extends State<Home> {
                 colors: [Colors_selector.pair1, Colors_selector.pair2],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight),
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30)),
           ),
           child: Column(children: [
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
               child: Text(
                 "Latest".tr,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                     fontSize: 24),
@@ -116,30 +119,33 @@ class _HomeState extends State<Home> {
             Container(
               height: 150,
               width: MediaQuery.of(context).size.width * 0.85,
-              padding: EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 20),
               child: CarouselSlider(
                 items: generateImagesTiles(),
                 options:
                     CarouselOptions(autoPlay: true, enlargeCenterPage: true),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Menu".tr,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 22,
                             color: Colors.black,
                             fontWeight: FontWeight.w500)),
                     Padding(
-                        padding: EdgeInsets.only(top: 20),
+                        padding: const EdgeInsets.only(top: 20),
+                        // ignore: sized_box_for_whitespace
                         child: Container(
                           height: 545,
                           child: GridView.count(
+                            physics:
+                                const NeverScrollableScrollPhysics(), // Disable GridView's scrolling
                             crossAxisCount: 2,
                             crossAxisSpacing: 12,
                             mainAxisSpacing: 8,
@@ -232,6 +238,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // ignore: non_constant_identifier_names
   void ShowSimpleDialog(BuildContext context) => showDialog(
       context: context,
       barrierDismissible: true,
@@ -246,24 +253,27 @@ class _HomeState extends State<Home> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Text(
                     "  You have 4.2 Golden coins  ".tr,
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Text(
                     "  which is equal to 25 Birr  ".tr,
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
                     "Withdraw to your account ".tr,
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   ElevatedButton(
@@ -271,20 +281,21 @@ class _HomeState extends State<Home> {
                           primary: Colors_selector.primaryColor),
                       child: Text(
                         "withdraw".tr,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
                     "convert to a mobile topup".tr,
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   ElevatedButton(
@@ -292,13 +303,13 @@ class _HomeState extends State<Home> {
                           primary: Colors_selector.primaryColor),
                       child: Text(
                         "Convert".tr,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                 ],
               ),
             ));
@@ -318,20 +329,22 @@ class _HomeState extends State<Home> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Text(
                     "If you want to see your products gifts press here.".tr,
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   ElevatedButton(
+                      // ignore: duplicate_ignore
                       style: ElevatedButton.styleFrom(
                           primary: Colors_selector.primaryColor),
                       child: Text(
                         "Gifts".tr,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
@@ -341,14 +354,15 @@ class _HomeState extends State<Home> {
                             MaterialPageRoute(
                                 builder: (context) => Challenges()));
                       }),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Text(
                     "If you want to try some challenges press here.".tr,
-                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 19, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   ElevatedButton(
@@ -356,7 +370,7 @@ class _HomeState extends State<Home> {
                           primary: Colors_selector.primaryColor),
                       child: Text(
                         "Challenges".tr,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                       onPressed: () {
@@ -366,7 +380,7 @@ class _HomeState extends State<Home> {
                             MaterialPageRoute(
                                 builder: (context) => Challenges()));
                       }),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                 ],
               ),
             ));
