@@ -12,6 +12,8 @@ import 'package:get/get.dart';
 import 'package:loyalty_app/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/simple_preference.dart';
+
 class Favorite extends StatefulWidget {
   const Favorite({Key? key}) : super(key: key);
 
@@ -52,20 +54,7 @@ class _FavoriteState extends State<Favorite> {
     {'name': 'Somali', 'locale': Locale('en', 'US')},
   ];
   updateLanguage(Locale locale) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (locale == 'am_Et') {
-      prefs.setBool("isAmharic", true);
-      prefs.setBool("isOromiffa", false);
-      prefs.setBool("isEnglish", false);
-    } else if (locale == 'or_ET') {
-      prefs.setBool("isAmharic", false);
-      prefs.setBool("isOromiffa", true);
-      prefs.setBool("isEnglish", false);
-    } else if (locale == 'en_US') {
-      prefs.setBool("isAmharic", false);
-      prefs.setBool("isOromiffa", false);
-      prefs.setBool("isEnglish", true);
-    }
+    await SimplePreferences.setLanguage(locale as String);
     Get.back();
     Get.updateLocale(locale);
     // final SharedPreferences prefs = await _prefs;

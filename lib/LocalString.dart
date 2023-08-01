@@ -148,7 +148,7 @@ class LocaleString extends Translations {
           'Password': 'Jecha iccitii',
           'Forgot': 'Password dagadheera',
           "Don't have an account? ": "Akkaawuntii hin qabduu? ",
-          "Signup here": "Asirratti galmaa'aa",
+          "Signup here": "Galmaa'aa",
           "Signup": "Galmaa'i",
           "First Name*": "Maqaa jalqabaa*",
           "Last Name": "Maqaa Abbaa",

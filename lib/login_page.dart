@@ -57,10 +57,8 @@ class _Login_pageState extends State<Login_page> {
                         onTap: () async {
                           // ignore: avoid_print
                           print(locale[index]['locale']);
-                          await SimplePreferences.setLanguage(
-                              locale[index]['locale']);
-
                           updateLanguage(locale[index]['locale']);
+
                           // await prefs.setBool('repeat', true);
                         },
                       ),
@@ -78,6 +76,8 @@ class _Login_pageState extends State<Login_page> {
   }
 
   updateLanguage(Locale locale) async {
+    // print(locale);
+    await SimplePreferences.setLanguage(locale as String);
     Get.back();
     Get.updateLocale(locale);
     // final SharedPreferences prefs = await _prefs;

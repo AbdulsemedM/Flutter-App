@@ -33,11 +33,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: ThemeData(brightness: Brightness.light),
       translations: LocaleString(),
-      locale: lang == "locale: en_US"
+      locale: lang == "en_US"
           ? const Locale('en', 'US')
-          : lang == "locale: am_ET"
+          : lang == "am_ET"
               ? const Locale('am', 'ET')
-              : const Locale('or', 'ET'),
+              : lang == "or_ET"
+                  ? const Locale('or', 'ET')
+                  : const Locale("en", "US"),
       title: 'CooPlay',
       home: AnimatedSplashScreen(
         duration: 1000,
