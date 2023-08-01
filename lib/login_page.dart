@@ -14,6 +14,7 @@ import 'package:loyalty_app/Signup.dart';
 import 'package:loyalty_app/colors.dart';
 // import 'package:protest/tabs/Home.dart';
 import 'package:get/get.dart';
+import 'package:loyalty_app/utils/simple_preference.dart';
 // import 'package:protest/LocalString.dart';
 
 // ignore: camel_case_types
@@ -53,9 +54,12 @@ class _Login_pageState extends State<Login_page> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         child: Text(locale[index]['name']),
-                        onTap: () {
+                        onTap: () async {
                           // ignore: avoid_print
                           print(locale[index]['locale']);
+                          await SimplePreferences.setLanguage(
+                              locale[index]['locale']);
+
                           updateLanguage(locale[index]['locale']);
                           // await prefs.setBool('repeat', true);
                         },
