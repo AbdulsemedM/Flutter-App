@@ -35,11 +35,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: ThemeData(brightness: Brightness.light),
       translations: LocaleString(),
-      locale: lang == "en_US"
+      locale: lang == "English"
           ? const Locale('en', 'US')
-          : lang == "am_ET"
+          : lang == "አማርኛ"
               ? const Locale('am', 'ET')
-              : lang == "or_ET"
+              : lang == "Afaan Oromoo"
                   ? const Locale('or', 'ET')
                   : const Locale("en", "US"),
       title: 'CooPlay',

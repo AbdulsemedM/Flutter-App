@@ -15,6 +15,7 @@ import 'package:loyalty_app/colors.dart';
 // import 'package:protest/tabs/Home.dart';
 import 'package:get/get.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:protest/LocalString.dart';
 
 // ignore: camel_case_types
@@ -56,10 +57,15 @@ class _Login_pageState extends State<Login_page> {
                     child: Text(locale[index]['name']),
                     onTap: () async {
                       // Get the selected locale and call the setLanguage method
-                      String selectedLocale = locale[index]['locale'];
-                      updateLanguage(locale[index]['locale']);
+                      String selectedLocale = locale[index]['name'];
+                      print(selectedLocale);
                       SimplePreferences preferences = SimplePreferences();
+                      // SharedPreferences sharedPreferences =
+                      //     await SharedPreferences.getInstance();
+                      // sharedPreferences.setString('language', selectedLocale);
                       await preferences.setLanguage(selectedLocale);
+                      updateLanguage(locale[index]['locale']);
+                      setState(() {});
                     },
                   ),
                 );
