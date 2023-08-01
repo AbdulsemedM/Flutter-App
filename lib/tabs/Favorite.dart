@@ -9,8 +9,8 @@ import 'package:loyalty_app/Settings/PaS.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/login_page.dart';
 import 'package:get/get.dart';
-import 'package:loyalty_app/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:loyalty_app/main.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/simple_preference.dart';
 
@@ -54,9 +54,10 @@ class _FavoriteState extends State<Favorite> {
     {'name': 'Somali', 'locale': Locale('en', 'US')},
   ];
   updateLanguage(Locale locale) async {
-    await SimplePreferences.setLanguage(locale as String);
     Get.back();
     Get.updateLocale(locale);
+    // await SimplePreferences.setLanguage(locale as String);
+
     // final SharedPreferences prefs = await _prefs;
     // if (locale == 'am_Et') {
     //   await prefs.setBool('isAmharic', true);
@@ -88,9 +89,12 @@ class _FavoriteState extends State<Favorite> {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         child: Text(locale[index]['name']),
-                        onTap: () {
+                        onTap: () async {
+                          String selectedLocale = locale[index]['locale'];
                           print(locale[index]['locale']);
                           updateLanguage(locale[index]['locale']);
+                          SimplePreferences preferences = SimplePreferences();
+                          await preferences.setLanguage(selectedLocale);
                           // await prefs.setBool('repeat', true);
                         },
                       ),

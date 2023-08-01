@@ -41,45 +41,47 @@ class _Login_pageState extends State<Login_page> {
 
   buildLanguageDialog(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (builder) {
-          return AlertDialog(
-            title: Text('Choose Language'),
-            content: SizedBox(
-              width: double.maxFinite,
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        child: Text(locale[index]['name']),
-                        onTap: () async {
-                          // ignore: avoid_print
-                          print(locale[index]['locale']);
-                          updateLanguage(locale[index]['locale']);
-
-                          // await prefs.setBool('repeat', true);
-                        },
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      color: Colors_selector.primmary1,
-                    );
-                  },
-                  itemCount: locale.length),
+      context: context,
+      builder: (builder) {
+        return AlertDialog(
+          title: Text('Choose Language'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    child: Text(locale[index]['name']),
+                    onTap: () async {
+                      // Get the selected locale and call the setLanguage method
+                      String selectedLocale = locale[index]['locale'];
+                      updateLanguage(locale[index]['locale']);
+                      SimplePreferences preferences = SimplePreferences();
+                      await preferences.setLanguage(selectedLocale);
+                    },
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider(
+                  color: Colors_selector.primmary1,
+                );
+              },
+              itemCount: locale.length,
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 
   updateLanguage(Locale locale) async {
     // print(locale);
-    await SimplePreferences.setLanguage(locale as String);
     Get.back();
     Get.updateLocale(locale);
+
     // final SharedPreferences prefs = await _prefs;
     // if (locale == 'am_Et') {
     //   await prefs.setBool('isAmharic', true);

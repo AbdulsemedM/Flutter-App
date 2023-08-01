@@ -18,7 +18,9 @@ void main() async {
 
   await SimplePreferences.init();
 
-  String lang = SimplePreferences.getLanguage() ?? '';
+  String? lang = await SimplePreferences().getLanguage();
+  lang ??=
+      ''; // Provide a default value if lang is null  print(lang + 'hello');
 
   runApp(MyApp(lang: lang));
 }
