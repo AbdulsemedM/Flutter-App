@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 // import 'package:flutter_settings_screens/flutter_settings_screens.dart';
@@ -19,23 +21,34 @@ class Favorite extends StatefulWidget {
 
   @override
   State<Favorite> createState() => _FavoriteState();
-  // final prefs = await SharedPreferences.getInstance();
-  // var isAmharic = prefs.getBool('isAmharic') ?? false;
-  // var isOromiffa = prefs.getBool('isOromiffa') ?? false;
 }
 
 class _FavoriteState extends State<Favorite> {
-  // bool isAmharic = false;
-  // bool isOromiffa = false;
-  // bool isEnglish = true;
-  var isOn = false;
-  checkDarkMode(bool isOn) {
-    if (isOn == true) {
+  String? isOn;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkDarkMode();
+  }
+
+  // ignore: non_constant_identifier_names
+  Future<bool?> _checkDarkMode() async {
+    isOn = await SimplePreferences().getIsOn();
+    if (isOn == "true") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkDarkMode() {
+    if (isOn == "true") {
       setState(() {
         Colors_selector.pair1 = Color(0xff546e7a);
         Colors_selector.pair2 = Color(0xff546e7a);
-        Colors_selector.primaryColor = Colors.cyan[900];
-        Colors_selector.primmary1 = Color(0xff006064);
+        Colors_selector.primaryColor = Colors.lightBlue[400];
+        Colors_selector.primmary1 = Color(0xFF08B1F0);
       });
     } else {
       setState(() {
@@ -90,11 +103,12 @@ class _FavoriteState extends State<Favorite> {
                       child: GestureDetector(
                         child: Text(locale[index]['name']),
                         onTap: () async {
-                          String selectedLocale = locale[index]['locale'];
-                          print(locale[index]['locale']);
-                          updateLanguage(locale[index]['locale']);
+                          String selectedLocale = locale[index]['name'];
+                          print(selectedLocale);
                           SimplePreferences preferences = SimplePreferences();
                           await preferences.setLanguage(selectedLocale);
+                          updateLanguage(locale[index]['locale']);
+
                           // await prefs.setBool('repeat', true);
                         },
                       ),
@@ -338,13 +352,16 @@ class _FavoriteState extends State<Favorite> {
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                     ),
-                    value: isOn,
-                    onChanged: (bool value) {
-                      setState(() {
-                        isOn = value;
+                    value: isOn == "true" ? true : false,
+                    onChanged: (bool value) async {
+                      setState(() async {
+                        isOn = value == true ? "true" : "false";
                       });
+                      SimplePreferences preferences = SimplePreferences();
+                      await preferences.setIsOn(isOn!);
+
                       // isOn = !isOn;
-                      checkDarkMode(isOn);
+                      checkDarkMode();
                     }),
               ),
               Padding(

@@ -60,9 +60,6 @@ class _Login_pageState extends State<Login_page> {
                       String selectedLocale = locale[index]['name'];
                       print(selectedLocale);
                       SimplePreferences preferences = SimplePreferences();
-                      // SharedPreferences sharedPreferences =
-                      //     await SharedPreferences.getInstance();
-                      // sharedPreferences.setString('language', selectedLocale);
                       await preferences.setLanguage(selectedLocale);
                       updateLanguage(locale[index]['locale']);
                       setState(() {});
