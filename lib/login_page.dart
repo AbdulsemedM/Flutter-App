@@ -15,7 +15,7 @@ import 'package:loyalty_app/colors.dart';
 // import 'package:protest/tabs/Home.dart';
 import 'package:get/get.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:protest/LocalString.dart';
 
 // ignore: camel_case_types

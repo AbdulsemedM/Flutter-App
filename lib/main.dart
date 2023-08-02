@@ -5,6 +5,7 @@ import 'package:loyalty_app/LocalString.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/login_page.dart';
 import 'package:get/get.dart';
+// import 'package:loyalty_app/tabs/Favorite.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
 
 void main() async {

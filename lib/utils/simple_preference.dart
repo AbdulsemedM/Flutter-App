@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,13 +9,13 @@ class SimplePreferences {
 
   static late SharedPreferences _preferences;
   static late String _keyLanguage;
-  static late String isOn;
+  static late String _keyIsOn;
 
   static Future<SharedPreferences> init() async {
     // if (_preferences == null) {
     _preferences = await SharedPreferences.getInstance();
     _keyLanguage = 'language';
-    isOn = "false";
+    _keyIsOn = "false";
     // }
     return _preferences;
   }
@@ -41,11 +41,7 @@ class SimplePreferences {
 
   Future<void> setIsOn(String isOn) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (isOn == "true") {
-      prefs.setString(isOn, "true");
-    } else {
-      prefs.setString(isOn, "false");
-    }
+    prefs.setString(_keyIsOn, isOn);
     if (kDebugMode) {
       print("setIsOn: $isOn");
     }
@@ -54,7 +50,7 @@ class SimplePreferences {
   Future<String?> getIsOn() async {
     final SharedPreferences prefs = await _preferences;
 
-    final isOn = prefs.getString('isOn');
+    final isOn = prefs.getString('_keyIsOn');
     if (kDebugMode) {
       print("getLang: $isOn");
     }

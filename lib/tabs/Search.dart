@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loyalty_app/colors.dart';
 
 class Search extends StatefulWidget {
@@ -10,6 +10,7 @@ class Search extends StatefulWidget {
   @override
   State<Search> createState() => _SearchState();
 }
+// 😊
 
 class _SearchState extends State<Search> {
   List messages = [

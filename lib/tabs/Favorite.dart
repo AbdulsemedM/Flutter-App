@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
@@ -23,26 +23,37 @@ class Favorite extends StatefulWidget {
   State<Favorite> createState() => _FavoriteState();
 }
 
-class _FavoriteState extends State<Favorite> {
+class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
   String? isOn;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _checkDarkMode();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkDarkMode();
+    }
   }
 
   // ignore: non_constant_identifier_names
   Future<bool?> _checkDarkMode() async {
     isOn = await SimplePreferences().getIsOn();
     if (isOn == "true") {
+      setState(() {});
       return true;
     } else {
+      setState(() {});
       return false;
     }
   }
 
   checkDarkMode() {
+    print("${isOn!}here");
     if (isOn == "true") {
       setState(() {
         Colors_selector.pair1 = Color(0xff546e7a);
@@ -354,14 +365,14 @@ class _FavoriteState extends State<Favorite> {
                     ),
                     value: isOn == "true" ? true : false,
                     onChanged: (bool value) async {
-                      setState(() async {
+                      setState(() {
                         isOn = value == true ? "true" : "false";
+                        checkDarkMode();
                       });
                       SimplePreferences preferences = SimplePreferences();
                       await preferences.setIsOn(isOn!);
 
                       // isOn = !isOn;
-                      checkDarkMode();
                     }),
               ),
               Padding(
