@@ -1,7 +1,48 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:loyalty_app/Profile2.dart';
 import 'package:loyalty_app/colors.dart';
+import 'package:device_info/device_info.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io' show Platform;
+
+class DeviceFingerprint {
+  static Future<String?> getFingerprint() async {
+    if (kIsWeb) {
+      return null; // Fingerprinting is not available on the web.
+    }
+
+    if (Platform.isAndroid) {
+      try {
+        if (Platform.isAndroid) {
+          final fingerprint = await MethodChannel('device_info')
+              .invokeMethod<String>('getFingerprint');
+          return fingerprint;
+        }
+      } catch (e) {
+        print('Error getting device fingerprint: $e');
+      }
+    }
+
+    return null;
+  }
+}
+
+Future<String> getDeviceId() async {
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  if (Platform.isAndroid) {
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.androidId; // Returns the Android device ID
+  } else if (Platform.isIOS) {
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    return iosInfo.identifierForVendor; // Returns the iOS device ID
+  } else {
+    throw UnsupportedError("Platform not supported");
+  }
+}
 
 class Wallet extends StatefulWidget {
   @override
@@ -126,7 +167,26 @@ class _WalletState extends State<Wallet> {
                                   style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold)),
-                            ))
+                            )),
+                        // Center(
+                        //   child: ElevatedButton(
+                        //     onPressed: () async {
+                        //       String deviceId = await getDeviceId();
+                        //       print('Device ID: $deviceId');
+                        //     },
+                        //     child: Text('Get Device ID'),
+                        //   ),
+                        // ),
+                        // Center(
+                        //   child: ElevatedButton(
+                        //     onPressed: () async {
+                        //       String? fingerprint =
+                        //           await DeviceFingerprint.getFingerprint();
+                        //       print('Device Fingerprint: $fingerprint');
+                        //     },
+                        //     child: Text('Get Device Fingerprint'),
+                        //   ),
+                        // ),
                       ]),
                   SizedBox(height: 10),
                   GestureDetector(
@@ -180,8 +240,8 @@ class _WalletState extends State<Wallet> {
                   ),
                   SizedBox(height: 30),
                   ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(primary: Colors_selector.primaryColor),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors_selector.primaryColor),
                       child: Text(
                         "Convert",
                         style: TextStyle(
