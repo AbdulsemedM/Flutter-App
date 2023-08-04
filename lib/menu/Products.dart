@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:loyalty_app/Profile2.dart';
+// import 'package:loyalty_app/Profile2.dart';
 import 'package:loyalty_app/colors.dart';
 
 class Products extends StatefulWidget {
@@ -10,7 +10,7 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  Widget _menuSelector(@required String image, @required String name) {
+  Widget _menuSelector(String image, String name) {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),

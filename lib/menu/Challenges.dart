@@ -6,7 +6,7 @@ import 'package:loyalty_app/Challenges/Unchallenge.dart';
 import 'package:loyalty_app/Challenges/Videos.dart';
 import 'package:loyalty_app/Challenges/mobile_banking.dart';
 import 'package:loyalty_app/Challenges/wallet.dart';
-import 'package:loyalty_app/Profile2.dart';
+// import 'package:loyalty_app/Profile2.dart';
 import 'package:loyalty_app/colors.dart';
 
 class Challenges extends StatefulWidget {

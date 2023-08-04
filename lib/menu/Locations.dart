@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:loyalty_app/Profile2.dart';
+// import 'package:loyalty_app/Profile2.dart';
 import 'package:get/get.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:url_launcher/url_launcher.dart';

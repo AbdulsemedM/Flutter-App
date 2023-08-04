@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:loyalty_app/Profile2.dart';
+// import 'package:loyalty_app/Profile2.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:loyalty_app/colors.dart';
@@ -10,7 +10,10 @@ import 'package:loyalty_app/menu/register/Register1.dart';
 // import 'package:social_share_plugin/social_share_plugin.dart';
 
 class Register extends StatefulWidget {
+  const Register({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _RegisterState createState() => _RegisterState();
 }
 
@@ -24,6 +27,7 @@ class _RegisterState extends State<Register> {
   Color circularColor = Colors_selector.pair1;
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
