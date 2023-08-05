@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +16,7 @@ class Michu extends StatefulWidget {
   State<Michu> createState() => _MichuState();
 }
 
-class _MichuState extends State<Michu> {
+class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     const var1 = 9950;
@@ -34,7 +36,8 @@ class _MichuState extends State<Michu> {
 
     int currentIndex = 0;
     final PageController _controller = PageController();
-
+    // late AnimationController _animationController;
+    bool isIconVisible = true;
     void _startAutoSlide() {
       Future.delayed(Duration(seconds: 3), () {
         if (currentIndex < texts.length - 1) {
@@ -54,6 +57,18 @@ class _MichuState extends State<Michu> {
     @override
     void initState() {
       super.initState();
+      // _animationController = AnimationController(
+      //   vsync: this,
+      //   duration: Duration(milliseconds: 500),
+      // )..addStatusListener((status) {
+      //     if (status == AnimationStatus.completed) {
+      //       _animationController.reverse();
+      //     } else if (status == AnimationStatus.dismissed) {
+      //       _animationController.forward();
+      //     }
+      //   });
+
+      // _animationController.forward();
       _startAutoSlide();
       _controller.addListener(() {
         setState(() {
@@ -62,7 +77,16 @@ class _MichuState extends State<Michu> {
       });
     }
 
+    // @override
+    // void dispose() {
+    //   _animationController.dispose();
+    //   super.dispose();
+    // }
+
     // String selectedOption = 'Option 1';
+    // final animationValue = _animationController.value;
+    // isIconVisible =
+    //     animationValue >= 0.5; // Toggle visibility based on animation value
 
     return SingleChildScrollView(
         child: SafeArea(
@@ -174,18 +198,17 @@ class _MichuState extends State<Michu> {
                                           ],
                                         ),
                                         Container(
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: Colors.green[
-                                                500], // Adjust the circle background color as needed
+                                            color: Colors.white24, // Adjust the circle background color as needed
                                           ),
-                                          padding: EdgeInsets.all(8),
-                                          child: Icon(
+                                          padding: const EdgeInsets.all(8),
+                                          child: const Icon(
                                             Icons.arrow_forward,
                                             size: 40,
                                             color: Colors.black,
                                           ),
-                                        ),
+                                        )
                                       ],
                                     ),
                                   ),

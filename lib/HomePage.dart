@@ -1,10 +1,10 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loyalty_app/Profile2.dart';
+// import 'package:loyalty_app/Profile2.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/login_page.dart';
 import 'package:loyalty_app/tabs/Favorite.dart';
-import 'package:loyalty_app/tabs/Home.dart';
+// import 'package:loyalty_app/tabs/Home.dart';
 import 'package:loyalty_app/tabs/Home2.dart';
 import 'package:loyalty_app/tabs/Profile.dart';
 import 'package:loyalty_app/tabs/Search.dart';
