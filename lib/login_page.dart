@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/Forgot_pw.dart';
 import 'package:loyalty_app/HomePage.dart';
 import 'package:loyalty_app/Signup.dart';
@@ -149,7 +150,11 @@ class _Login_pageState extends State<Login_page> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
-                              child: Text("Languages".tr),
+                              child: Text(
+                                "Languages".tr,
+                                style:
+                                    GoogleFonts.playfairDisplay(fontSize: 17),
+                              ),
                             ),
                             const Icon(Icons.arrow_drop_down),
                           ],
@@ -166,7 +171,7 @@ class _Login_pageState extends State<Login_page> {
                       SizedBox(height: screenHeight * 0.02),
                       Text(
                         "Login".tr,
-                        style: TextStyle(
+                        style: GoogleFonts.playfairDisplay(
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
                           color: Colors_selector
@@ -175,72 +180,84 @@ class _Login_pageState extends State<Login_page> {
                       ),
                       SizedBox(height: screenHeight * 0.03),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.1,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color:
-                                Colors.grey[300], // You can use your color here
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: TextField(
-                              controller: pnumber,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.phone_android),
-                                border: InputBorder.none,
-                                labelText: "Phone Number".tr,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                        child: SizedBox(
+                          height: 55, // Adjust the height as needed
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: TextField(
+                                controller: pnumber,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.phone_android),
+                                  border: InputBorder.none,
+                                  labelText: "Phone Number".tr,
+                                  labelStyle: GoogleFonts.playfairDisplay(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                               ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
                             ),
                           ),
                         ),
                       ),
+
                       SizedBox(height: screenHeight * 0.02),
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.1,
-                        ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color:
-                                Colors.grey[300], // You can use your color here
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: TextField(
-                              controller: password,
-                              obscureText: !_passwordVisible,
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _passwordVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors_selector.primmary1,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                        child: SizedBox(
+                          height: 55, // Adjust the height as needed
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: TextField(
+                                controller: password,
+                                obscureText: !_passwordVisible,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(Icons.lock),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: Colors_selector.primmary1,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    },
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _passwordVisible = !_passwordVisible;
-                                    });
-                                  },
+                                  border: InputBorder.none,
+                                  labelText: "Password".tr,
+                                  labelStyle: GoogleFonts.playfairDisplay(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                                border: InputBorder.none,
-                                labelText: "Password".tr,
                               ),
                             ),
                           ),
                         ),
                       ),
+
                       SizedBox(height: screenHeight * 0.01),
                       Padding(
                         padding: const EdgeInsets.only(left: 24),
@@ -257,7 +274,7 @@ class _Login_pageState extends State<Login_page> {
                               },
                               child: Text(
                                 "Forgot".tr,
-                                style: TextStyle(
+                                style: GoogleFonts.playfairDisplay(
                                   color: Colors_selector
                                       .secondaryColor, // You can use your color here
                                   fontSize: 15,
@@ -291,7 +308,7 @@ class _Login_pageState extends State<Login_page> {
                             child: Center(
                               child: Text(
                                 "Login".tr,
-                                style: TextStyle(
+                                style: GoogleFonts.playfairDisplay(
                                   color: Colors
                                       .white, // You can use your color here
                                   fontSize: 20,
@@ -308,13 +325,15 @@ class _Login_pageState extends State<Login_page> {
                       //       )
                       //     : SizedBox(),
                       SizedBox(height: screenHeight * 0.02),
+                      SizedBox(height: screenHeight * 0.08),
+
                       Padding(
                         padding: const EdgeInsets.only(left: 120),
                         child: Row(
                           children: [
                             Text(
                               "Don't have an account? ".tr,
-                              style: TextStyle(
+                              style: GoogleFonts.playfairDisplay(
                                 color:
                                     Colors.black, // You can use your color here
                                 fontSize: 15,
@@ -331,7 +350,7 @@ class _Login_pageState extends State<Login_page> {
                               },
                               child: Text(
                                 "Signup here".tr,
-                                style: TextStyle(
+                                style: GoogleFonts.playfairDisplay(
                                   color: Colors_selector
                                       .primmary1, // You can use your color here
                                   fontSize: 15,
@@ -342,13 +361,13 @@ class _Login_pageState extends State<Login_page> {
                           ],
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.08),
-                      Text(
-                        "copyright 1894-2023 © Coop Bank of Oromia",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                      SizedBox(height: screenHeight * 0.01),
-                      Text("All Rights Reserved"),
+                      // SizedBox(height: screenHeight * 0.08),
+                      // Text(
+                      //   "copyright 1894-2023 © Coop Bank of Oromia",
+                      //   style: TextStyle(fontSize: 15),
+                      // ),
+                      // SizedBox(height: screenHeight * 0.01),
+                      // Text("All Rights Reserved"),
                     ]),
               ),
             ]),
