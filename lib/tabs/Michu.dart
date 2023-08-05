@@ -19,7 +19,7 @@ class Michu extends StatefulWidget {
 class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    const var1 = 9950;
+    const var1 = 9920;
     const member1 = "Premium";
     const member2 = "Gold";
     const member3 = "Silver";
@@ -37,7 +37,7 @@ class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
     int currentIndex = 0;
     final PageController _controller = PageController();
     // late AnimationController _animationController;
-    bool isIconVisible = true;
+    // bool isIconVisible = true;
     void _startAutoSlide() {
       Future.delayed(Duration(seconds: 3), () {
         if (currentIndex < texts.length - 1) {
@@ -137,78 +137,79 @@ class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
                             ),
                             child: Column(
                               children: [
-                                Align(
+                                const Align(
                                   alignment: Alignment.topCenter,
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 60.0),
                                     child: Stack(
                                       alignment: Alignment.center,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              width: 150,
-                                              height: 60,
-                                              decoration: BoxDecoration(
-                                                color: Colors_selector
-                                                    .primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  "$var1 points",
-                                                  style: GoogleFonts
-                                                      .playfairDisplay(
-                                                    fontSize: 16,
-                                                    decoration:
-                                                        TextDecoration.none,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 50),
-                                            Container(
-                                              width: 150,
-                                              height: 60,
-                                              decoration: BoxDecoration(
-                                                color: Colors_selector
-                                                    .primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  "37 ETB",
-                                                  style: GoogleFonts
-                                                      .playfairDisplay(
-                                                    fontSize: 16,
-                                                    decoration:
-                                                        TextDecoration.none,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                          decoration: const BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white24, // Adjust the circle background color as needed
-                                          ),
-                                          padding: const EdgeInsets.all(8),
-                                          child: const Icon(
-                                            Icons.arrow_forward,
-                                            size: 40,
-                                            color: Colors.black,
-                                          ),
-                                        )
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment.center,
+                                        //   children: [
+                                        //     Container(
+                                        //       width: 150,
+                                        //       height: 60,
+                                        //       decoration: BoxDecoration(
+                                        //         color: Colors_selector
+                                        //             .primaryColor,
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(20),
+                                        //       ),
+                                        //       child: Center(
+                                        //         child: Text(
+                                        //           "$var1 points",
+                                        //           style: GoogleFonts
+                                        //               .playfairDisplay(
+                                        //             fontSize: 16,
+                                        //             decoration:
+                                        //                 TextDecoration.none,
+                                        //             fontWeight: FontWeight.bold,
+                                        //             color: Colors.black,
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     const SizedBox(width: 50),
+                                        //     Container(
+                                        //       width: 150,
+                                        //       height: 60,
+                                        //       decoration: BoxDecoration(
+                                        //         color: Colors_selector
+                                        //             .primaryColor,
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(20),
+                                        //       ),
+                                        //       child: Center(
+                                        //         child: Text(
+                                        //           "37 ETB",
+                                        //           style: GoogleFonts
+                                        //               .playfairDisplay(
+                                        //             fontSize: 16,
+                                        //             decoration:
+                                        //                 TextDecoration.none,
+                                        //             fontWeight: FontWeight.bold,
+                                        //             color: Colors.black,
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        // Container(
+                                        //   decoration: const BoxDecoration(
+                                        //     shape: BoxShape.circle,
+                                        //     color: Colors
+                                        //         .white24, // Adjust the circle background color as needed
+                                        //   ),
+                                        //   padding: const EdgeInsets.all(8),
+                                        //   child: const Icon(
+                                        //     Icons.arrow_forward,
+                                        //     size: 40,
+                                        //     color: Colors.black,
+                                        //   ),
+                                        // )
                                       ],
                                     ),
                                   ),
@@ -235,8 +236,22 @@ class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
                                                                 : Icons
                                                                     .abc, // Replace this with your desired icon
                                             size: 30,
-                                            color: Colors.blueGrey
-                                                .shade50, // Adjust the icon size as needed
+                                            color: var1 > 500 && var1 < 799
+                                                ? Colors.white
+                                                : var1 > 800 && var1 < 2999
+                                                    ? Colors.brown.shade700
+                                                    : var1 > 3000 &&
+                                                            var1 < 15999
+                                                        ? Color.fromARGB(
+                                                            255, 233, 202, 198)
+                                                        : var1 > 16000 &&
+                                                                var1 < 24999
+                                                            ? Colors.deepOrange
+                                                                .shade900
+                                                            : var1 > 25000
+                                                                ? Colors.indigo
+                                                                : Colors_selector
+                                                                    .secondaryColor, // Adjust the icon size as needed
                                           ),
                                           const SizedBox(width: 10),
                                           Text(
