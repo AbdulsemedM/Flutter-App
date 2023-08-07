@@ -27,7 +27,8 @@ class Michu extends StatefulWidget {
 class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    const var1 = 20;
+    const var1 = 19920;
+    const var2 = 278;
     const member1 = "Premium";
     const member2 = "Gold";
     const member3 = "Silver";
@@ -463,25 +464,96 @@ class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
                                   ),
                                 ),
                               ),
-                              DotsIndicator(
-                                dotsCount: texts.length,
-                                position: currentIndex.toInt(),
-                                decorator: DotsDecorator(
-                                  activeColor: Colors_selector
-                                      .primaryColor, // Adjust the active dot color as needed
-                                  color: Colors
-                                      .grey, // Adjust the inactive dot color as needed
-                                  activeSize: const Size(20,
-                                      10), // Adjust the size of active dot as needed
-                                  size: const Size(10,
-                                      10), // Adjust the size of inactive dot as needed
-                                  spacing: const EdgeInsets.all(
-                                      4), // Adjust the spacing between dots as needed
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                child: DotsIndicator(
+                                  dotsCount: texts.length,
+                                  position: currentIndex.toInt(),
+                                  decorator: DotsDecorator(
+                                    activeColor: Colors_selector
+                                        .primaryColor, // Adjust the active dot color as needed
+                                    color: Colors
+                                        .grey, // Adjust the inactive dot color as needed
+                                    activeSize: const Size(20,
+                                        10), // Adjust the size of active dot as needed
+                                    size: const Size(10,
+                                        10), // Adjust the size of inactive dot as needed
+                                    spacing: const EdgeInsets.all(
+                                        4), // Adjust the spacing between dots as needed
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                        )
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Expanded(
+                            child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 150,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                          color: Colors_selector.primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Center(
+                                        child: Text(
+                                          "$var2 points",
+                                          style: GoogleFonts.playfairDisplay(
+                                            fontSize: 16,
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 50),
+                                    Container(
+                                      width: 150,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        color: Colors_selector.primaryColor,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "37 Coins",
+                                          style: GoogleFonts.playfairDisplay(
+                                            fontSize: 16,
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors_selector.secondaryColor,
+                                  ), // Adjust the circle background color as needed
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.arrow_forward,
+                                      size: 40,
+                                      color: Colors_selector.pair1,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ]),
                     )))),
         bottomNavigationBar: buildSocialButtons(),
