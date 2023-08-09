@@ -121,7 +121,7 @@ class _Login_pageState extends State<Login_page> {
         }
       },
       child: Scaffold(
-        // backgroundColor: Colors.cyan,
+        backgroundColor: Colors_selector.primaryColor,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(children: [
@@ -130,13 +130,13 @@ class _Login_pageState extends State<Login_page> {
                 width: screenWidth,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [
-                      Colors_selector.pair1,
-                      Colors_selector.pair2,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                      colors: [Colors_selector.pair1, Colors_selector.pair2],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                      ),
                 ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
