@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:convert';
 import 'dart:io';
 
 // import 'package:cooplay/Forgot_pw.dart';
@@ -16,6 +17,7 @@ import 'package:loyalty_app/colors.dart';
 // import 'package:protest/tabs/Home.dart';
 import 'package:get/get.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
+import 'package:http/http.dart' as http;
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:protest/LocalString.dart';
 
@@ -101,6 +103,66 @@ class _Login_pageState extends State<Login_page> {
     // }
   }
 
+  bool loading = false;
+  login() async {
+    // String pn = pnumber.text;
+    // print(pn);
+
+    if (pnumber.text.length < 9 || pnumber.text == "") {
+      const message = 'Invalid phone number format';
+      Future.delayed(const Duration(milliseconds: 100), () {
+        Fluttertoast.showToast(msg: message, fontSize: 18);
+      });
+    } else if (password.text == "") {
+      const message = 'Invalid password';
+      Future.delayed(const Duration(milliseconds: 100), () {
+        Fluttertoast.showToast(msg: message, fontSize: 18);
+      });
+    } else {
+      setState(() {
+        loading = true;
+      });
+      final body = jsonEncode({
+        "username": pnumber.text,
+        "password": password.text,
+      });
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        // 'Content-Length': body.length.toString(),
+        // Add any other headers if required
+      };
+      const apiUrl = 'http://63.34.29.151:9000/login';
+      print(body);
+      // setState(() {
+      //   loading = false;
+      // });
+
+      var response = await http.post(
+        Uri.parse(apiUrl),
+        headers: headers,
+        body: jsonEncode(body),
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        setState(() {
+          loading = false;
+        });
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+        setState(() {
+          loading = false;
+        });
+      } else {
+        setState(() {
+          loading = false;
+        });
+        const message = 'Invalid username or password!';
+        Fluttertoast.showToast(msg: message, fontSize: 18);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -134,9 +196,9 @@ class _Login_pageState extends State<Login_page> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                      ),
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
                 ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -286,39 +348,40 @@ class _Login_pageState extends State<Login_page> {
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.01),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.3,
-                          vertical: screenHeight * 0.02,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(screenHeight * 0.01),
-                            decoration: BoxDecoration(
-                              color: Colors_selector
-                                  .primmary1, // You can use your color here
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Login".tr,
-                                style: GoogleFonts.playfairDisplay(
-                                  color: Colors
-                                      .white, // You can use your color here
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                      loading
+                          ? CircularProgressIndicator(
+                              color: Colors_selector.secondaryColor,
+                            )
+                          : Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.3,
+                                vertical: screenHeight * 0.02,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  login();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(screenHeight * 0.01),
+                                  decoration: BoxDecoration(
+                                    color: Colors_selector
+                                        .primmary1, // You can use your color here
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Login".tr,
+                                      style: GoogleFonts.playfairDisplay(
+                                        color: Colors
+                                            .white, // You can use your color here
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
                       // _isLoading
                       //     ? CircularProgressIndicator(
                       //         color: Colors.white, // You can use your color here
