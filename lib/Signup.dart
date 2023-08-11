@@ -28,46 +28,59 @@ class _SignupState extends State<Signup> {
   TextEditingController rcode = TextEditingController();
   bool _passwordVisible1 = false;
   bool _passwordVisible = false;
+  bool loading = false;
 
   Signup() async {
-    String pn = pnumber.text;
-    print(fname.text.isEmpty);
+    // String pn = pnumber.text;
+    // print(pn);
 
-    if (password.text != cpassword.text || password.text == "") {
-      const message = 'Invalid password';
+    if (fname.text.isEmpty) {
+      const message = 'First name is mandatory';
       Future.delayed(const Duration(milliseconds: 100), () {
         Fluttertoast.showToast(msg: message, fontSize: 18);
       });
-    } else if (pnumber.text.length != 10 ||
-        pn[0] + pn[1] != "09" ||
-        pnumber.text == "") {
+    } else if (pnumber.text.length != 10 || pnumber.text == "") {
       const message = 'Invalid phone number format';
       Future.delayed(const Duration(milliseconds: 100), () {
         Fluttertoast.showToast(msg: message, fontSize: 18);
       });
-    } else if (fname.text.isEmpty) {
-      const message = 'First name is mandatory';
+    } else if (password.text != cpassword.text || password.text == "") {
+      const message = 'Invalid password';
       Future.delayed(const Duration(milliseconds: 100), () {
         Fluttertoast.showToast(msg: message, fontSize: 18);
       });
     } else {
       setState(() {
-        circularColor = Colors_selector.secondaryColor;
+        loading = true;
       });
       final body = jsonEncode({
         "username": pnumber.text,
         "password": password.text,
-        "fullName": fname.text + " " + lname.text,
+        "fullName": "${fname.text} ${lname.text}",
         "roles": [
-          {"roleName": "cooplayer"}
+          {"roleName": "loyaltyAppUser"}
         ]
       });
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        // 'Content-Length': body.length.toString(),
+        // Add any other headers if required
+      };
+      const apiUrl = 'http://63.34.29.151:9000/api/users/createUser';
+      print(body);
+      // setState(() {
+      //   loading = false;
+      // });
       var response = await http.post(
-          Uri.http("localhost:6000", "/api/users/createUser"),
-          headers: {"Content-Type": "application/json"},
-          body: body);
+        Uri.parse(apiUrl),
+        headers: headers,
+        body: jsonEncode(body),
+      );
       print(response.body);
       if (response.statusCode == 200) {
+        setState(() {
+          loading = false;
+        });
         const message = 'Account Created Successfuly!';
         Future.delayed(const Duration(milliseconds: 100), () {
           Fluttertoast.showToast(msg: message, fontSize: 18);
@@ -76,11 +89,11 @@ class _SignupState extends State<Signup> {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Login_page()));
         setState(() {
-          circularColor = Colors_selector.pair1;
+          loading = false;
         });
       } else {
         setState(() {
-          circularColor = Colors_selector.pair1;
+          loading = false;
         });
         const message = 'Account Creation Faild!';
         Fluttertoast.showToast(msg: message, fontSize: 18);
@@ -151,7 +164,7 @@ class _SignupState extends State<Signup> {
                       child: Text(
                         'Hello, Register to get started!',
                         style: GoogleFonts.playfairDisplay(
-                          fontSize: 36,
+                          fontSize: 32,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -380,34 +393,38 @@ class _SignupState extends State<Signup> {
                     //   ),
                     // ),
                     const SizedBox(
-                      height: 3,
+                      height: 20,
                     ),
-                    CircularProgressIndicator(
-                      color: circularColor,
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 80, vertical: 5),
-                      child: GestureDetector(
-                        onTap: () {
-                          Signup();
-                        },
-                        child: Container(
-                            padding: const EdgeInsets.all(5.0),
-                            decoration: BoxDecoration(
-                                color: Colors_selector.primaryColor,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Center(
-                                child: Text(
-                              "Signup".tr,
-                              style: TextStyle(
-                                  color: Colors_selector.tertiaryColor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ))),
-                      ),
-                    ),
+                    loading
+                        ? CircularProgressIndicator(
+                            color: Colors_selector.secondaryColor,
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 80, vertical: 5),
+                            child: GestureDetector(
+                              onTap: () {
+                                Signup();
+                              },
+                              child: SizedBox(
+                                height: 50,
+                                child: Container(
+                                    padding: const EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                        color: Colors_selector.primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Center(
+                                        child: Text(
+                                      "Signup".tr,
+                                      style: TextStyle(
+                                          color: Colors_selector.tertiaryColor,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ))),
+                              ),
+                            ),
+                          ),
                   ])),
             ),
           ),

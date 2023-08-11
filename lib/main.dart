@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -10,6 +11,14 @@ import 'package:loyalty_app/utils/simple_preference.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: const FirebaseOptions(
+  //     apiKey: "Api key here",
+  //     appId: "App id here",
+  //     messagingSenderId: "Messaging sender id here",
+  //     projectId: "project id here",
+  //   ),
+  // );
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

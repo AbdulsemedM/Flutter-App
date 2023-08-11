@@ -1,5 +1,6 @@
 // import 'dart:ffi';
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/rendering.dart';
 // import 'package:flutter_settings_screens/flutter_settings_screens.dart';
@@ -396,6 +397,27 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: ListTile(
+                      onTap: () async {
+                        // Create a dynamic link
+                        final DynamicLinkParameters parameters =
+                            DynamicLinkParameters(
+                          uriPrefix: 'https://your-app-page.link',
+                          link: Uri.parse(
+                              'https://your-app-page.link/some-content'),
+                          androidParameters: AndroidParameters(
+                            packageName: 'com.example.yourapp',
+                          ),
+                          // Add more platform-specific parameters if needed
+                        );
+
+                        final ShortDynamicLink dynamicUrl =
+                            await FirebaseDynamicLinks.instance
+                                .buildShortLink(parameters);
+                        final Uri shortUrl = dynamicUrl.shortUrl;
+                        print(shortUrl);
+                        // Share the dynamic link
+                        // ...
+                      },
                       title: Text("Send Feedback".tr),
                       leading: Icon(
                         Icons.feedback_outlined,
