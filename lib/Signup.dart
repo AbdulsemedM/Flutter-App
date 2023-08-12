@@ -73,8 +73,8 @@ class _SignupState extends State<Signup> {
       // });
       var response = await http.post(
         Uri.parse(apiUrl),
-        headers: headers,
-        body: jsonEncode(body),
+        // headers: headers,
+        // body: jsonEncode(body),
       );
       print(response.body);
       if (response.statusCode == 200) {

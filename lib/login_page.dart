@@ -127,7 +127,7 @@ class _Login_pageState extends State<Login_page> {
         "password": password.text,
       });
       Map<String, String> headers = {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
         // 'Content-Length': body.length.toString(),
         // Add any other headers if required
       };
