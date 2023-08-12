@@ -14,6 +14,7 @@ import 'package:loyalty_app/login_page.dart';
 
 class Signup extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _SignupState createState() => _SignupState();
 }
 
@@ -53,50 +54,71 @@ class _SignupState extends State<Signup> {
       setState(() {
         loading = true;
       });
-      final body = jsonEncode({
+      final body = {
         "username": pnumber.text,
         "password": password.text,
         "fullName": "${fname.text} ${lname.text}",
         "roles": [
           {"roleName": "loyaltyAppUser"}
         ]
-      });
-      Map<String, String> headers = {
-        'Content-Type': 'application/json',
-        // 'Content-Length': body.length.toString(),
-        // Add any other headers if required
       };
-      const apiUrl = 'http://63.34.29.151:9000/api/users/createUser';
+      // Map<String, String> headers = {
+      //   'Content-Type': 'application/json',
+      //   // 'Content-Length': body.length.toString(),
+      //   // Add any other headers if required
+      // };
+      // const apiUrl = 'http://63.34.29.151:9000/api/users/createUser';
       print(body);
       // setState(() {
       //   loading = false;
       // });
-      var response = await http.post(
-        Uri.parse(apiUrl),
-        // headers: headers,
-        // body: jsonEncode(body),
-      );
-      print(response.body);
-      if (response.statusCode == 200) {
-        setState(() {
-          loading = false;
-        });
-        const message = 'Account Created Successfuly!';
-        Future.delayed(const Duration(milliseconds: 100), () {
-          Fluttertoast.showToast(msg: message, fontSize: 18);
-        });
+      try {
+        var response = await http.post(
+          Uri.http("63.34.29.151:9000", "api/users/createUser"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(body),
+        );
+        print("here" + "${response.statusCode}");
+        print(response.body);
+        if (response.statusCode == 200) {
+          setState(() {
+            loading = false;
+          });
+          const message = 'Account Created Successfuly!';
+          Future.delayed(const Duration(milliseconds: 100), () {
+            Fluttertoast.showToast(msg: message, fontSize: 18);
+          });
 
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Login_page()));
-        setState(() {
-          loading = false;
-        });
-      } else {
-        setState(() {
-          loading = false;
-        });
-        const message = 'Account Creation Faild!';
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => Login_page()));
+          setState(() {
+            loading = false;
+          });
+        } else if (response.statusCode != 200) {
+          final responseBody = json.decode(response.body);
+          final description =
+              responseBody['description']; // Extract 'description' field
+          if (description == "user already exists") {
+            Fluttertoast.showToast(
+                msg: "This phone number is already registered", fontSize: 18);
+          } else {
+            const message = 'Account Creation Faild! Try again';
+            Fluttertoast.showToast(msg: message, fontSize: 18);
+          }
+          setState(() {
+            loading = false;
+          });
+        }
+      } catch (e) {
+        const message = 'Please check your network connection';
         Fluttertoast.showToast(msg: message, fontSize: 18);
+      } finally {
+        setState(() {
+          loading = false;
+        });
       }
     }
   }

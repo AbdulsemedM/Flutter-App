@@ -9,12 +9,14 @@ class SimplePreferences {
 
   static late SharedPreferences _preferences;
   static late String _keyLanguage;
+  static late String _keyUser;
   static late String _keyIsOn;
 
   static Future<SharedPreferences> init() async {
     // if (_preferences == null) {
     _preferences = await SharedPreferences.getInstance();
     _keyLanguage = 'language';
+    _keyUser = "user_key";
     _keyIsOn = "false";
     // }
     return _preferences;
@@ -29,6 +31,15 @@ class SimplePreferences {
     }
   }
 
+  Future<void> setUser(List<String> user) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setStringList(_keyUser, user); // Note: <String> is not needed here
+    if (kDebugMode) {
+      print("setUser: $user");
+    }
+  }
+
   Future<String?> getLanguage() async {
     final SharedPreferences prefs = await _preferences;
 
@@ -37,6 +48,16 @@ class SimplePreferences {
       print("getLang: $language");
     }
     return language;
+  }
+
+  Future<List?> getUser() async {
+    final SharedPreferences prefs = _preferences;
+
+    final user = prefs.getStringList('user_key');
+    if (kDebugMode) {
+      print("getUser: $user");
+    }
+    return user;
   }
 
   Future<void> setIsOn(String isOn) async {

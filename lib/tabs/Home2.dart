@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/tabs/Michu.dart';
 
 import '../colors.dart';
+import '../utils/simple_preference.dart';
 
 class Home2 extends StatefulWidget {
   const Home2({super.key});
@@ -13,6 +14,21 @@ class Home2 extends StatefulWidget {
 }
 
 class _Home2State extends State<Home2> {
+  List? user;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    user = await SimplePreferences().getUser();
+    setState(() {});
+    print("from home");
+    print(user);
+  }
+
   @override
   Widget build(BuildContext context) {
     List<IconItem> iconItems = [

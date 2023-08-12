@@ -6,6 +6,7 @@ import 'dart:io';
 // import 'package:cooplay/Forgot_pw.dart';
 // import 'package:cooplay/Signup.dart';
 // import 'package:cooplay/home.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -122,43 +123,75 @@ class _Login_pageState extends State<Login_page> {
       setState(() {
         loading = true;
       });
-      final body = jsonEncode({
-        "username": pnumber.text,
-        "password": password.text,
-      });
-      Map<String, String> headers = {
-        // 'Content-Type': 'application/json',
-        // 'Content-Length': body.length.toString(),
-        // Add any other headers if required
+      final body = <String, String>{
+        "username": pnumber.text.toString(),
+        "password": password.text.toString(),
       };
-      const apiUrl = 'http://63.34.29.151:9000/login';
       print(body);
-      // setState(() {
-      //   loading = false;
-      // });
+      try {
+        final response = await http
+            .post(
+              Uri.http('63.34.29.151:9000', '/login'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(body),
+            )
+            .timeout(Duration(seconds: 15));
 
-      var response = await http.post(
-        Uri.parse(apiUrl),
-        headers: headers,
-        body: jsonEncode(body),
-      );
-      print(response.body);
-      if (response.statusCode == 200) {
-        setState(() {
-          loading = false;
-        });
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
-        setState(() {
-          loading = false;
-        });
-      } else {
-        setState(() {
-          loading = false;
-        });
-        const message = 'Invalid username or password!';
+        print(response.body);
+        print("here" + "${response.statusCode}");
+
+        if (response.statusCode == 200) {
+          final json = "[" + response.body + "]";
+          List list = (jsonDecode(json) as List<dynamic>);
+          List<Map<String, dynamic>> dataList =
+              (jsonDecode(json) as List).cast<Map<String, dynamic>>();
+          if (dataList.isNotEmpty) {
+            Map<String, dynamic> data = dataList.first;
+            String accessToken = data['access_token'];
+            String refreshToken = data['refresh_token'];
+            List<String> user = [accessToken, refreshToken];
+            SimplePreferences preferences = SimplePreferences();
+            await preferences.setUser(user);
+
+            print('Access Token: $accessToken');
+            print('Refresh Token: $refreshToken');
+          } else {
+            print('No data found in the response.');
+          }
+          // Map<String, dynamic> jsonData = json.decode(responseBody);
+
+          // var accessToken = responseBody['access_token'];
+          // var refreshToken = responseBody['refresh_token'];
+          // print(list);
+          // print("Access Token: $accessToken");
+          // print("Refresh Token: $refreshToken");
+          setState(() {
+            loading = false;
+          });
+
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+          setState(() {
+            loading = false;
+          });
+        } else if (response.statusCode == 401) {
+          setState(() {
+            loading = false;
+          });
+          const message = 'Invalid username or password!';
+          Fluttertoast.showToast(msg: message, fontSize: 18);
+        }
+      } catch (e) {
+        final message = e.toString();
+        print(message);
         Fluttertoast.showToast(msg: message, fontSize: 18);
+      } finally {
+        setState(() {
+          loading = false;
+        });
       }
     }
   }
