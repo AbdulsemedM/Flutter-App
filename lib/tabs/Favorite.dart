@@ -449,7 +449,11 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                   },
                   child: Text("No".tr)),
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    List<String> user = [];
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setUser(user);
+                    // ignore: use_build_context_synchronously
                     Navigator.pushReplacement<void, void>(
                       context,
                       MaterialPageRoute<void>(

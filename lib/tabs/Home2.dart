@@ -36,7 +36,6 @@ class _Home2State extends State<Home2> {
         icon: FontAwesomeIcons.handshake,
         title: "Michu",
         onPressed: () {
-          // Handle the tap event for Title 1
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -49,73 +48,49 @@ class _Home2State extends State<Home2> {
       IconItem(
         icon: Icons.ad_units_outlined,
         title: "E-birr",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.account_balance_wallet_outlined,
         title: "Mob. Banking",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.account_tree_sharp,
         title: "Coop-Omni",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.analytics,
         title: "ATM Card",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.card_giftcard_sharp,
         title: "My-EQub",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.bubble_chart_sharp,
         title: "Coopass",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.bakery_dining_outlined,
         title: "Int. Banking",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.badge_outlined,
         title: "Coopass",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       // Add more IconItems with different icons and titles
