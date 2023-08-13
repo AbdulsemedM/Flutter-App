@@ -11,6 +11,7 @@ import 'package:loyalty_app/tabs/Search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:get/get.dart';
+import 'package:loyalty_app/utils/simple_preference.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -168,11 +169,15 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Text("No".tr)),
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    List<String> user = [];
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setUser(user);
+                    // ignore: use_build_context_synchronously
                     Navigator.pushReplacement<void, void>(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => Login_page(),
+                        builder: (BuildContext context) => const Login_page(),
                       ),
                     );
                   },

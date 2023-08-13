@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/tabs/Michu.dart';
 
 import '../colors.dart';
+import '../utils/simple_preference.dart';
 
 class Home2 extends StatefulWidget {
   const Home2({super.key});
@@ -13,6 +14,21 @@ class Home2 extends StatefulWidget {
 }
 
 class _Home2State extends State<Home2> {
+  List? user;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    user = await SimplePreferences().getUser();
+    setState(() {});
+    print("from home");
+    print(user);
+  }
+
   @override
   Widget build(BuildContext context) {
     List<IconItem> iconItems = [
@@ -20,7 +36,6 @@ class _Home2State extends State<Home2> {
         icon: FontAwesomeIcons.handshake,
         title: "Michu",
         onPressed: () {
-          // Handle the tap event for Title 1
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -33,73 +48,49 @@ class _Home2State extends State<Home2> {
       IconItem(
         icon: Icons.ad_units_outlined,
         title: "E-birr",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.account_balance_wallet_outlined,
         title: "Mob. Banking",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.account_tree_sharp,
         title: "Coop-Omni",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.analytics,
         title: "ATM Card",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.card_giftcard_sharp,
         title: "My-EQub",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.bubble_chart_sharp,
         title: "Coopass",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.bakery_dining_outlined,
         title: "Int. Banking",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       IconItem(
         icon: Icons.badge_outlined,
         title: "Coopass",
-        onPressed: () {
-          // Handle the tap event for Title 1
-          print("Title 1 tapped!");
-        },
+        onPressed: () {},
         disabled: true,
       ),
       // Add more IconItems with different icons and titles
