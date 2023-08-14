@@ -33,47 +33,41 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     _checkDarkMode();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      _checkDarkMode();
+      // _checkDarkMode();
     }
   }
 
   // ignore: non_constant_identifier_names
-  Future<bool?> _checkDarkMode() async {
+  Future<void> _checkDarkMode() async {
     isOn = await SimplePreferences().getIsOn();
-    if (isOn == "true") {
-      setState(() {});
-      return true;
-    } else {
-      setState(() {});
-      return false;
-    }
+    print(isOn);
   }
 
-  checkDarkMode() {
-    print("${isOn!}here");
-    if (isOn == "true") {
-      setState(() {
-        Colors_selector.pair1 = Color(0xff546e7a);
-        Colors_selector.pair2 = Color(0xff546e7a);
-        Colors_selector.primaryColor = Colors.lightBlue[400];
-        Colors_selector.primmary1 = Color(0xFF08B1F0);
-      });
-    } else {
-      setState(() {
-        Colors_selector.pair1 = Color(0xffe0f7fa);
-        Colors_selector.pair2 = Color(0xffe1f5fe);
-        Colors_selector.primaryColor = Colors.lightBlue[400];
-        Colors_selector.primmary1 = Color(0xFF08B1F0);
-      });
-    }
-  }
+  // checkDarkMode() {
+  //   print("${isOn!}here");
+  //   if (isOn == "true") {
+  //     setState(() {
+  //       Colors_selector.pair1 = Color(0xff546e7a);
+  //       Colors_selector.pair2 = Color(0xff546e7a);
+  //       Colors_selector.primaryColor = Colors.lightBlue[400];
+  //       Colors_selector.primmary1 = Color(0xFF08B1F0);
+  //     });
+  //   } else {
+  //     setState(() {
+  //       Colors_selector.pair1 = Color(0xffe0f7fa);
+  //       Colors_selector.pair2 = Color(0xffe1f5fe);
+  //       Colors_selector.primaryColor = Colors.lightBlue[400];
+  //       Colors_selector.primmary1 = Color(0xFF08B1F0);
+  //     });
+  //   }
+  // }
 
   final List locale = [
     {'name': 'English', 'locale': Locale('en', 'US')},
@@ -354,19 +348,20 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                         contentPadding: const EdgeInsets.fromLTRB(10, 5, 7, 4),
                         title: Text(
                           "Dark Theme".tr,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w500),
                         ),
                         value: isOn == "true" ? true : false,
                         onChanged: (bool value) async {
                           setState(() {
                             isOn = value == true ? "true" : "false";
-                            checkDarkMode();
+                            // SimplePreferences preferences = SimplePreferences();
+                            // await preferences.setIsOn(isOn!);
                           });
                           SimplePreferences preferences = SimplePreferences();
                           await preferences.setIsOn(isOn!);
 
-                          // isOn = !isOn;
+                          // isOn = "${value}";
                         }),
                   ),
                   Padding(

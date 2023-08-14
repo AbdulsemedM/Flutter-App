@@ -17,7 +17,7 @@ class SimplePreferences {
     _preferences = await SharedPreferences.getInstance();
     _keyLanguage = 'language';
     _keyUser = "user_key";
-    _keyIsOn = "false";
+    _keyIsOn = "dark";
     // }
     return _preferences;
   }
@@ -40,6 +40,13 @@ class SimplePreferences {
     }
   }
 
+  Future<void> setIsOn(String isOn) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(_keyIsOn, isOn);
+
+    print("setIsOn: $isOn");
+  }
+
   Future<String?> getLanguage() async {
     final SharedPreferences prefs = await _preferences;
 
@@ -60,21 +67,12 @@ class SimplePreferences {
     return user;
   }
 
-  Future<void> setIsOn(String isOn) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(_keyIsOn, isOn);
-    if (kDebugMode) {
-      print("setIsOn: $isOn");
-    }
-  }
-
   Future<String?> getIsOn() async {
-    final SharedPreferences prefs = await _preferences;
+    final SharedPreferences prefs = _preferences;
 
-    final isOn = prefs.getString('_keyIsOn');
-    if (kDebugMode) {
-      print("getLang: $isOn");
-    }
+    final isOn = prefs.getString('dark');
+
+    print("getLang: $isOn");
     return isOn;
   }
 

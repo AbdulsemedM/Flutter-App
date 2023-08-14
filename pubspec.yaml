@@ -59,6 +59,7 @@ dependencies:
   share: ^2.0.4
   firebase_core: ^2.15.0
   firebase_dynamic_links: ^5.3.4
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:
