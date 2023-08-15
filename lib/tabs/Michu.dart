@@ -1,6 +1,6 @@
 // ignore: file_names
 
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, sized_box_for_whitespace
 
 import 'dart:async';
 
@@ -15,7 +15,7 @@ import '../colors.dart';
 
 enum SocialMedia { facebook, twitter, insatgram, telegram, linkedin, whatsapp }
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+// const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
 class Michu extends StatefulWidget {
   const Michu({super.key});
@@ -424,7 +424,6 @@ class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
                         const SizedBox(
                           height: 10,
                         ),
-                        // ignore: sized_box_for_whitespace
                         Container(
                           height: height * 0.26, // Adjust the height as needed
                           child: Column(
@@ -610,6 +609,7 @@ class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
           Color? color,
           required VoidCallback onClicked}) =>
       InkWell(
+        // ignore: sort_child_properties_last
         child: Container(
             width: 62,
             height: 64,
@@ -624,42 +624,42 @@ class _MichuState extends State<Michu> with SingleTickerProviderStateMixin {
       );
 }
 
-class DropdownButtonExample extends StatefulWidget {
-  const DropdownButtonExample({super.key});
+// class DropdownButtonExample extends StatefulWidget {
+//   const DropdownButtonExample({super.key});
 
-  @override
-  State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
-}
+//   @override
+//   State<DropdownButtonExample> createState() => _DropdownButtonExampleState();
+// }
 
-class _DropdownButtonExampleState extends State<DropdownButtonExample> {
-  String dropdownValue = list.first;
+// class _DropdownButtonExampleState extends State<DropdownButtonExample> {
+//   String dropdownValue = list.first;
 
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: dropdownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          dropdownValue = value!;
-        });
-      },
-      items: list.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return DropdownButton<String>(
+//       value: dropdownValue,
+//       icon: const Icon(Icons.arrow_downward),
+//       elevation: 16,
+//       style: const TextStyle(color: Colors.deepPurple),
+//       underline: Container(
+//         height: 2,
+//         color: Colors.deepPurpleAccent,
+//       ),
+//       onChanged: (String? value) {
+//         // This is called when the user selects an item.
+//         setState(() {
+//           dropdownValue = value!;
+//         });
+//       },
+//       items: list.map<DropdownMenuItem<String>>((String value) {
+//         return DropdownMenuItem<String>(
+//           value: value,
+//           child: Text(value),
+//         );
+//       }).toList(),
+//     );
+//   }
+// }
 
 class IconItems {
   final IconData icon;

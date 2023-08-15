@@ -149,3 +149,69 @@
 //     );
 //   }
 // }
+
+
+// }) [
+    //   IconItem(
+    //     icon: FontAwesomeIcons.handshake,
+    //     title: "Michu",
+    //     onPressed: () {
+    //       Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //           builder: (context) => Michu(),
+    //         ),
+    //       );
+    //     },
+    //     disabled: false,
+    //   ),
+    //   IconItem(
+    //     icon: Icons.ad_units_outlined,
+    //     title: "E-birr",
+    //     onPressed: () {},
+    //     disabled: true,
+    //   ),
+    //   IconItem(
+    //     icon: Icons.account_balance_wallet_outlined,
+    //     title: "Mob. Banking",
+    //     onPressed: () {},
+    //     disabled: true,
+    //   ),
+    //   IconItem(
+    //     icon: Icons.account_tree_sharp,
+    //     title: "Coop-Omni",
+    //     onPressed: () {},
+    //     disabled: true,
+    //   ),
+    //   IconItem(
+    //     icon: Icons.analytics,
+    //     title: "ATM Card",
+    //     onPressed: () {},
+    //     disabled: true,
+    //   ),
+    //   IconItem(
+    //     icon: Icons.card_giftcard_sharp,
+    //     title: "My-EQub",
+    //     onPressed: () {},
+    //     disabled: true,
+    //   ),
+    //   IconItem(
+    //     icon: Icons.bubble_chart_sharp,
+    //     title: "Coopass",
+    //     onPressed: () {},
+    //     disabled: true,
+    //   ),
+    //   IconItem(
+    //     icon: Icons.bakery_dining_outlined,
+    //     title: "Int. Banking",
+    //     onPressed: () {},
+    //     disabled: true,
+    //   ),
+    //   IconItem(
+    //     icon: Icons.badge_outlined,
+    //     title: "Coopass",
+    //     onPressed: () {},
+    //     disabled: true,
+    //   ),
+    //   // Add more IconItems with different icons and titles
+    // ];

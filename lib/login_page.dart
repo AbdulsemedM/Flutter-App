@@ -122,110 +122,112 @@ class _Login_pageState extends State<Login_page> {
 
   bool loading = false;
   login() async {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
     // String pn = pnumber.text;
     // print(pn);
 
-    if (pnumber.text.length < 9 || pnumber.text == "") {
-      const message = 'Invalid phone number format';
-      Future.delayed(const Duration(milliseconds: 100), () {
-        Fluttertoast.showToast(msg: message, fontSize: 18);
-      });
-    } else if (password.text == "") {
-      const message = 'Invalid password';
-      Future.delayed(const Duration(milliseconds: 100), () {
-        Fluttertoast.showToast(msg: message, fontSize: 18);
-      });
-    } else {
-      setState(() {
-        loading = true;
-      });
-      final body = <String, String>{
-        "username": pnumber.text.toString(),
-        "password": password.text.toString(),
-      };
-      // print(body);
-      try {
-        final response = await http
-            .post(
-              Uri.http('63.34.29.151:9000', '/login'),
-              headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
-              },
-              body: jsonEncode(body),
-            )
-            .timeout(Duration(seconds: 15));
+    // if (pnumber.text.length < 9 || pnumber.text == "") {
+    //   const message = 'Invalid phone number format';
+    //   Future.delayed(const Duration(milliseconds: 100), () {
+    //     Fluttertoast.showToast(msg: message, fontSize: 18);
+    //   });
+    // } else if (password.text == "") {
+    //   const message = 'Invalid password';
+    //   Future.delayed(const Duration(milliseconds: 100), () {
+    //     Fluttertoast.showToast(msg: message, fontSize: 18);
+    //   });
+    // } else {
+    //   setState(() {
+    //     loading = true;
+    //   });
+    //   final body = <String, String>{
+    //     "username": pnumber.text.toString(),
+    //     "password": password.text.toString(),
+    //   };
+    //   // print(body);
+    //   try {
+    //     final response = await http
+    //         .post(
+    //           Uri.http('63.34.29.151:9000', '/login'),
+    //           headers: <String, String>{
+    //             'Content-Type': 'application/json; charset=UTF-8',
+    //           },
+    //           body: jsonEncode(body),
+    //         )
+    //         .timeout(Duration(seconds: 15));
 
-        // print(response.body);
-        // print("here" + "${response.statusCode}");
+    //     // print(response.body);
+    //     // print("here" + "${response.statusCode}");
 
-        if (response.statusCode == 200) {
-          // ignore: prefer_interpolation_to_compose_strings
-          final json = "[" + response.body + "]";
-          // List list = (jsonDecode(json) as List<dynamic>);
-          List<Map<String, dynamic>> dataList =
-              (jsonDecode(json) as List).cast<Map<String, dynamic>>();
-          if (dataList.isNotEmpty) {
-            Map<String, dynamic> data = dataList.first;
-            String accessToken = data['access_token'];
-            // String refreshToken = data['refresh_token'];
-            // List<String> user = [accessToken, refreshToken];
+    //     if (response.statusCode == 200) {
+    //       // ignore: prefer_interpolation_to_compose_strings
+    //       final json = "[" + response.body + "]";
+    //       // List list = (jsonDecode(json) as List<dynamic>);
+    //       List<Map<String, dynamic>> dataList =
+    //           (jsonDecode(json) as List).cast<Map<String, dynamic>>();
+    //       if (dataList.isNotEmpty) {
+    //         Map<String, dynamic> data = dataList.first;
+    //         String accessToken = data['access_token'];
+    //         // String refreshToken = data['refresh_token'];
+    //         // List<String> user = [accessToken, refreshToken];
 
-            // print('Access Token: $accessToken');
-            Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-            dynamic subVal = decodedToken['sub']; // Access 'sub' field
-            String sub = subVal.toString();
-            List<dynamic> roles = decodedToken['roles']; // Access 'roles' field
-            String firstRole = roles[0];
-            // int issValue = decodedToken['iss'];
-            // String iss = issValue.toString(); // Convert to string if it's not already// Access 'iss' field
-            dynamic expVal = decodedToken['exp']; // Access 'exp' field
-            String exp = expVal.toString();
+    //         // print('Access Token: $accessToken');
+    //         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
+    //         dynamic subVal = decodedToken['sub']; // Access 'sub' field
+    //         String sub = subVal.toString();
+    //         List<dynamic> roles = decodedToken['roles']; // Access 'roles' field
+    //         String firstRole = roles[0];
+    //         // int issValue = decodedToken['iss'];
+    //         // String iss = issValue.toString(); // Convert to string if it's not already// Access 'iss' field
+    //         dynamic expVal = decodedToken['exp']; // Access 'exp' field
+    //         String exp = expVal.toString();
 
-            List<String> newUser = [sub, firstRole, exp, accessToken];
-            SimplePreferences preferences = SimplePreferences();
-            await preferences.setUser(newUser);
-            // print(newUser);
+    //         List<String> newUser = [sub, firstRole, exp, accessToken];
+    //         SimplePreferences preferences = SimplePreferences();
+    //         await preferences.setUser(newUser);
+    //         // print(newUser);
 
-            // print('Refresh Token: $refreshToken');
-          } else {
-            print('No data found in the response.');
-          }
-          // Map<String, dynamic> jsonData = json.decode(responseBody);
+    //         // print('Refresh Token: $refreshToken');
+    //       } else {
+    //         print('No data found in the response.');
+    //       }
+    //       // Map<String, dynamic> jsonData = json.decode(responseBody);
 
-          // var accessToken = responseBody['access_token'];
-          // var refreshToken = responseBody['refresh_token'];
-          // print(list);
-          // print("Access Token: $accessToken");
-          // print("Refresh Token: $refreshToken");
-          setState(() {
-            loading = false;
-          });
+    //       // var accessToken = responseBody['access_token'];
+    //       // var refreshToken = responseBody['refresh_token'];
+    //       // print(list);
+    //       // print("Access Token: $accessToken");
+    //       // print("Refresh Token: $refreshToken");
+    //       setState(() {
+    //         loading = false;
+    //       });
 
-          // ignore: use_build_context_synchronously
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => HomePage()));
-          setState(() {
-            loading = false;
-          });
-        } else if (response.statusCode == 401) {
-          setState(() {
-            loading = false;
-          });
-          const message = 'Invalid username or password!';
-          Fluttertoast.showToast(msg: message, fontSize: 18);
-        }
-      } catch (e) {
-        const message =
-            "Something went wrong, please Check your network connection";
+    //       // ignore: use_build_context_synchronously
+    //       Navigator.pushReplacement(
+    //           context, MaterialPageRoute(builder: (context) => HomePage()));
+    //       setState(() {
+    //         loading = false;
+    //       });
+    //     } else if (response.statusCode == 401) {
+    //       setState(() {
+    //         loading = false;
+    //       });
+    //       const message = 'Invalid username or password!';
+    //       Fluttertoast.showToast(msg: message, fontSize: 18);
+    //     }
+    //   } catch (e) {
+    //     const message =
+    //         "Something went wrong, please Check your network connection";
 
-        // print(message);
-        Fluttertoast.showToast(msg: message, fontSize: 18);
-      } finally {
-        setState(() {
-          loading = false;
-        });
-      }
-    }
+    //     // print(message);
+    //     Fluttertoast.showToast(msg: message, fontSize: 18);
+    //   } finally {
+    //     setState(() {
+    //       loading = false;
+    //     });
+    //   }
+    // }
   }
 
   @override
