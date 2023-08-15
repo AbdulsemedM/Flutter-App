@@ -29,7 +29,7 @@ void main() async {
   await SimplePreferences.init();
 
   String? lang = await SimplePreferences().getLanguage();
-  String? isOn = await SimplePreferences().getIsOn();
+  // String? isOn = await SimplePreferences().getIsOn();
 
   lang ??=
       ''; // Provide a default value if lang is null  print(lang + 'hello');

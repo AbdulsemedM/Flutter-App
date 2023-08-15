@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:loyalty_app/Forgot_pw.dart';
 import 'package:loyalty_app/HomePage.dart';
 import 'package:loyalty_app/Signup.dart';
@@ -166,13 +167,26 @@ class _Login_pageState extends State<Login_page> {
           if (dataList.isNotEmpty) {
             Map<String, dynamic> data = dataList.first;
             String accessToken = data['access_token'];
-            String refreshToken = data['refresh_token'];
-            List<String> user = [accessToken, refreshToken];
-            SimplePreferences preferences = SimplePreferences();
-            await preferences.setUser(user);
+            // String refreshToken = data['refresh_token'];
+            // List<String> user = [accessToken, refreshToken];
 
-            print('Access Token: $accessToken');
-            print('Refresh Token: $refreshToken');
+            // print('Access Token: $accessToken');
+            Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
+            dynamic subVal = decodedToken['sub']; // Access 'sub' field
+            String sub = subVal.toString();
+            List<dynamic> roles = decodedToken['roles']; // Access 'roles' field
+            String firstRole = roles[0];
+            // int issValue = decodedToken['iss'];
+            // String iss = issValue.toString(); // Convert to string if it's not already// Access 'iss' field
+            dynamic expVal = decodedToken['exp']; // Access 'exp' field
+            String exp = expVal.toString();
+
+            List<String> newUser = [sub, firstRole, exp, accessToken];
+            SimplePreferences preferences = SimplePreferences();
+            await preferences.setUser(newUser);
+            // print(newUser);
+
+            // print('Refresh Token: $refreshToken');
           } else {
             print('No data found in the response.');
           }
@@ -201,8 +215,8 @@ class _Login_pageState extends State<Login_page> {
           Fluttertoast.showToast(msg: message, fontSize: 18);
         }
       } catch (e) {
-        const message =
-            "Something went wrong, please Check your network connection";
+        final message = e.toString();
+        // "Something went wrong, please Check your network connection";
 
         print(message);
         Fluttertoast.showToast(msg: message, fontSize: 18);
