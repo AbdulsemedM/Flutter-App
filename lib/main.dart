@@ -29,6 +29,8 @@ void main() async {
   await SimplePreferences.init();
 
   String? lang = await SimplePreferences().getLanguage();
+  String? isOn = await SimplePreferences().getIsOn();
+
   lang ??=
       ''; // Provide a default value if lang is null  print(lang + 'hello');
 
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme: ThemeData(brightness: Brightness.light),
+      theme:  ThemeData(brightness: Brightness.light),
       translations: LocaleString(),
       locale: lang == "English"
           ? const Locale('en', 'US')

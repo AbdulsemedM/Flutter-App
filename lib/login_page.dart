@@ -36,6 +36,35 @@ class _Login_pageState extends State<Login_page> {
   DateTime timeBackPressed = DateTime.now();
   TextEditingController pnumber = TextEditingController();
   TextEditingController password = TextEditingController();
+  String? isOn = "false";
+  // late Color pair1;
+  // late Color pair2;
+  // late Color? black;
+  // late Color? primary;
+  // var pair1 = Colors_selector.pair1;
+  // var pair2 = Colors_selector.pair2;
+  // Color? pair3 = Colors_selector.pair3;
+  // Color? pair4 = Colors_selector.pair4;
+
+  @override
+  void initState() {
+    super.initState();
+    // _checkDarkMode();
+    // _setColors();
+    // WidgetsBinding.instance.addObserver(this);
+  }
+
+  // Future<void> _checkDarkMode() async {
+  //   isOn = await SimplePreferences().getIsOn() ?? isOn;
+  //   print(isOn);
+  // }
+
+  // void _setColors() {
+  //   pair1 = (isOn != "true" ? Colors_selector.pair1 : Colors_selector.pair3);
+  //   pair2 = (isOn != "true" ? Colors_selector.pair2 : Colors_selector.pair4);
+  //   primary = (isOn != "true" ? Colors_selector.primaryColor : null);
+  //   black = (isOn != "true" ? Colors_selector.grey : null);
+  // }
 
   final List locale = [
     {'name': 'English', 'locale': Locale('en', 'US')},
@@ -88,20 +117,6 @@ class _Login_pageState extends State<Login_page> {
     // print(locale);
     Get.back();
     Get.updateLocale(locale);
-
-    // final SharedPreferences prefs = await _prefs;
-    // if (locale == 'am_Et') {
-    //   await prefs.setBool('isAmharic', true);
-    //   await prefs.setBool('isOromiffa', false);
-    // }
-    // if (locale == 'en_US') {
-    //   await prefs.setBool('isAmharic', false);
-    //   await prefs.setBool('isOromiffa', false);
-    // }
-    // if (locale == 'or_ET') {
-    //   await prefs.setBool('isAmharic', false);
-    //   await prefs.setBool('isOromiffa', true);
-    // }
   }
 
   bool loading = false;
@@ -186,7 +201,9 @@ class _Login_pageState extends State<Login_page> {
           Fluttertoast.showToast(msg: message, fontSize: 18);
         }
       } catch (e) {
-        final message = e.toString();
+        const message =
+            "Something went wrong, please Check your network connection";
+
         print(message);
         Fluttertoast.showToast(msg: message, fontSize: 18);
       } finally {
@@ -248,11 +265,14 @@ class _Login_pageState extends State<Login_page> {
                               padding: const EdgeInsets.only(right: 10),
                               child: Text(
                                 "Languages".tr,
-                                style:
-                                    GoogleFonts.playfairDisplay(fontSize: 17),
+                                style: GoogleFonts.playfairDisplay(
+                                  fontSize: 17,
+                                ),
                               ),
                             ),
-                            const Icon(Icons.arrow_drop_down),
+                            Icon(
+                              Icons.arrow_drop_down,
+                            ),
                           ],
                         ),
                       ),
@@ -282,7 +302,6 @@ class _Login_pageState extends State<Login_page> {
                           height: 55, // Adjust the height as needed
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey[300],
                               border: Border.all(color: Colors.grey),
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -291,7 +310,9 @@ class _Login_pageState extends State<Login_page> {
                               child: TextField(
                                 controller: pnumber,
                                 decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.phone_android),
+                                  prefixIcon: Icon(
+                                    Icons.phone_android,
+                                  ),
                                   border: InputBorder.none,
                                   labelText: "Phone Number".tr,
                                   labelStyle: GoogleFonts.playfairDisplay(
@@ -317,7 +338,6 @@ class _Login_pageState extends State<Login_page> {
                           height: 55, // Adjust the height as needed
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey[300],
                               border: Border.all(color: Colors.grey),
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -327,13 +347,14 @@ class _Login_pageState extends State<Login_page> {
                                 controller: password,
                                 obscureText: !_passwordVisible,
                                 decoration: InputDecoration(
-                                  prefixIcon: Icon(Icons.lock),
+                                  prefixIcon: Icon(
+                                    Icons.lock,
+                                  ),
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       _passwordVisible
                                           ? Icons.visibility
                                           : Icons.visibility_off,
-                                      color: Colors_selector.primmary1,
                                     ),
                                     onPressed: () {
                                       setState(() {
