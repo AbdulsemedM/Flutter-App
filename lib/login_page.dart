@@ -92,7 +92,7 @@ class _Login_pageState extends State<Login_page> {
                     onTap: () async {
                       // Get the selected locale and call the setLanguage method
                       String selectedLocale = locale[index]['name'];
-                      print(selectedLocale);
+                      // print(selectedLocale);
                       SimplePreferences preferences = SimplePreferences();
                       await preferences.setLanguage(selectedLocale);
                       updateLanguage(locale[index]['locale']);
@@ -143,7 +143,7 @@ class _Login_pageState extends State<Login_page> {
         "username": pnumber.text.toString(),
         "password": password.text.toString(),
       };
-      print(body);
+      // print(body);
       try {
         final response = await http
             .post(
@@ -155,8 +155,8 @@ class _Login_pageState extends State<Login_page> {
             )
             .timeout(Duration(seconds: 15));
 
-        print(response.body);
-        print("here" + "${response.statusCode}");
+        // print(response.body);
+        // print("here" + "${response.statusCode}");
 
         if (response.statusCode == 200) {
           // ignore: prefer_interpolation_to_compose_strings
@@ -215,10 +215,10 @@ class _Login_pageState extends State<Login_page> {
           Fluttertoast.showToast(msg: message, fontSize: 18);
         }
       } catch (e) {
-        final message = e.toString();
-        // "Something went wrong, please Check your network connection";
+        const message =
+            "Something went wrong, please Check your network connection";
 
-        print(message);
+        // print(message);
         Fluttertoast.showToast(msg: message, fontSize: 18);
       } finally {
         setState(() {
