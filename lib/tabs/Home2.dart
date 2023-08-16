@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/tabs/Home3.dart';
-import 'package:loyalty_app/tabs/Michu.dart';
+// import 'package:loyalty_app/tabs/Michu.dart';
 
 import '../colors.dart';
 import '../utils/simple_preference.dart';
@@ -65,7 +65,7 @@ class _Home2State extends State<Home2> {
       }
     }
 
-    List<IconItem?> iconItems = Challengs!.map((data) {
+    List<IconItem?> iconItems = Challengs.map((data) {
       IconData? iconData;
       if (data['icon'] is IconData) {
         iconData = data['icon'];
