@@ -461,39 +461,51 @@ class _Login_pageState extends State<Login_page> {
                       SizedBox(height: screenHeight * 0.02),
                       SizedBox(height: screenHeight * 0.08),
 
-                      Padding(
-                        padding: const EdgeInsets.only(left: 120),
-                        child: Row(
-                          children: [
-                            Text(
-                              "Don't have an account? ".tr,
-                              style: GoogleFonts.playfairDisplay(
-                                color:
-                                    Colors.black, // You can use your color here
-                                fontSize: 15,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Signup(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                child: Text(
+                                  "Don't have an account? ".tr,
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: Colors
+                                        .black, // You can use your color here
+                                    fontSize: 15,
                                   ),
-                                );
-                              },
-                              child: Text(
-                                "Signup here".tr,
-                                style: GoogleFonts.playfairDisplay(
-                                  color: Colors_selector
-                                      .primmary1, // You can use your color here
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Signup(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    "Signup here".tr,
+                                    style: GoogleFonts.playfairDisplay(
+                                      color: Colors_selector
+                                          .primmary1, // You can use your color here
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       // SizedBox(height: screenHeight * 0.08),
                       // Text(
