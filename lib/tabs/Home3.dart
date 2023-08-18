@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
+import 'package:loyalty_app/tabs/History.dart';
+import 'package:loyalty_app/tabs/Redeem.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Home3 extends StatefulWidget {
@@ -195,24 +197,49 @@ class _Home3State extends State<Home3> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    const Icon(
-                                      Icons.swap_horiz_sharp,
-                                      color: Color.fromRGBO(223, 182, 77, 1),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                Redeem(), // Replace with your screen widget
+                                          ),
+                                        );},
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.swap_horiz_sharp,
+                                            color:
+                                                Color.fromRGBO(223, 182, 77, 1),
+                                          ),
+                                          Text(
+                                            " Exchange",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(
+                                                    223, 182, 77, 1)),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      " Exchange",
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 16,
-                                          color: const Color.fromRGBO(
-                                              223, 182, 77, 1)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          30.0, 0, 0, 0),
-                                      child: Text(
-                                        " History >",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 16, color: Colors.white),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                History(), // Replace with your screen widget
+                                          ),
+                                        );},
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            30.0, 0, 0, 0),
+                                        child: Text(
+                                          " History >",
+                                          style: GoogleFonts.roboto(
+                                              fontSize: 16, color: Colors.white),
+                                        ),
                                       ),
                                     )
                                   ],
