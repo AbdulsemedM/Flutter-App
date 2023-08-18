@@ -1,9 +1,13 @@
 // import 'package:flutter/foundation.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
+import 'package:loyalty_app/tabs/History.dart';
+import 'package:loyalty_app/tabs/Redeem.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Home3 extends StatefulWidget {
   const Home3({super.key});
@@ -13,9 +17,64 @@ class Home3 extends StatefulWidget {
 }
 
 class _Home3State extends State<Home3> {
+  final PageController _controller = PageController();
+  var _currentIndex = 0;
+  final PageController _pageController = PageController();
+  double _currentPage = 0;
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page!;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: SalomonBottomBar(
+        itemPadding: EdgeInsets.symmetric(vertical: 3, horizontal: 30),
+        backgroundColor: Colors.grey[300],
+        currentIndex: _currentIndex,
+        onTap: (i) => setState(() => _currentIndex = i),
+        items: [
+          /// Home
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home),
+            title: Text("Home"),
+            selectedColor: Colors_selector.primaryColor,
+          ),
+
+          /// Likes
+          SalomonBottomBarItem(
+            icon: Icon(Icons.redeem_outlined),
+            title: Text("Redeem"),
+            selectedColor: Colors_selector.primaryColor,
+          ),
+
+          // /// Search
+          // SalomonBottomBarItem(
+          //   icon: Icon(Icons.search),
+          //   title: Text("Search"),
+          //   selectedColor: Colors_selector.primaryColor,
+          // ),
+
+          /// Profile
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person),
+            title: Text("Profile"),
+            selectedColor: Colors_selector.primaryColor,
+          ),
+        ],
+      ),
       backgroundColor: Colors_selector.primaryColor,
       body: SingleChildScrollView(
         child: SafeArea(
@@ -23,20 +82,21 @@ class _Home3State extends State<Home3> {
             height: MediaQuery.of(context).size.height * 1,
             width: MediaQuery.of(context).size.width * 1,
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Colors_selector.tertiaryColor,
-                Colors_selector.tertiaryColor
-              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: const BorderRadius.only(
+                gradient: LinearGradient(colors: [
+                  Colors_selector.tertiaryColor,
+                  Colors_selector.tertiaryColor
+                ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)),
-            ),
+                )
+                // bottomLeft: Radius.circular(30),
+                // bottomRight: Radius.circular(30)),
+                ),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(23),
+                  padding: const EdgeInsets.fromLTRB(23, 23, 23, 23),
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.27,
                     width: MediaQuery.of(context).size.width * 1,
@@ -137,24 +197,49 @@ class _Home3State extends State<Home3> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    const Icon(
-                                      Icons.swap_horiz_sharp,
-                                      color: Color.fromRGBO(223, 182, 77, 1),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                Redeem(), // Replace with your screen widget
+                                          ),
+                                        );},
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.swap_horiz_sharp,
+                                            color:
+                                                Color.fromRGBO(223, 182, 77, 1),
+                                          ),
+                                          Text(
+                                            " Exchange",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 16,
+                                                color: const Color.fromRGBO(
+                                                    223, 182, 77, 1)),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      " Exchange",
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 16,
-                                          color: const Color.fromRGBO(
-                                              223, 182, 77, 1)),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          30.0, 0, 0, 0),
-                                      child: Text(
-                                        " History >",
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 16, color: Colors.white),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                History(), // Replace with your screen widget
+                                          ),
+                                        );},
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            30.0, 0, 0, 0),
+                                        child: Text(
+                                          " History >",
+                                          style: GoogleFonts.roboto(
+                                              fontSize: 16, color: Colors.white),
+                                        ),
                                       ),
                                     )
                                   ],
@@ -168,22 +253,11 @@ class _Home3State extends State<Home3> {
                         children: [
                           Expanded(
                               child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(18.0),
-                                      child: CircleAvatar(
-                                        backgroundColor:
-                                            Color.fromRGBO(223, 182, 77, 1),
-                                        child: Image.asset(
-                                            "assets/images/michu.png"),
-                                      )))),
-                          Expanded(
-                              child: Align(
                                   alignment: Alignment.bottomCenter,
                                   child: Padding(
                                     padding: const EdgeInsets.all(18.0),
                                     child: Text(
-                                      "PLATINIUM",
+                                      "GOLD",
                                       style: GoogleFonts.playfairDisplay(
                                           color: Colors.black, fontSize: 12),
                                     ),
@@ -193,9 +267,8 @@ class _Home3State extends State<Home3> {
                     ]),
                   ),
                 ),
-
                 Padding(
-                  padding: const EdgeInsets.all(23.0),
+                  padding: const EdgeInsets.fromLTRB(23, 7, 23, 5),
                   child: Row(
                     children: [
                       Column(
@@ -318,7 +391,7 @@ class _Home3State extends State<Home3> {
                             width: MediaQuery.of(context).size.width * 0.18,
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: Colors.amber),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Center(
                               child: Icon(
@@ -429,100 +502,123 @@ class _Home3State extends State<Home3> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: MediaQuery.of(context).size.width * 0.90,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                          0,
-                          8,
-                          0,
-                          0,
-                        ),
-                        child: Icon(
-                          Icons.redeem,
-                          size: 50,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(3.0),
-                        child: Text(
-                          "Refere your friends and earn ",
-                          style: GoogleFonts.roboto(
-                              fontSize: 20, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(3.0),
-                        child: Text("300 Points ",
-                            style: GoogleFonts.roboto(
-                                fontSize: 20, fontWeight: FontWeight.w700)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(13.0),
-                        child: Text(
-                            "Every time one of your friends uses your code when signing in he gets 300 points and you will get 300 points",
-                            style: GoogleFonts.roboto(fontSize: 15)),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.83,
-                        height: MediaQuery.of(context).size.height * 0.09,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: 7,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: MediaQuery.of(context).size.width * 0.90,
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: CustomPaint(
-                          painter: DashedBorderPainter(borderRadius: 1),
-                          child: Container(
-                            // This nested container will contain the content of your main container
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(
+                                0,
+                                8,
+                                0,
+                                0,
+                              ),
+                              child: CircleAvatar(
+                                  backgroundColor: Colors.grey[200],
+                                  radius: 30,
+                                  child:
+                                      Image.asset("assets/images/ebirr.png")),
                             ),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 0, 0, 0),
-                                  child: Text(
-                                    "https://play.google.com/store/apps/details?\nid=om.example.michuapp&user_id=1",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 13,
-                                      letterSpacing: 0.0,
-                                    ),
-                                    softWrap: true,
+                            Padding(
+                              padding: EdgeInsets.all(3.0),
+                              child: Text(
+                                "You have earned 325",
+                                style: GoogleFonts.roboto(
+                                    fontSize: 20, fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(3.0),
+                              child: Text("E-Birr Points ",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(13.0),
+                              child: Text(
+                                  "Just share your E-Birr affiliate link and earn 300 points ",
+                                  style: GoogleFonts.roboto(fontSize: 15)),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.83,
+                              height: MediaQuery.of(context).size.height * 0.09,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                              ),
+                              child: CustomPaint(
+                                painter: DashedBorderPainter(borderRadius: 1),
+                                child: Container(
+                                  // This nested container will contain the content of your main container
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8, 0, 0, 0),
+                                        child: Text(
+                                          "https://play.google.com/store/apps/details?\nid=om.example.e-birrapp&user_id=1",
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 13,
+                                            letterSpacing: 0.0,
+                                          ),
+                                          softWrap: true,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  0, 0, 8, 0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Clipboard.setData(
+                                                      const ClipboardData(
+                                                          text:
+                                                              "https://play.google.com/store/apps/details?\nid=om.example.michuapp&user_id=1"));
+                                                  // Fluttertoast.showToast(
+                                                  //     msg: "Copied to clipboard",
+                                                  //     fontSize: 18);
+                                                },
+                                                child: Icon(Icons.copy),
+                                              ),
+                                            )),
+                                      )
+                                    ],
                                   ),
                                 ),
-                                Expanded(
-                                  child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Clipboard.setData(const ClipboardData(
-                                                text:
-                                                    "https://play.google.com/store/apps/details?\nid=om.example.michuapp&user_id=1"));
-                                            // Fluttertoast.showToast(
-                                            //     msg: "Copied to clipboard",
-                                            //     fontSize: 18);
-                                          },
-                                          child: Icon(Icons.copy),
-                                        ),
-                                      )),
-                                )
-                              ],
-                            ),
-                          ),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
+                      );
+                    },
                   ),
                 ),
-                //   ),
-                // )
+                DotsIndicator(
+                  dotsCount: 7,
+                  position: _currentPage.toInt(),
+                  decorator: DotsDecorator(
+                    activeColor: Colors_selector.primaryColor,
+                    size: const Size.square(9.0),
+                    activeSize: const Size(18.0, 9.0),
+                    activeShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
