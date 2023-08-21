@@ -1,5 +1,5 @@
 // import 'package:flutter/foundation.dart';
-import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
+// import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/tabs/History.dart';
-import 'package:loyalty_app/tabs/Michu.dart';
+// import 'package:loyalty_app/tabs/Michu.dart';
 import 'package:loyalty_app/tabs/Redeem.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+// import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Home3 extends StatefulWidget {
   const Home3({super.key});
@@ -19,8 +19,8 @@ class Home3 extends StatefulWidget {
 }
 
 class _Home3State extends State<Home3> {
-  final PageController _controller = PageController();
-  var _currentIndex = 0;
+  // final PageController _controller = PageController();
+  // var _currentIndex = 0;
   final PageController _pageController = PageController();
   double _currentPage = 0;
   @override
