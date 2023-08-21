@@ -41,6 +41,10 @@ class _RedeemState extends State<Redeem> {
         image: "assets/images/canal.png",
         title: "Canal Plus",
         capacity: "Gojo package"),
+    RedeemOptions(
+        image: "assets/images/donate.jpg",
+        title: "Donate",
+        capacity: "156 ETB"),
     // RedeemOptions(
     //     image: Image.asset(""), title: "Git card", capacity: "673ETB"),
     // RedeemOptions(
