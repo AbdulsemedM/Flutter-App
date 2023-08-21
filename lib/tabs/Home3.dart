@@ -1,4 +1,5 @@
 // import 'package:flutter/foundation.dart';
+import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/tabs/History.dart';
+import 'package:loyalty_app/tabs/Michu.dart';
 import 'package:loyalty_app/tabs/Redeem.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -37,49 +39,25 @@ class _Home3State extends State<Home3> {
     super.dispose();
   }
 
+  // final _pageController1 = PageController(initialPage: 0);
+  // final _controller1 = NotchBottomBarController(index: 0);
+  // int maxCount = 3;
+
+  final List<Widget> bottomBarPages = [
+    const Home3(),
+    const Redeem(),
+    // const Michu(),
+    const History(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: SalomonBottomBar(
-        itemPadding: EdgeInsets.symmetric(vertical: 3, horizontal: 30),
-        backgroundColor: Colors.grey[300],
-        currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
-        items: [
-          /// Home
-          SalomonBottomBarItem(
-            icon: Icon(Icons.home),
-            title: Text("Home"),
-            selectedColor: Colors_selector.primaryColor,
-          ),
-
-          /// Likes
-          SalomonBottomBarItem(
-            icon: Icon(Icons.redeem_outlined),
-            title: Text("Redeem"),
-            selectedColor: Colors_selector.primaryColor,
-          ),
-
-          // /// Search
-          // SalomonBottomBarItem(
-          //   icon: Icon(Icons.search),
-          //   title: Text("Search"),
-          //   selectedColor: Colors_selector.primaryColor,
-          // ),
-
-          /// Profile
-          SalomonBottomBarItem(
-            icon: Icon(Icons.person),
-            title: Text("Profile"),
-            selectedColor: Colors_selector.primaryColor,
-          ),
-        ],
-      ),
-      backgroundColor: Colors_selector.primaryColor,
+      backgroundColor: Colors_selector.tertiaryColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
-            height: MediaQuery.of(context).size.height * 1,
+            height: MediaQuery.of(context).size.height * 1.02,
             width: MediaQuery.of(context).size.width * 1,
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [
@@ -205,7 +183,8 @@ class _Home3State extends State<Home3> {
                                             builder: (context) =>
                                                 Redeem(), // Replace with your screen widget
                                           ),
-                                        );},
+                                        );
+                                      },
                                       child: Row(
                                         children: [
                                           const Icon(
@@ -231,14 +210,16 @@ class _Home3State extends State<Home3> {
                                             builder: (context) =>
                                                 History(), // Replace with your screen widget
                                           ),
-                                        );},
+                                        );
+                                      },
                                       child: Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             30.0, 0, 0, 0),
                                         child: Text(
                                           " History >",
                                           style: GoogleFonts.roboto(
-                                              fontSize: 16, color: Colors.white),
+                                              fontSize: 16,
+                                              color: Colors.white),
                                         ),
                                       ),
                                     )

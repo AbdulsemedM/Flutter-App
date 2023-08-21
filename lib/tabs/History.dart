@@ -200,9 +200,9 @@ class _HistoryState extends State<History> {
     ];
 
     return Scaffold(
-      backgroundColor: Colors_selector.primaryColor,
+      backgroundColor: Colors_selector.tertiaryColor,
       appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        toolbarHeight: MediaQuery.of(context).size.height * 0.07,
         title: Align(
           alignment: Alignment.centerLeft,
           child: Row(
@@ -212,7 +212,8 @@ class _HistoryState extends State<History> {
               ),
               Text(
                 "Transaction History",
-                style: GoogleFonts.roboto(color: Colors.black),
+                style: GoogleFonts.roboto(
+                    color: Colors.black, fontWeight: FontWeight.w500),
               ),
             ],
           ),
@@ -245,118 +246,115 @@ class _HistoryState extends State<History> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-            child: Container(
-          height: MediaQuery.of(context).size.height * 1,
-          width: MediaQuery.of(context).size.width * 1,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                Colors_selector.tertiaryColor,
-                Colors_selector.tertiaryColor
-              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: const BorderRadius.only(
-                  // topLeft: Radius.circular(30),
-                  // topRight: Radius.circular(30),
-                  )
-              // bottomLeft: Radius.circular(30),
-              // bottomRight: Radius.circular(30)),
-              ),
-          child: Column(children: [
-            // Text(rangeSelect?.toString() ?? ''),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 35, vertical: 10),
-                child: GestureDetector(
-                  onTap: () => rangeSelectPicker(),
-                  child: Card(
-                    color: Colors.grey[50],
-                    child: ListTile(
-                        trailing: Icon(Icons.arrow_drop_down),
-                        title: Text(
-                          DisplayDate(rangeSelect),
-                        )),
-                  ),
+      body: SafeArea(
+          child: Container(
+        height: MediaQuery.of(context).size.height * 1.01,
+        width: MediaQuery.of(context).size.width * 1,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              Colors_selector.tertiaryColor,
+              Colors_selector.tertiaryColor
+            ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+            borderRadius: const BorderRadius.only(
+                // topLeft: Radius.circular(30),
+                // topRight: Radius.circular(30),
+                )
+            // bottomLeft: Radius.circular(30),
+            // bottomRight: Radius.circular(30)),
+            ),
+        child: Column(children: [
+          // Text(rangeSelect?.toString() ?? ''),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.1,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 5),
+              child: GestureDetector(
+                onTap: () => rangeSelectPicker(),
+                child: Card(
+                  color: Colors.grey[50],
+                  child: ListTile(
+                      trailing: Icon(Icons.arrow_drop_down),
+                      title: Text(
+                        DisplayDate(rangeSelect),
+                      )),
                 ),
               ),
             ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.8,
-              width: MediaQuery.of(context).size.width * 0.90,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Container(
-                      height: 60,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: transactions[index].icon,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Column(
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width * 0.90,
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: Container(
+                    height: 60,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  transactions[index].source,
-                                  style: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text(
-                                  transactions[index].date,
-                                  style: GoogleFonts.roboto(
-                                      color: Colors.grey[400]),
+                                CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  child: transactions[index].icon,
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(transactions[index].amount),
-                                      Text(
-                                        " Pts",
-                                        style: GoogleFonts.roboto(
-                                            color: Colors.grey[400],
-                                            fontSize: 10),
-                                      )
-                                    ],
-                                  ),
-                                  Text(
-                                    transactions[index].status,
-                                    style:
-                                        GoogleFonts.roboto(color: Colors.green),
-                                  ),
-                                ],
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                transactions[index].source,
+                                style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            )
-                          ]),
-                    ),
-                  );
-                },
-                controller: _pageController,
-                itemCount: transactions.length,
-              ),
-            )
-          ]),
-        )),
-      ),
+                              Text(
+                                transactions[index].date,
+                                style:
+                                    GoogleFonts.roboto(color: Colors.grey[400]),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(transactions[index].amount),
+                                    Text(
+                                      " Pts",
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.grey[400],
+                                          fontSize: 10),
+                                    )
+                                  ],
+                                ),
+                                Text(
+                                  transactions[index].status,
+                                  style:
+                                      GoogleFonts.roboto(color: Colors.green),
+                                ),
+                              ],
+                            ),
+                          )
+                        ]),
+                  ),
+                );
+              },
+              controller: _pageController,
+              itemCount: transactions.length,
+            ),
+          )
+        ]),
+      )),
     );
   }
 }

@@ -49,11 +49,11 @@ class _RedeemState extends State<Redeem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors_selector.primaryColor,
+      backgroundColor: Colors_selector.tertiaryColor,
       body: SingleChildScrollView(
         child: SafeArea(
             child: Container(
-          height: MediaQuery.of(context).size.height * 1,
+          height: MediaQuery.of(context).size.height * 1.01,
           width: MediaQuery.of(context).size.width * 1,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [

@@ -148,7 +148,7 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors_selector.primaryColor,
+      backgroundColor: Colors_selector.tertiaryColor,
       body: SafeArea(
         child: SingleChildScrollView(
             child: SizedBox(
@@ -157,10 +157,10 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
               height: MediaQuery.of(context).size.height * 1,
               width: MediaQuery.of(context).size.width * 1,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [Colors_selector.pair1, Colors_selector.pair2],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight),
+                gradient: LinearGradient(colors: [
+                  Colors_selector.tertiaryColor,
+                  Colors_selector.tertiaryColor
+                ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
@@ -174,10 +174,11 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.apps, // Replace this with your desired icon
                           size: 30,
-                          color: Colors.grey, // Adjust the icon size as needed
+                          color: Colors
+                              .grey[700], // Adjust the icon size as needed
                         ),
                         const SizedBox(
                             width:
@@ -186,7 +187,7 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                           "General",
                           style: GoogleFonts.playfairDisplay(
                             fontSize: 35,
-                            color: Colors_selector.grey,
+                            color: Colors.grey[700],
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -198,13 +199,12 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                     child: Divider(
                       height: 2,
                       thickness: 4,
-                      color: Colors_selector
-                          .primaryColor, // Adjust the color as needed
+                      color: Colors_selector.grey, // Adjust the color as needed
                     ),
                   ),
                   // SizedBox(height: 10),
                   Card(
-                      color: Colors_selector.pair1,
+                      color: Colors.grey[100],
                       elevation: 4,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
@@ -309,11 +309,12 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons
                               .view_carousel, // Replace this with your desired icon
                           size: 30,
-                          color: Colors.grey, // Adjust the icon size as needed
+                          color: Colors
+                              .grey[700], // Adjust the icon size as needed
                         ),
                         const SizedBox(
                             width:
@@ -322,7 +323,7 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                           "More",
                           style: GoogleFonts.playfairDisplay(
                             fontSize: 35,
-                            color: Colors_selector.grey,
+                            color: Colors.grey[700],
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -334,8 +335,7 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                     child: Divider(
                       height: 2,
                       thickness: 4,
-                      color: Colors_selector
-                          .primaryColor, // Adjust the color as needed
+                      color: Colors_selector.grey, // Adjust the color as needed
                     ),
                   ),
                   Padding(
