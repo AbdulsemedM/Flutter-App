@@ -11,13 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+// import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:loyalty_app/Forgot_pw.dart';
+import 'package:loyalty_app/Home.dart';
 import 'package:loyalty_app/HomePage.dart';
 import 'package:loyalty_app/Signup.dart';
 import 'package:loyalty_app/colors.dart';
 // import 'package:protest/tabs/Home.dart';
 import 'package:get/get.dart';
+// import 'package:loyalty_app/Home.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
 import 'package:http/http.dart' as http;
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -123,7 +125,7 @@ class _Login_pageState extends State<Login_page> {
   bool loading = false;
   login() async {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
+        context, MaterialPageRoute(builder: (context) => Home()));
     // String pn = pnumber.text;
     // print(pn);
 
@@ -250,7 +252,7 @@ class _Login_pageState extends State<Login_page> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors_selector.primaryColor,
+        backgroundColor: Colors_selector.pair1,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(children: [
@@ -258,10 +260,10 @@ class _Login_pageState extends State<Login_page> {
                 height: screenHeight,
                 width: screenWidth,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors_selector.pair1, Colors_selector.pair2],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight),
+                  gradient: LinearGradient(colors: [
+                    Colors_selector.tertiaryColor,
+                    Colors_selector.tertiaryColor
+                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
