@@ -53,7 +53,7 @@ class _Home3State extends State<Home3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors_selector.primaryColor,
+      backgroundColor: Colors_selector.tertiaryColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
