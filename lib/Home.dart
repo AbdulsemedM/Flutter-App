@@ -62,11 +62,14 @@ class _HomeState extends State<Home> {
       onWillPop: () => _onBackButtonPressed(context),
       child: Scaffold(
         backgroundColor: Colors_selector.primaryColor,
-        body: PageView(
-          controller: pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: List.generate(
-              bottomBarPages.length, (index) => bottomBarPages[index]),
+        body: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: PageView(
+            controller: pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(
+                bottomBarPages.length, (index) => bottomBarPages[index]),
+          ),
         ),
         extendBody: true,
         bottomNavigationBar: CircleNavBar(
