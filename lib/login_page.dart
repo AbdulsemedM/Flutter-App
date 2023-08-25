@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:io';
 
 // import 'package:cooplay/Forgot_pw.dart';
@@ -14,7 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:loyalty_app/Forgot_pw.dart';
 import 'package:loyalty_app/Home.dart';
-import 'package:loyalty_app/HomePage.dart';
+// import 'package:loyalty_app/HomePage.dart';
 import 'package:loyalty_app/Signup.dart';
 import 'package:loyalty_app/colors.dart';
 // import 'package:protest/tabs/Home.dart';
