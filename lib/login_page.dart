@@ -1,16 +1,18 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 // import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 
 // import 'package:cooplay/Forgot_pw.dart';
 // import 'package:cooplay/Signup.dart';
 // import 'package:cooplay/home.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 // import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:loyalty_app/Forgot_pw.dart';
 import 'package:loyalty_app/Home.dart';
@@ -124,112 +126,236 @@ class _Login_pageState extends State<Login_page> {
 
   bool loading = false;
   login() async {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Home()));
-    // String pn = pnumber.text;
-    // print(pn);
+    // Navigator.pushReplacement(
+    //     context, MaterialPageRoute(builder: (context) => Home()));
+    String pn = pnumber.text;
+    print(pn);
 
-    // if (pnumber.text.length < 9 || pnumber.text == "") {
-    //   const message = 'Invalid phone number format';
-    //   Future.delayed(const Duration(milliseconds: 100), () {
-    //     Fluttertoast.showToast(msg: message, fontSize: 18);
-    //   });
-    // } else if (password.text == "") {
-    //   const message = 'Invalid password';
-    //   Future.delayed(const Duration(milliseconds: 100), () {
-    //     Fluttertoast.showToast(msg: message, fontSize: 18);
-    //   });
-    // } else {
-    //   setState(() {
-    //     loading = true;
-    //   });
-    //   final body = <String, String>{
-    //     "username": pnumber.text.toString(),
-    //     "password": password.text.toString(),
-    //   };
-    //   // print(body);
-    //   try {
-    //     final response = await http
-    //         .post(
-    //           Uri.http('63.34.29.151:9000', '/login'),
-    //           headers: <String, String>{
-    //             'Content-Type': 'application/json; charset=UTF-8',
-    //           },
-    //           body: jsonEncode(body),
-    //         )
-    //         .timeout(Duration(seconds: 15));
+    if (pnumber.text.length < 9 || pnumber.text == "") {
+      const message = 'Invalid phone number format';
+      Future.delayed(const Duration(milliseconds: 100), () {
+        Fluttertoast.showToast(msg: message, fontSize: 18);
+      });
+    } else if (password.text == "") {
+      const message = 'Invalid password';
+      Future.delayed(const Duration(milliseconds: 100), () {
+        Fluttertoast.showToast(msg: message, fontSize: 18);
+      });
+    } else {
+      setState(() {
+        loading = true;
+      });
+      final body = <String, String>{
+        "username": pnumber.text.toString(),
+        "password": password.text.toString(),
+      };
+      // print(body);
+      try {
+        final response = await http
+            .post(
+              Uri.http('10.1.177.123:9000', '/login'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(body),
+            )
+            .timeout(Duration(seconds: 15));
 
-    //     // print(response.body);
-    //     // print("here" + "${response.statusCode}");
+        // print(response.body);
+        // print("here" + "${response.statusCode}");
 
-    //     if (response.statusCode == 200) {
-    //       // ignore: prefer_interpolation_to_compose_strings
-    //       final json = "[" + response.body + "]";
-    //       // List list = (jsonDecode(json) as List<dynamic>);
-    //       List<Map<String, dynamic>> dataList =
-    //           (jsonDecode(json) as List).cast<Map<String, dynamic>>();
-    //       if (dataList.isNotEmpty) {
-    //         Map<String, dynamic> data = dataList.first;
-    //         String accessToken = data['access_token'];
-    //         // String refreshToken = data['refresh_token'];
-    //         // List<String> user = [accessToken, refreshToken];
+        if (response.statusCode == 200) {
+          // ignore: prefer_interpolation_to_compose_strings
+          final json = "[" + response.body + "]";
+          // List list = (jsonDecode(json) as List<dynamic>);
+          List<Map<String, dynamic>> dataList =
+              (jsonDecode(json) as List).cast<Map<String, dynamic>>();
+          if (dataList.isNotEmpty) {
+            Map<String, dynamic> data = dataList.first;
+            String accessToken = data['access_token'];
+            Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
+            dynamic subVal = decodedToken['sub']; // Access 'sub' field
+            String sub = subVal.toString();
+            List<dynamic> roles = decodedToken['roles']; // Access 'roles' field
+            String firstRole = roles[0];
+            dynamic expVal = decodedToken['exp']; // Access 'exp' field
+            String exp = expVal.toString();
+            List<String> newUser = [sub, firstRole, exp, accessToken];
+            SimplePreferences preferences = SimplePreferences();
+            await preferences.setUser(newUser);
+          } else {
+            print('No data found in the response.');
+          }
+          try {
+            final challenge = await http.get(
+              Uri.http('10.1.177.123:9000',
+                  'api/userChallenges/getByUsername/${pnumber.text.toString()}'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+            ).timeout(Duration(seconds: 15));
+            // print(challenge.body);
+            if (challenge.statusCode == 200) {
+              final jsonData = "[" + challenge.body + "]";
+              List<Map<dynamic, dynamic>> datas =
+                  (jsonDecode(jsonData) as List).cast<Map<String, dynamic>>();
+              print(datas);
+              if (datas.isNotEmpty) {
+                Map<dynamic, dynamic> data = datas.first;
+                String totalPoints = data['totalPoints'];
+                String equivalentETB = data['equivalentETB'];
+                String levelName = data['levelName'];
+                String levelColor = data['levelColor'];
+                List<String> userData = [
+                  totalPoints,
+                  equivalentETB,
+                  levelName,
+                  levelColor
+                ];
+                SimplePreferences preferences = SimplePreferences();
+                await preferences.setData(userData);
+                List levelDetails = data['levelDetails'];
+                List challengeDTO = data['userChallengeDTOs'];
+                // Map<dynamic, dynamic> bronze = levelDetails.first;
+                // String levelName1 = bronze["levelName"];
+                // String points = bronze["points"];
+                // String status = bronze["status"];
+                for (var levelDetail in levelDetails) {
+                  if (levelDetail['levelName'] == 'Bronze') {
+                    String levelName1 = levelDetail["levelName"];
+                    String points = levelDetail["points"];
+                    String status = levelDetail["status"];
+                    List<String> bronzeData = [levelName1, points, status];
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setBronze(bronzeData);
+                    // print("hereeee");
+                    // print(points);
+                    break; // Assuming there is only one "Silver" level; break out of the loop when found
+                  }
+                }
+                for (var levelDetail in levelDetails) {
+                  if (levelDetail['levelName'] == 'Silver') {
+                    String levelName1 = levelDetail["levelName"];
+                    String points = levelDetail["points"];
+                    String status = levelDetail["status"];
+                    List<String> silverData = [levelName1, points, status];
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setSilver(silverData);
+                    // print("hereeee");
+                    // print(points);
+                    break; // Assuming there is only one "Silver" level; break out of the loop when found
+                  }
+                }
+                for (var levelDetail in levelDetails) {
+                  if (levelDetail['levelName'] == 'Gold') {
+                    String levelName1 = levelDetail["levelName"];
+                    String points = levelDetail["points"];
+                    String status = levelDetail["status"];
+                    List<String> goldData = [levelName1, points, status];
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setGold(goldData);
+                    // print("hereeee");
+                    // print(points);
+                    break; // Assuming there is only one "Silver" level; break out of the loop when found
+                  }
+                }
+                for (var levelDetail in levelDetails) {
+                  if (levelDetail['levelName'] == 'Platinium') {
+                    String levelName1 = levelDetail["levelName"];
+                    String points = levelDetail["points"];
+                    String status = levelDetail["status"];
+                    List<String> platiniumData = [levelName1, points, status];
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setPlatinium(platiniumData);
+                    // print("hereeee");
+                    // print(points);
+                    break; // Assuming there is only one "Silver" level; break out of the loop when found
+                  }
+                }
 
-    //         // print('Access Token: $accessToken');
-    //         Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-    //         dynamic subVal = decodedToken['sub']; // Access 'sub' field
-    //         String sub = subVal.toString();
-    //         List<dynamic> roles = decodedToken['roles']; // Access 'roles' field
-    //         String firstRole = roles[0];
-    //         // int issValue = decodedToken['iss'];
-    //         // String iss = issValue.toString(); // Convert to string if it's not already// Access 'iss' field
-    //         dynamic expVal = decodedToken['exp']; // Access 'exp' field
-    //         String exp = expVal.toString();
+                // print(challengeDTO);
+                // print("hereeee");
+                for (int index = 0; index < challengeDTO.length; index++) {
+                  var length = challengeDTO[index];
+                  String challengeLogo = length["challengeLogo"];
+                  String affliateLink = length["affliateLink"];
+                  String awardPoints = length["awardPoints"];
+                  String pointsEarned = length["pointsEarned"];
+                  String challengeName = length["challengeName"];
+                  List<String> challengeData = [
+                    challengeLogo,
+                    affliateLink,
+                    awardPoints,
+                    pointsEarned,
+                    challengeName
+                  ];
+                  // String preferenceName = 'setChallenge$index';
+                  if (index == 0) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge0(challengeData);
+                  } else if (index == 1) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge1(challengeData);
+                  } else if (index == 2) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge2(challengeData);
+                  } else if (index == 3) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge3(challengeData);
+                  } else if (index == 4) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge4(challengeData);
+                  } else if (index == 5) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge5(challengeData);
+                  } else if (index == 6) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge6(challengeData);
+                  } else if (index == 7) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge7(challengeData);
+                  } else if (index == 8) {
+                    SimplePreferences preferences = SimplePreferences();
+                    await preferences.setChallenge8(challengeData);
+                  }
+                  // await preferences.setChallenge$index(challengeData);
+                  // await preferences.setStringList(preferenceName, challengeData);
+                  // print("hereeee");
+                  // print(challengeLogo);
+                }
+              }
+            }
+          } catch (e) {}
 
-    //         List<String> newUser = [sub, firstRole, exp, accessToken];
-    //         SimplePreferences preferences = SimplePreferences();
-    //         await preferences.setUser(newUser);
-    //         // print(newUser);
+          setState(() {
+            loading = false;
+          });
 
-    //         // print('Refresh Token: $refreshToken');
-    //       } else {
-    //         print('No data found in the response.');
-    //       }
-    //       // Map<String, dynamic> jsonData = json.decode(responseBody);
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => Home()));
+          setState(() {
+            loading = false;
+          });
+        } else if (response.statusCode == 401) {
+          setState(() {
+            loading = false;
+          });
+          const message = 'Invalid username or password!';
+          Fluttertoast.showToast(msg: message, fontSize: 18);
+        }
+      } catch (e) {
+        const message =
+            "Something went wrong, please Check your network connection";
 
-    //       // var accessToken = responseBody['access_token'];
-    //       // var refreshToken = responseBody['refresh_token'];
-    //       // print(list);
-    //       // print("Access Token: $accessToken");
-    //       // print("Refresh Token: $refreshToken");
-    //       setState(() {
-    //         loading = false;
-    //       });
-
-    //       // ignore: use_build_context_synchronously
-    //       Navigator.pushReplacement(
-    //           context, MaterialPageRoute(builder: (context) => HomePage()));
-    //       setState(() {
-    //         loading = false;
-    //       });
-    //     } else if (response.statusCode == 401) {
-    //       setState(() {
-    //         loading = false;
-    //       });
-    //       const message = 'Invalid username or password!';
-    //       Fluttertoast.showToast(msg: message, fontSize: 18);
-    //     }
-    //   } catch (e) {
-    //     const message =
-    //         "Something went wrong, please Check your network connection";
-
-    //     // print(message);
-    //     Fluttertoast.showToast(msg: message, fontSize: 18);
-    //   } finally {
-    //     setState(() {
-    //       loading = false;
-    //     });
-    //   }
-    // }
+        // print(message);
+        Fluttertoast.showToast(msg: message, fontSize: 18);
+      } finally {
+        setState(() {
+          loading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -251,203 +377,257 @@ class _Login_pageState extends State<Login_page> {
           return exit(0);
         }
       },
-      child: Scaffold(
-        backgroundColor: Colors_selector.pair1,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(children: [
-              Container(
-                height: screenHeight,
-                width: screenWidth,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Colors_selector.tertiaryColor,
-                    Colors_selector.tertiaryColor
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+      child: SafeArea(
+        child: Scaffold(
+          // backgroundColor: Colors_selector.pair1,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(children: [
+                Container(
+                  height: screenHeight,
+                  width: screenWidth,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                      Colors_selector.tertiaryColor,
+                      Colors_selector.tertiaryColor
+                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
                   ),
-                ),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          buildLanguageDialog(context);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Text(
-                                "Languages".tr,
-                                style: GoogleFonts.playfairDisplay(
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ),
-                            Icon(
-                              Icons.arrow_drop_down,
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      Center(
-                        child: Image.asset(
-                          'assets/images/Cap.png',
-                          height: screenHeight * 0.3,
-                          width: screenWidth * 0.6,
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.02),
-                      Text(
-                        "Login".tr,
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors_selector
-                              .primmary1, // You can use your color here
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.03),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                        child: SizedBox(
-                          height: 55, // Adjust the height as needed
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: TextField(
-                                controller: pnumber,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.phone_android,
-                                  ),
-                                  border: InputBorder.none,
-                                  labelText: "Phone Number".tr,
-                                  labelStyle: GoogleFonts.playfairDisplay(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            buildLanguageDialog(context);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Text(
+                                  "Languages".tr,
+                                  style: GoogleFonts.playfairDisplay(
+                                    fontSize: 17,
                                   ),
                                 ),
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
                               ),
-                            ),
+                              Icon(
+                                Icons.arrow_drop_down,
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-
-                      SizedBox(height: screenHeight * 0.02),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
-                        child: SizedBox(
-                          height: 55, // Adjust the height as needed
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: TextField(
-                                controller: password,
-                                obscureText: !_passwordVisible,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.lock,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _passwordVisible
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
+                        SizedBox(height: screenHeight * 0.02),
+                        Center(
+                          child: Image.asset(
+                            'assets/images/Cap.png',
+                            height: screenHeight * 0.3,
+                            width: screenWidth * 0.6,
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        Text(
+                          "Login".tr,
+                          style: GoogleFonts.playfairDisplay(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors_selector
+                                .primmary1, // You can use your color here
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.03),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.1),
+                          child: SizedBox(
+                            height: 55, // Adjust the height as needed
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: TextField(
+                                  controller: pnumber,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                      Icons.phone_android,
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _passwordVisible = !_passwordVisible;
-                                      });
-                                    },
+                                    border: InputBorder.none,
+                                    labelText: "Phone Number".tr,
+                                    labelStyle: GoogleFonts.playfairDisplay(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
-                                  border: InputBorder.none,
-                                  labelText: "Password".tr,
-                                  labelStyle: GoogleFonts.playfairDisplay(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        SizedBox(height: screenHeight * 0.02),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.1),
+                          child: SizedBox(
+                            height: 55, // Adjust the height as needed
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: TextField(
+                                  controller: password,
+                                  obscureText: !_passwordVisible,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                      Icons.lock,
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _passwordVisible
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                        });
+                                      },
+                                    ),
+                                    border: InputBorder.none,
+                                    labelText: "Password".tr,
+                                    labelStyle: GoogleFonts.playfairDisplay(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
 
-                      SizedBox(height: screenHeight * 0.01),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Forgot_pw(),
+                        SizedBox(height: screenHeight * 0.01),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 24),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Forgot_pw(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "Forgot".tr,
+                                  style: GoogleFonts.playfairDisplay(
+                                    color: Colors_selector
+                                        .secondaryColor, // You can use your color here
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                );
-                              },
-                              child: Text(
-                                "Forgot".tr,
-                                style: GoogleFonts.playfairDisplay(
-                                  color: Colors_selector
-                                      .secondaryColor, // You can use your color here
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.01),
+                        loading
+                            ? CircularProgressIndicator(
+                                color: Colors_selector.secondaryColor,
+                              )
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: screenWidth * 0.3,
+                                  vertical: screenHeight * 0.02,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    login();
+                                  },
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.all(screenHeight * 0.01),
+                                    decoration: BoxDecoration(
+                                      color: Colors_selector
+                                          .primmary1, // You can use your color here
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Login".tr,
+                                        style: GoogleFonts.playfairDisplay(
+                                          color: Colors
+                                              .white, // You can use your color here
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                        // _isLoading
+                        //     ? CircularProgressIndicator(
+                        //         color: Colors.white, // You can use your color here
+                        //       )
+                        //     : SizedBox(),
+                        SizedBox(height: screenHeight * 0.02),
+                        SizedBox(height: screenHeight * 0.08),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  child: Text(
+                                    "Don't have an account? ".tr,
+                                    style: GoogleFonts.playfairDisplay(
+                                      color: Colors
+                                          .black, // You can use your color here
+                                      fontSize: 15,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.01),
-                      loading
-                          ? CircularProgressIndicator(
-                              color: Colors_selector.secondaryColor,
-                            )
-                          : Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.3,
-                                vertical: screenHeight * 0.02,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  login();
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(screenHeight * 0.01),
-                                  decoration: BoxDecoration(
-                                    color: Colors_selector
-                                        .primmary1, // You can use your color here
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Center(
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Signup(),
+                                        ),
+                                      );
+                                    },
                                     child: Text(
-                                      "Login".tr,
+                                      "Signup here".tr,
                                       style: GoogleFonts.playfairDisplay(
-                                        color: Colors
-                                            .white, // You can use your color here
-                                        fontSize: 20,
+                                        color: Colors_selector
+                                            .primmary1, // You can use your color here
+                                        fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -455,70 +635,19 @@ class _Login_pageState extends State<Login_page> {
                                 ),
                               ),
                             ),
-                      // _isLoading
-                      //     ? CircularProgressIndicator(
-                      //         color: Colors.white, // You can use your color here
-                      //       )
-                      //     : SizedBox(),
-                      SizedBox(height: screenHeight * 0.02),
-                      SizedBox(height: screenHeight * 0.08),
-
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Container(
-                                child: Text(
-                                  "Don't have an account? ".tr,
-                                  style: GoogleFonts.playfairDisplay(
-                                    color: Colors
-                                        .black, // You can use your color here
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => Signup(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    "Signup here".tr,
-                                    style: GoogleFonts.playfairDisplay(
-                                      color: Colors_selector
-                                          .primmary1, // You can use your color here
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      // SizedBox(height: screenHeight * 0.08),
-                      // Text(
-                      //   "copyright 1894-2023 © Coop Bank of Oromia",
-                      //   style: TextStyle(fontSize: 15),
-                      // ),
-                      // SizedBox(height: screenHeight * 0.01),
-                      // Text("All Rights Reserved"),
-                    ]),
-              ),
-            ]),
+                          ],
+                        ),
+                        // SizedBox(height: screenHeight * 0.08),
+                        // Text(
+                        //   "copyright 1894-2023 © Coop Bank of Oromia",
+                        //   style: TextStyle(fontSize: 15),
+                        // ),
+                        // SizedBox(height: screenHeight * 0.01),
+                        // Text("All Rights Reserved"),
+                      ]),
+                ),
+              ]),
+            ),
           ),
         ),
       ),

@@ -53,7 +53,7 @@ class _RedeemState extends State<Redeem> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors_selector.primaryColor,
+      backgroundColor: Colors_selector.tertiaryColor,
       body: SingleChildScrollView(
         child: SafeArea(
             child: Container(
@@ -129,8 +129,7 @@ class _RedeemState extends State<Redeem> {
                               child: Text(
                                 Data[index].title,
                                 style: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15),
+                                    fontWeight: FontWeight.w700, fontSize: 15),
                               ),
                             ),
                             Text(
@@ -220,12 +219,11 @@ class _RedeemState extends State<Redeem> {
                           Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
                                   "Balance 1024",
-                                  style:
-                                      GoogleFonts.roboto(color: Colors.grey),
+                                  style: GoogleFonts.roboto(color: Colors.grey),
                                 ),
                               ))
                         ],
@@ -283,12 +281,11 @@ class _RedeemState extends State<Redeem> {
                           Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
                                   "Balance 10 ETB",
-                                  style:
-                                      GoogleFonts.roboto(color: Colors.grey),
+                                  style: GoogleFonts.roboto(color: Colors.grey),
                                 ),
                               ))
                         ],

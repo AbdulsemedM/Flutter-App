@@ -60,54 +60,53 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => _onBackButtonPressed(context),
-      child: Scaffold(
-        backgroundColor: Colors_selector.primaryColor,
-        body: Container(
-          decoration: BoxDecoration(color: Colors.white),
-          child: PageView(
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors_selector.tertiaryColor,
+          body: PageView(
             controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: List.generate(
                 bottomBarPages.length, (index) => bottomBarPages[index]),
           ),
-        ),
-        extendBody: true,
-        bottomNavigationBar: CircleNavBar(
-          activeIcons: [
-            Icon(Icons.redeem, color: Colors_selector.primaryColor),
-            Icon(Icons.home, color: Colors_selector.primaryColor),
-            Icon(Icons.person, color: Colors_selector.primaryColor),
-          ],
-          inactiveIcons: [
-            Text(
-              "Redeem",
-              style:
-                  GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: 15),
+          extendBody: true,
+          bottomNavigationBar: CircleNavBar(
+            activeIcons: [
+              Icon(Icons.redeem, color: Colors_selector.primaryColor),
+              Icon(Icons.home, color: Colors_selector.primaryColor),
+              Icon(Icons.person, color: Colors_selector.primaryColor),
+            ],
+            inactiveIcons: [
+              Text(
+                "Redeem",
+                style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+              Text("Home",
+                  style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.bold, fontSize: 15)),
+              Text("Profile",
+                  style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.bold, fontSize: 15)),
+            ],
+            color: Colors.white,
+            height: 50,
+            circleWidth: 50,
+            activeIndex: tabIndex,
+            onTap: (index) {
+              tabIndex = index;
+              pageController.jumpToPage(tabIndex);
+            },
+            padding: const EdgeInsets.only(left: 12, right: 12, bottom: 5),
+            cornerRadius: const BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+              bottomRight: Radius.circular(24),
+              bottomLeft: Radius.circular(24),
             ),
-            Text("Home",
-                style: GoogleFonts.roboto(
-                    fontWeight: FontWeight.bold, fontSize: 15)),
-            Text("Profile",
-                style: GoogleFonts.roboto(
-                    fontWeight: FontWeight.bold, fontSize: 15)),
-          ],
-          color: Colors.white,
-          height: 50,
-          circleWidth: 50,
-          activeIndex: tabIndex,
-          onTap: (index) {
-            tabIndex = index;
-            pageController.jumpToPage(tabIndex);
-          },
-          padding: const EdgeInsets.only(left: 12, right: 12, bottom: 5),
-          cornerRadius: const BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-            bottomRight: Radius.circular(24),
-            bottomLeft: Radius.circular(24),
+            shadowColor: Colors.blue.shade300,
+            elevation: 10,
           ),
-          shadowColor: Colors.blue.shade300,
-          elevation: 10,
         ),
       ),
     );
@@ -132,6 +131,7 @@ class _HomeState extends State<Home> {
                     List<String> user = [];
                     SimplePreferences preferences = SimplePreferences();
                     await preferences.setUser(user);
+                    await preferences.setChallenge0(user);
                     // ignore: use_build_context_synchronously
                     Navigator.pushReplacement<void, void>(
                       context,

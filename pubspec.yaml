@@ -93,19 +93,6 @@ flutter:
   assets:
     - assets/images/Cap.png
     - assets/images/cbo.png
-    - assets/images/Challenges.png
-    - assets/images/coin_Exchange.png
-    - assets/images/coop.png
-    - assets/images/Cooperative.png
-    - assets/images/cooplay1.png
-    - assets/images/cooplay2.png
-    - assets/images/cooplay3.png
-    - assets/images/customer.png
-    - assets/images/golden.png
-    - assets/images/help.png
-    - assets/images/location.png
-    - assets/images/other.png
-    - assets/images/Share.png
     - assets/images/WhiteLogo.png
     - assets/images/michu.png
     - assets/images/ebirr.png
