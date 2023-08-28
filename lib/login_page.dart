@@ -550,7 +550,7 @@ class _Login_pageState extends State<Login_page> {
                         SizedBox(height: screenHeight * 0.01),
                         loading
                             ? CircularProgressIndicator(
-                                color: Colors_selector.secondaryColor,
+                                color: Colors_selector.primaryColor,
                               )
                             : Padding(
                                 padding: EdgeInsets.symmetric(

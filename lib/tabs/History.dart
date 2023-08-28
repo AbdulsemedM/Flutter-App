@@ -99,8 +99,10 @@ class _HistoryState extends State<History> {
               DateTime parsedDate2 = DateTime.parse(newDate2);
               filteredTransactions = transactions
                   .where((transaction) =>
-                      transaction.date.isAfter(parsedDate) &&
-                      transaction.date.isBefore(parsedDate2))
+                      transaction.date
+                          .isAfter(parsedDate.subtract(Duration(days: 1))) &&
+                      transaction.date
+                          .isBefore(parsedDate2.add(Duration(days: 1))))
                   .toList();
               print("here we go");
               print(newDate2);
@@ -328,14 +330,18 @@ class _HistoryState extends State<History> {
             ),
           ),
           loading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: Colors_selector.primmary1,
+                ))
               : Container(
                   height: MediaQuery.of(context).size.height * 0.8,
                   width: MediaQuery.of(context).size.width * 0.90,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      DateTime transactionDate = transactions[index].date;
+                      DateTime transactionDate =
+                          filteredTransactions[index].date;
 
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(transactionDate);
@@ -449,8 +455,8 @@ class _HistoryState extends State<History> {
         loading = false;
       });
     } catch (e) {
-      const message =
-          'Something went wrong. Please check your internet connection.';
+      var message = e.toString();
+      'Something went wrong. Please check your internet connection.';
       Fluttertoast.showToast(msg: message, fontSize: 18);
     }
   }

@@ -945,7 +945,7 @@ class _Home3State extends State<Home3> {
                   ),
                 ),
                 DotsIndicator(
-                  dotsCount: challenge.length,
+                  dotsCount: challenge.isEmpty ? 1 : challenge.length,
                   position: _currentPage.toInt(),
                   decorator: DotsDecorator(
                     activeColor: Colors_selector.primaryColor,
