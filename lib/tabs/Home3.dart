@@ -1,5 +1,7 @@
 // import 'package:flutter/foundation.dart';
 // import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,9 +22,25 @@ class Home3 extends StatefulWidget {
   State<Home3> createState() => _Home3State();
 }
 
+class challengeData {
+  final String link;
+  final String points;
+  final String earn; // Add a callback function
+  final String image;
+  final String name;
+  challengeData(
+      {required this.link,
+      required this.points,
+      required this.earn,
+      required this.name,
+      required this.image});
+}
+
 class _Home3State extends State<Home3> {
   // final PageController _controller = PageController();
   // var _currentIndex = 0;
+  List<challengeData> challenge = [];
+
   final PageController _pageController = PageController();
   bool loading = true;
   double _currentPage = 0;
@@ -130,64 +148,163 @@ class _Home3State extends State<Home3> {
     platiniumPoint = platinium?[1];
     platiniumStatus = platinium?[2];
     challenge0 = await SimplePreferences().getChallenge0();
-    challenge0name = challenge0?[4];
-    challenge0Image = challenge0?[0];
-    challenge0earn = challenge0?[2];
-    challenge0Points = challenge0?[3];
-    challenge0Link = challenge0?[1];
-    challenge0 = await SimplePreferences().getChallenge1();
-    challenge0name = challenge1?[4];
-    challenge0Image = challenge1?[0];
-    challenge0earn = challenge1?[2];
-    challenge0Points = challenge1?[3];
-    challenge0Link = challenge1?[1];
-    challenge0 = await SimplePreferences().getChallenge2();
-    challenge0name = challenge2?[4];
-    challenge0Image = challenge2?[0];
-    challenge0earn = challenge2?[2];
-    challenge0Points = challenge2?[3];
-    challenge0Link = challenge2?[1];
-    challenge0 = await SimplePreferences().getChallenge3();
-    challenge0name = challenge3?[4];
-    challenge0Image = challenge3?[0];
-    challenge0earn = challenge3?[2];
-    challenge0Points = challenge3?[3];
-    challenge0Link = challenge3?[1];
-    challenge0 = await SimplePreferences().getChallenge4();
-    challenge0name = challenge4?[4];
-    challenge0Image = challenge4?[0];
-    challenge0earn = challenge4?[2];
-    challenge0Points = challenge4?[3];
-    challenge0Link = challenge4?[1];
-    challenge0 = await SimplePreferences().getChallenge5();
-    challenge0name = challenge5?[4];
-    challenge0Image = challenge5?[0];
-    challenge0earn = challenge5?[2];
-    challenge0Points = challenge5?[3];
-    challenge0Link = challenge5?[1];
-    challenge0 = await SimplePreferences().getChallenge6();
-    challenge0name = challenge6?[4];
-    challenge0Image = challenge6?[0];
-    challenge0earn = challenge6?[2];
-    challenge0Points = challenge6?[3];
-    challenge0Link = challenge6?[1];
-    challenge0 = await SimplePreferences().getChallenge7();
-    challenge0name = challenge7?[4];
-    challenge0Image = challenge7?[0];
-    challenge0earn = challenge7?[2];
-    challenge0Points = challenge7?[3];
-    challenge0Link = challenge7?[1];
-    challenge0 = await SimplePreferences().getChallenge8();
-    challenge0name = challenge8?[4];
-    challenge0Image = challenge8?[0];
-    challenge0earn = challenge8?[2];
-    challenge0Points = challenge8?[3];
-    challenge0Link = challenge8?[1];
+    if (challenge0 != null) {
+      challenge0name = challenge0?[4];
+      challenge0Image = challenge0?[0];
+      challenge0earn = challenge0?[2];
+      challenge0Points = challenge0?[3];
+      challenge0Link = challenge0?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge0earn,
+          link: challenge0Link,
+          name: challenge0name,
+          image: challenge0Image,
+          points: challenge0Points,
+        ),
+      ]);
+    }
+    challenge1 = await SimplePreferences().getChallenge1();
+    if (challenge1 != null) {
+      challenge1name = challenge1?[4];
+      challenge1Image = challenge1?[0];
+      challenge1earn = challenge1?[2];
+      challenge1Points = challenge1?[3];
+      challenge1Link = challenge1?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge1earn,
+          link: challenge1Link,
+          name: challenge1name,
+          image: challenge1Image,
+          points: challenge1Points,
+        ),
+      ]);
+    }
+    challenge2 = await SimplePreferences().getChallenge2();
+    if (challenge2 != null) {
+      challenge2name = challenge2?[4];
+      challenge2Image = challenge2?[0];
+      challenge2earn = challenge2?[2];
+      challenge2Points = challenge2?[3];
+      challenge2Link = challenge2?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge2earn,
+          link: challenge2Link,
+          name: challenge2name,
+          image: challenge2Image,
+          points: challenge2Points,
+        ),
+      ]);
+    }
+    challenge3 = await SimplePreferences().getChallenge3();
+    if (challenge3 != null) {
+      challenge3name = challenge3?[4];
+      challenge3Image = challenge3?[0];
+      challenge3earn = challenge3?[2];
+      challenge3Points = challenge3?[3];
+      challenge3Link = challenge3?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge3earn,
+          link: challenge3Link,
+          name: challenge3name,
+          image: challenge3Image,
+          points: challenge3Points,
+        ),
+      ]);
+    }
+    challenge4 = await SimplePreferences().getChallenge4();
+    if (challenge4 != null) {
+      challenge4name = challenge4?[4];
+      challenge4Image = challenge4?[0];
+      challenge4earn = challenge4?[2];
+      challenge4Points = challenge4?[3];
+      challenge4Link = challenge4?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge4earn,
+          link: challenge4Link,
+          name: challenge4name,
+          image: challenge4Image,
+          points: challenge4Points,
+        ),
+      ]);
+    }
+    challenge5 = await SimplePreferences().getChallenge5();
+    if (challenge5 != null) {
+      challenge5name = challenge5?[4];
+      challenge5Image = challenge5?[0];
+      challenge5earn = challenge5?[2];
+      challenge5Points = challenge5?[3];
+      challenge5Link = challenge5?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge5earn,
+          link: challenge5Link,
+          name: challenge5name,
+          image: challenge5Image,
+          points: challenge5Points,
+        ),
+      ]);
+    }
+    challenge6 = await SimplePreferences().getChallenge6();
+    if (challenge6 != null) {
+      challenge6name = challenge6?[4];
+      challenge6Image = challenge6?[0];
+      challenge6earn = challenge6?[2];
+      challenge6Points = challenge6?[3];
+      challenge6Link = challenge6?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge6earn,
+          link: challenge6Link,
+          name: challenge6name,
+          image: challenge6Image,
+          points: challenge6Points,
+        ),
+      ]);
+    }
+    challenge7 = await SimplePreferences().getChallenge7();
+    if (challenge7 != null) {
+      challenge7name = challenge7?[4];
+      challenge7Image = challenge7?[0];
+      challenge7earn = challenge7?[2];
+      challenge7Points = challenge7?[3];
+      challenge7Link = challenge7?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge7earn,
+          link: challenge7Link,
+          name: challenge7name,
+          image: challenge7Image,
+          points: challenge7Points,
+        ),
+      ]);
+    }
+    challenge8 = await SimplePreferences().getChallenge8();
+    if (challenge8 != null) {
+      challenge8name = challenge8?[4];
+      challenge8Image = challenge8?[0];
+      challenge8earn = challenge8?[2];
+      challenge8Points = challenge8?[3];
+      challenge8Link = challenge8?[1];
+      challenge.addAll([
+        challengeData(
+          earn: challenge8earn,
+          link: challenge8Link,
+          name: challenge8name,
+          image: challenge8Image,
+          points: challenge8Points,
+        ),
+      ]);
+    }
     setState(() {
       loading = false;
     });
     print("from home");
-    print(challenge0);
+    print(challenge.length);
   }
 
   @override
@@ -724,7 +841,7 @@ class _Home3State extends State<Home3> {
                   width: MediaQuery.of(context).size.width * 0.90,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: 7,
+                    itemCount: challenge.length,
                     itemBuilder: (context, index) {
                       return Container(
                         height: MediaQuery.of(context).size.height * 0.35,
@@ -745,20 +862,20 @@ class _Home3State extends State<Home3> {
                               child: CircleAvatar(
                                   backgroundColor: Colors.grey[200],
                                   radius: 30,
-                                  child:
-                                      Image.asset("assets/images/ebirr.png")),
+                                  child: Image.asset(
+                                      "assets/images/${challenge[index].image}")),
                             ),
                             Padding(
                               padding: EdgeInsets.all(3.0),
                               child: Text(
-                                "You have earned 325",
+                                "You have earned ${challenge[index].points}",
                                 style: GoogleFonts.roboto(
                                     fontSize: 20, fontWeight: FontWeight.w700),
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.all(3.0),
-                              child: Text("E-Birr Points ",
+                              child: Text("${challenge[index].name} Points ",
                                   style: GoogleFonts.roboto(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700)),
@@ -766,7 +883,7 @@ class _Home3State extends State<Home3> {
                             Padding(
                               padding: EdgeInsets.all(13.0),
                               child: Text(
-                                  "Just share your E-Birr affiliate link and earn 300 points ",
+                                  "Just share your ${challenge[index].name} affiliate link and earn ${challenge[index].earn} points ",
                                   style: GoogleFonts.roboto(fontSize: 15)),
                             ),
                             Container(
