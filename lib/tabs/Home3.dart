@@ -130,6 +130,7 @@ class _Home3State extends State<Home3> {
 
   Future<void> getDatas() async {
     user = await SimplePreferences().getUser();
+    print(user);
     data = await SimplePreferences().getData();
     totalPoints = data?[0];
     toETB = data?[1];
@@ -921,10 +922,9 @@ class _Home3State extends State<Home3> {
                                                   0, 0, 8, 0),
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  Clipboard.setData(
-                                                      const ClipboardData(
-                                                          text:
-                                                              "https://play.google.com/store/apps/details?id=om.example.michuapp&user_id=1"));
+                                                  Clipboard.setData(ClipboardData(
+                                                      text:
+                                                          "${challenge[index].link}"));
                                                   // Fluttertoast.showToast(
                                                   //     msg: "Copied to clipboard",
                                                   //     fontSize: 18);
@@ -945,7 +945,7 @@ class _Home3State extends State<Home3> {
                   ),
                 ),
                 DotsIndicator(
-                  dotsCount: 7,
+                  dotsCount: challenge.length,
                   position: _currentPage.toInt(),
                   decorator: DotsDecorator(
                     activeColor: Colors_selector.primaryColor,
