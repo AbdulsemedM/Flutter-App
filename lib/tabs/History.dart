@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:awesome_calendar/awesome_calendar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:loyalty_app/colors.dart';
+import 'package:http/http.dart' as http;
+
+import '../utils/simple_preference.dart';
 
 List<DateTime>? rangeSelect;
 
@@ -19,7 +25,7 @@ class History extends StatefulWidget {
 class TransactionData {
   final Icon icon;
   final String source;
-  final String date;
+  final DateTime date;
   final String amount;
   final String status;
 
@@ -36,10 +42,14 @@ class _HistoryState extends State<History> {
   // final PageController _controller = PageController();
   // var _currentIndex = 0;
   final PageController _pageController = PageController();
+  bool loading = true;
+  List<TransactionData> transactions = [];
+  List<TransactionData> filteredTransactions = [];
   // double _currentPage = 0;
   @override
   void initState() {
     super.initState();
+    fetchHistory();
     _pageController.addListener(() {
       // setState(() {
       //   // _currentPage = _pageController.page!;
@@ -67,6 +77,35 @@ class _HistoryState extends State<History> {
       if (picked != null) {
         setState(() {
           rangeSelect = picked;
+          if (rangeSelect != null) {
+            rangeSelect?.sort((a, b) => a.compareTo(b));
+
+            if (rangeSelect?.length == 1) {
+              String originalDate = "$rangeSelect";
+              String newDate = originalDate.substring(1, 11);
+              DateTime parsedDate = DateTime.parse(newDate);
+              // String formattedDate = DateFormat('yyyy-MM-dd').format(parsedDate);
+              filteredTransactions = transactions
+                  .where((transaction) => transaction.date == parsedDate)
+                  .toList();
+              print("hereee");
+              print(parsedDate);
+            } else if (rangeSelect?.length != 1) {
+              String originalDate = "$rangeSelect";
+              String newDate1 = originalDate.substring(1, 11);
+              String newDate2 = originalDate.substring(
+                  originalDate.length - 24, originalDate.length - 14);
+              DateTime parsedDate = DateTime.parse(newDate1);
+              DateTime parsedDate2 = DateTime.parse(newDate2);
+              filteredTransactions = transactions
+                  .where((transaction) =>
+                      transaction.date.isAfter(parsedDate) &&
+                      transaction.date.isBefore(parsedDate2))
+                  .toList();
+              print("here we go");
+              print(newDate2);
+            }
+          }
         });
       }
     }
@@ -79,12 +118,14 @@ class _HistoryState extends State<History> {
         if (dateRange == null) {
           return "Select date";
         } else if (dateRange.length == 1) {
-          return DateFormat('MMMM d, y').format(dateRange[0]);
+          var show = DateFormat('MMMM d, y').format(dateRange[0]);
+          return show;
         } else {
           // ignore: prefer_interpolation_to_compose_strings
-          return DateFormat('MMMM d, y').format(dateRange[0]) +
+          var show = DateFormat('MMMM d, y').format(dateRange[0]) +
               " - " +
               DateFormat('MMMM d, y').format(dateRange[dateRange.length - 1]);
+          return show;
         }
       } else {
         return "Select date";
@@ -93,111 +134,116 @@ class _HistoryState extends State<History> {
       }
     }
 
+    // List<TransactionData> filteredTransactions = transactions
+    //     .where((transaction) => transaction.date == "$rangeSelect")
+    //     .toList();
+    // print(filteredTransactions.length);
+
     // Color iconColor = Colors.white;
 
-    final List<TransactionData> transactions = [
-      TransactionData(
-        icon: Icon(
-          Icons.redeem,
-          color: Colors.green,
-        ),
-        source: "Collected from Michu",
-        date: "August 17, 2023",
-        amount: "+20",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.swap_horiz_sharp,
-          color: Colors.amber,
-        ),
-        source: "Converted to ETB",
-        date: "August 10, 2023",
-        amount: "-500",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.redeem,
-          color: Colors.green,
-        ),
-        source: "Collected from E-Birr",
-        date: "August 1, 2023",
-        amount: "+1000",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.swap_horiz_sharp,
-          color: Colors.amber,
-        ),
-        source: "Converted to DSTV package",
-        date: "July 30, 2023",
-        amount: "-250",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.swap_horiz_sharp,
-          color: Colors.amber,
-        ),
-        source: "Converted to mobile Top-up",
-        date: "July 25, 2023",
-        amount: "-50",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.redeem,
-          color: Colors.green,
-        ),
-        source: "Collected from My-Equb",
-        date: "July 1, 2023",
-        amount: "+2000",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.swap_horiz_sharp,
-          color: Colors.amber,
-        ),
-        source: "Transfered to Wallet",
-        date: "May 1, 2023",
-        amount: "-600",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.swap_horiz_sharp,
-          color: Colors.amber,
-        ),
-        source: "Converted to canal plus package",
-        date: "August 17, 2022",
-        amount: "-400",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.redeem,
-          color: Colors.green,
-        ),
-        source: "Collected from Deboo",
-        date: "October 8, 2022",
-        amount: "+600",
-        status: "Success",
-      ),
-      TransactionData(
-        icon: Icon(
-          Icons.redeem,
-          color: Colors.green,
-        ),
-        source: "Collected from mobile banking",
-        date: "January 3, 2022",
-        amount: "+200",
-        status: "Success",
-      ),
-      // Add more transactions here
-    ];
+    // final List<TransactionData> transactions = [
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.redeem,
+    //     color: Colors.green,
+    //   ),
+    //   source: "Collected from Michu",
+    //   date: "August 17, 2023",
+    //   amount: "+20",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.swap_horiz_sharp,
+    //     color: Colors.amber,
+    //   ),
+    //   source: "Converted to ETB",
+    //   date: "August 10, 2023",
+    //   amount: "-500",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.redeem,
+    //     color: Colors.green,
+    //   ),
+    //   source: "Collected from E-Birr",
+    //   date: "August 1, 2023",
+    //   amount: "+1000",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.swap_horiz_sharp,
+    //     color: Colors.amber,
+    //   ),
+    //   source: "Converted to DSTV package",
+    //   date: "July 30, 2023",
+    //   amount: "-250",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.swap_horiz_sharp,
+    //     color: Colors.amber,
+    //   ),
+    //   source: "Converted to mobile Top-up",
+    //   date: "July 25, 2023",
+    //   amount: "-50",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.redeem,
+    //     color: Colors.green,
+    //   ),
+    //   source: "Collected from My-Equb",
+    //   date: "July 1, 2023",
+    //   amount: "+2000",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.swap_horiz_sharp,
+    //     color: Colors.amber,
+    //   ),
+    //   source: "Transfered to Wallet",
+    //   date: "May 1, 2023",
+    //   amount: "-600",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.swap_horiz_sharp,
+    //     color: Colors.amber,
+    //   ),
+    //   source: "Converted to canal plus package",
+    //   date: "August 17, 2022",
+    //   amount: "-400",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.redeem,
+    //     color: Colors.green,
+    //   ),
+    //   source: "Collected from Deboo",
+    //   date: "October 8, 2022",
+    //   amount: "+600",
+    //   status: "Success",
+    // ),
+    // TransactionData(
+    //   icon: Icon(
+    //     Icons.redeem,
+    //     color: Colors.green,
+    //   ),
+    //   source: "Collected from mobile banking",
+    //   date: "January 3, 2022",
+    //   amount: "+200",
+    //   status: "Success",
+    // ),
+    // Add more transactions here
+    // ];
 
     return Scaffold(
       backgroundColor: Colors_selector.tertiaryColor,
@@ -281,80 +327,131 @@ class _HistoryState extends State<History> {
               ),
             ),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: MediaQuery.of(context).size.width * 0.90,
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Container(
-                    height: 60,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+          loading
+              ? const Center(child: CircularProgressIndicator())
+              : Container(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: MediaQuery.of(context).size.width * 0.90,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      DateTime transactionDate = transactions[index].date;
+
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(transactionDate);
+                      return Card(
+                        child: Container(
+                          height: 60,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: transactions[index].icon,
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        child: filteredTransactions[index].icon,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                transactions[index].source,
-                                style: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                transactions[index].date,
-                                style:
-                                    GoogleFonts.roboto(color: Colors.grey[400]),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(transactions[index].amount),
                                     Text(
-                                      " Pts",
+                                      filteredTransactions[index].source,
                                       style: GoogleFonts.roboto(
-                                          color: Colors.grey[400],
-                                          fontSize: 10),
-                                    )
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      formattedDate,
+                                      style: GoogleFonts.roboto(
+                                          color: Colors.grey[400]),
+                                    ),
                                   ],
                                 ),
-                                Text(
-                                  transactions[index].status,
-                                  style:
-                                      GoogleFonts.roboto(color: Colors.green),
-                                ),
-                              ],
-                            ),
-                          )
-                        ]),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(filteredTransactions[index]
+                                              .amount),
+                                          Text(
+                                            " Pts",
+                                            style: GoogleFonts.roboto(
+                                                color: Colors.grey[400],
+                                                fontSize: 10),
+                                          )
+                                        ],
+                                      ),
+                                      Text(
+                                        filteredTransactions[index].status,
+                                        style: GoogleFonts.roboto(
+                                            color: Colors.green),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ]),
+                        ),
+                      );
+                    },
+                    controller: _pageController,
+                    itemCount: filteredTransactions.length,
                   ),
-                );
-              },
-              controller: _pageController,
-              itemCount: transactions.length,
-            ),
-          )
+                )
         ]),
       )),
     );
+  }
+
+  Future<void> fetchHistory() async {
+    try {
+      var user = await SimplePreferences().getUser();
+
+      final response = await http.get(
+        Uri.http(
+            '10.1.177.123:9000', '/api/transactions/getByUsername/${user![0]}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      // transactions = parseTransactions(response.body);
+      var data = jsonDecode(response.body);
+      List<TransactionData> newTransactions = [];
+
+      for (var transaction in data) {
+        // print(transaction.date);
+        var transactionData = TransactionData(
+          icon: transaction['transactionType'] == "credit"
+              ? const Icon(Icons.redeem, color: Colors.green)
+              : const Icon(Icons.swap_horiz_sharp, color: Colors.amber),
+          source: transaction['naration'],
+          date: DateTime.parse(transaction['generatedDate']),
+          amount: transaction['amount'],
+          status: transaction['status'],
+        );
+        newTransactions.add(transactionData);
+      }
+      transactions.addAll(newTransactions);
+      filteredTransactions.addAll(transactions);
+      print(filteredTransactions.length);
+
+      // print(transactions[0]);
+
+      setState(() {
+        loading = false;
+      });
+    } catch (e) {
+      const message =
+          'Something went wrong. Please check your internet connection.';
+      Fluttertoast.showToast(msg: message, fontSize: 18);
+    }
   }
 }
