@@ -340,8 +340,7 @@ class _HistoryState extends State<History> {
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      DateTime transactionDate =
-                          filteredTransactions[index].date;
+                      DateTime transactionDate = filteredTransactions[index].date;
 
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(transactionDate);

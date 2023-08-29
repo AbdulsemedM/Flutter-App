@@ -12,6 +12,7 @@ import 'package:loyalty_app/tabs/History.dart';
 // import 'package:loyalty_app/tabs/Michu.dart';
 import 'package:loyalty_app/tabs/Redeem.dart';
 
+import 'package:share/share.dart';
 import '../utils/simple_preference.dart';
 // import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -312,6 +313,17 @@ class _Home3State extends State<Home3> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  void shareApp(String link, String app) {
+    // Replace the following variables with your app's name and store link
+    String appName = app;
+    String storeLink = link;
+
+    Share.share(
+      "Check out $appName! Download it from $storeLink",
+      subject: "Share $appName",
+    );
   }
 
   Color hexToColor(String hexString) {
@@ -871,30 +883,38 @@ class _Home3State extends State<Home3> {
                               child: Text(
                                 "You have earned ${challenge[index].points}",
                                 style: GoogleFonts.roboto(
-                                    fontSize: 20, fontWeight: FontWeight.w700),
+                                    fontSize: 18, fontWeight: FontWeight.w700),
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.all(3.0),
                               child: Text("${challenge[index].name} Points ",
                                   style: GoogleFonts.roboto(
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       fontWeight: FontWeight.w700)),
                             ),
                             Padding(
                               padding: EdgeInsets.all(13.0),
-                              child: Text(
-                                  "Just share your ${challenge[index].name} affiliate link and earn ${challenge[index].earn} points ",
-                                  style: GoogleFonts.roboto(fontSize: 15)),
+                              child: Column(
+                                children: [
+                                  Text(
+                                      "Just share your ${challenge[index].name} affiliate link and",
+                                      style: GoogleFonts.roboto(fontSize: 17)),
+                                  Text("earn ${challenge[index].earn} points ",
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600)),
+                                ],
+                              ),
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width * 0.83,
-                              height: MediaQuery.of(context).size.height * 0.09,
+                              height: MediaQuery.of(context).size.height * 0.08,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                               ),
                               child: CustomPaint(
-                                painter: DashedBorderPainter(borderRadius: 1),
+                                painter: DashedBorderPainter(borderRadius: 3),
                                 child: Container(
                                   // This nested container will contain the content of your main container
                                   decoration: BoxDecoration(
@@ -906,7 +926,7 @@ class _Home3State extends State<Home3> {
                                         padding: const EdgeInsets.fromLTRB(
                                             8, 0, 0, 0),
                                         child: Text(
-                                          "https://play.google.com/store/apps/details?\nid=om.example.e-birrapp&user_id=1",
+                                          "${challenge[index].link.substring(0, 35)}...",
                                           style: GoogleFonts.roboto(
                                             fontSize: 13,
                                             letterSpacing: 0.0,
@@ -915,24 +935,43 @@ class _Home3State extends State<Home3> {
                                         ),
                                       ),
                                       Expanded(
-                                        child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  0, 0, 8, 0),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  Clipboard.setData(ClipboardData(
-                                                      text:
-                                                          "${challenge[index].link}"));
-                                                  // Fluttertoast.showToast(
-                                                  //     msg: "Copied to clipboard",
-                                                  //     fontSize: 18);
-                                                },
-                                                child: Icon(Icons.copy),
+                                          child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              shareApp(challenge[index].link,
+                                                  challenge[index].name);
+                                            },
+                                            child: const Expanded(
+                                              child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Icon(Icons.share),
+                                                // Icon(Icons.copy),
                                               ),
-                                            )),
-                                      )
+                                            ),
+                                          ),
+                                        ),
+                                      )),
+                                      // Align(
+                                      //   alignment: Alignment.centerRight,
+                                      //   child: Padding(
+                                      //     padding:
+                                      //         EdgeInsets.fromLTRB(0, 0, 8, 0),
+                                      //     child: GestureDetector(
+                                      //       onTap: () {
+                                      //         shareApp();
+                                      //       },
+                                      //       child: Align(
+                                      //         alignment: Alignment.centerRight,
+                                      //         child: Icon(Icons.share),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // )
                                     ],
                                   ),
                                 ),

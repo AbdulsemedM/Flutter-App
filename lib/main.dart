@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      theme:  ThemeData(brightness: Brightness.light),
+      theme: ThemeData(brightness: Brightness.light),
       translations: LocaleString(),
       locale: lang == "English"
           ? const Locale('en', 'US')

@@ -461,7 +461,7 @@ class _Login_pageState extends State<Login_page> {
                                     border: InputBorder.none,
                                     labelText: "Phone Number".tr,
                                     labelStyle: GoogleFonts.playfairDisplay(
-                                      fontSize: 15,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
@@ -510,7 +510,7 @@ class _Login_pageState extends State<Login_page> {
                                     border: InputBorder.none,
                                     labelText: "Password".tr,
                                     labelStyle: GoogleFonts.playfairDisplay(
-                                      fontSize: 15,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
