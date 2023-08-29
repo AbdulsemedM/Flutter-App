@@ -216,7 +216,7 @@ class _SignupState extends State<Signup> {
                                   border: InputBorder.none,
                                   labelText: "First Name*".tr,
                                   labelStyle: GoogleFonts.playfairDisplay(
-                                    fontSize: 16,
+                                    fontSize: 13,
                                     color: Colors_selector.grey,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -246,7 +246,7 @@ class _SignupState extends State<Signup> {
                                   border: InputBorder.none,
                                   labelText: "Last Name".tr,
                                   labelStyle: GoogleFonts.playfairDisplay(
-                                    fontSize: 16,
+                                    fontSize: 13,
                                     color: Colors_selector.grey,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -280,7 +280,7 @@ class _SignupState extends State<Signup> {
                                   border: InputBorder.none,
                                   labelText: "Phone Number*".tr,
                                   labelStyle: GoogleFonts.playfairDisplay(
-                                    fontSize: 16,
+                                    fontSize: 13,
                                     color: Colors_selector.grey,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -314,7 +314,7 @@ class _SignupState extends State<Signup> {
                                   border: InputBorder.none,
                                   labelText: "Email".tr,
                                   labelStyle: GoogleFonts.playfairDisplay(
-                                    fontSize: 16,
+                                    fontSize: 13,
                                     color: Colors_selector.grey,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -349,7 +349,7 @@ class _SignupState extends State<Signup> {
                                 border: InputBorder.none,
                                 labelText: "Password*".tr,
                                 labelStyle: GoogleFonts.playfairDisplay(
-                                  fontSize: 16,
+                                  fontSize: 13,
                                   color: Colors_selector.grey,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -397,7 +397,7 @@ class _SignupState extends State<Signup> {
                                 border: InputBorder.none,
                                 labelText: "Confirm Password*".tr,
                                 labelStyle: GoogleFonts.playfairDisplay(
-                                  fontSize: 16,
+                                  fontSize: 13,
                                   color: Colors_selector.grey,
                                   fontWeight: FontWeight.bold,
                                 ),

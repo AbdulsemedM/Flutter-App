@@ -288,7 +288,7 @@ class SimplePreferences {
 
     final challenge = prefs.getStringList('challenge_key4');
     if (kDebugMode) {
-      print("getchallenge: $challenge");
+      print("getchallenge4: $challenge");
     }
     return challenge;
   }

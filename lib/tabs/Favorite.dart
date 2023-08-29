@@ -171,12 +171,12 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(17.0),
                     child: Row(
                       children: [
                         Icon(
                           Icons.apps, // Replace this with your desired icon
-                          size: 30,
+                          size: 20,
                           color: Colors
                               .grey[700], // Adjust the icon size as needed
                         ),
@@ -186,7 +186,7 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                         Text(
                           "General",
                           style: GoogleFonts.playfairDisplay(
-                            fontSize: 35,
+                            fontSize: 25,
                             color: Colors.grey[700],
                             fontWeight: FontWeight.w400,
                           ),
@@ -306,13 +306,13 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                         ],
                       )),
                   Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(17.0),
                     child: Row(
                       children: [
                         Icon(
                           Icons
                               .view_carousel, // Replace this with your desired icon
-                          size: 30,
+                          size: 20,
                           color: Colors
                               .grey[700], // Adjust the icon size as needed
                         ),
@@ -322,7 +322,7 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                         Text(
                           "More",
                           style: GoogleFonts.playfairDisplay(
-                            fontSize: 35,
+                            fontSize: 25,
                             color: Colors.grey[700],
                             fontWeight: FontWeight.w400,
                           ),
