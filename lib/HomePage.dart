@@ -8,7 +8,7 @@ import 'package:loyalty_app/login_page.dart';
 import 'package:loyalty_app/tabs/History.dart';
 // import 'package:loyalty_app/tabs/Home.dart';
 // import 'package:loyalty_app/tabs/Home2.dart';
-import 'package:loyalty_app/tabs/Home3.dart';
+// import 'package:loyalty_app/tabs/Home3.dart';
 // import 'package:loyalty_app/tabs/Profile.dart';
 import 'package:loyalty_app/tabs/Redeem.dart';
 // import 'package:loyalty_app/tabs/Search.dart';
@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
 
   /// widget list
   final List<Widget> bottomBarPages = [
-    const Home3(),
+    // const Home3(),
     const Redeem(),
     const History(),
     // const Michu(),

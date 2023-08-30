@@ -21,6 +21,7 @@ import 'package:loyalty_app/Signup.dart';
 import 'package:loyalty_app/colors.dart';
 // import 'package:protest/tabs/Home.dart';
 import 'package:get/get.dart';
+// import 'package:loyalty_app/tabs/Home3.dart';
 // import 'package:loyalty_app/Home.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +36,52 @@ class Login_page extends StatefulWidget {
   _Login_pageState createState() => _Login_pageState();
 }
 
+class ChallengeData {
+  final String totalPoints;
+  final String equivalentETB;
+  final String levelName;
+  final String levelColor;
+  // final List<LevelDetail> levelDetails;
+  // final List<UserChallengeDTO> userChallengeDTOs;
+
+  ChallengeData({
+    required this.totalPoints,
+    required this.equivalentETB,
+    required this.levelName,
+    required this.levelColor,
+    // required this.levelDetails,
+    // required this.userChallengeDTOs,
+  });
+}
+
+class LevelDetail {
+  final String levelName;
+  final String points;
+  final String status;
+
+  LevelDetail({
+    required this.levelName,
+    required this.points,
+    required this.status,
+  });
+}
+
+class UserChallengeDTO {
+  final String challengeLogo;
+  final String challengeName;
+  final String pointsEarned;
+  final String awardPoints;
+  final String affliateLink;
+
+  UserChallengeDTO({
+    required this.challengeLogo,
+    required this.challengeName,
+    required this.pointsEarned,
+    required this.awardPoints,
+    required this.affliateLink,
+  });
+}
+
 // ignore: camel_case_types
 class _Login_pageState extends State<Login_page> {
   bool _passwordVisible = false;
@@ -42,6 +89,7 @@ class _Login_pageState extends State<Login_page> {
   TextEditingController pnumber = TextEditingController();
   TextEditingController password = TextEditingController();
   String? isOn = "false";
+
   // late Color pair1;
   // late Color pair2;
   // late Color? black;
@@ -50,6 +98,9 @@ class _Login_pageState extends State<Login_page> {
   // var pair2 = Colors_selector.pair2;
   // Color? pair3 = Colors_selector.pair3;
   // Color? pair4 = Colors_selector.pair4;
+  List<LevelDetail> challengeLevelDetails = [];
+  List<UserChallengeDTO> challengeUserChallengeDTOs = [];
+  late ChallengeData challengeData;
 
   @override
   void initState() {
@@ -186,6 +237,147 @@ class _Login_pageState extends State<Login_page> {
           } else {
             print('No data found in the response.');
           }
+          // try {
+          //   final challenge = await http.get(
+          //     Uri.http('10.1.177.123:9000',
+          //         'api/userChallenges/getByUsername/${pnumber.text.toString()}'),
+          //     headers: <String, String>{
+          //       'Content-Type': 'application/json; charset=UTF-8',
+          //     },
+          //   ).timeout(Duration(seconds: 15));
+          //   // print(challenge.body);
+          //   if (challenge.statusCode == 200) {
+          //     final jsonData = "[" + challenge.body + "]";
+          //     List<Map<dynamic, dynamic>> datas =
+          //         (jsonDecode(jsonData) as List).cast<Map<String, dynamic>>();
+          //     print(datas);
+          //     if (datas.isNotEmpty) {
+          //       Map<dynamic, dynamic> data = datas.first;
+          //       String totalPoints = data['totalPoints'];
+          //       String equivalentETB = data['equivalentETB'];
+          //       String levelName = data['levelName'];
+          //       String levelColor = data['levelColor'];
+          //       List<String> userData = [
+          //         totalPoints,
+          //         equivalentETB,
+          //         levelName,
+          //         levelColor
+          //       ];
+          //       SimplePreferences preferences = SimplePreferences();
+          //       await preferences.setData(userData);
+          //       List levelDetails = data['levelDetails'];
+          //       List challengeDTO = data['userChallengeDTOs'];
+          //       // Map<dynamic, dynamic> bronze = levelDetails.first;
+          //       // String levelName1 = bronze["levelName"];
+          //       // String points = bronze["points"];
+          //       // String status = bronze["status"];
+          //       for (var levelDetail in levelDetails) {
+          //         if (levelDetail['levelName'] == 'Bronze') {
+          //           String levelName1 = levelDetail["levelName"];
+          //           String points = levelDetail["points"];
+          //           String status = levelDetail["status"];
+          //           List<String> bronzeData = [levelName1, points, status];
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setBronze(bronzeData);
+          //           // print("hereeee");
+          //           // print(points);
+          //           break; // Assuming there is only one "Silver" level; break out of the loop when found
+          //         }
+          //       }
+          //       for (var levelDetail in levelDetails) {
+          //         if (levelDetail['levelName'] == 'Silver') {
+          //           String levelName1 = levelDetail["levelName"];
+          //           String points = levelDetail["points"];
+          //           String status = levelDetail["status"];
+          //           List<String> silverData = [levelName1, points, status];
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setSilver(silverData);
+          //           // print("hereeee");
+          //           // print(points);
+          //           break; // Assuming there is only one "Silver" level; break out of the loop when found
+          //         }
+          //       }
+          //       for (var levelDetail in levelDetails) {
+          //         if (levelDetail['levelName'] == 'Gold') {
+          //           String levelName1 = levelDetail["levelName"];
+          //           String points = levelDetail["points"];
+          //           String status = levelDetail["status"];
+          //           List<String> goldData = [levelName1, points, status];
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setGold(goldData);
+          //           // print("hereeee");
+          //           // print(points);
+          //           break; // Assuming there is only one "Silver" level; break out of the loop when found
+          //         }
+          //       }
+          //       for (var levelDetail in levelDetails) {
+          //         if (levelDetail['levelName'] == 'Platinium') {
+          //           String levelName1 = levelDetail["levelName"];
+          //           String points = levelDetail["points"];
+          //           String status = levelDetail["status"];
+          //           List<String> platiniumData = [levelName1, points, status];
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setPlatinium(platiniumData);
+          //           // print("hereeee");
+          //           // print(points);
+          //           break; // Assuming there is only one "Silver" level; break out of the loop when found
+          //         }
+          //       }
+
+          //       // print(challengeDTO);
+          //       // print("hereeee");
+          //       for (int index = 0; index < challengeDTO.length; index++) {
+          //         var length = challengeDTO[index];
+          //         String challengeLogo = length["challengeLogo"];
+          //         String affliateLink = length["affliateLink"];
+          //         String awardPoints = length["awardPoints"];
+          //         String pointsEarned = length["pointsEarned"];
+          //         String challengeName = length["challengeName"];
+          //         List<String> challengeData = [
+          //           challengeLogo,
+          //           affliateLink,
+          //           awardPoints,
+          //           pointsEarned,
+          //           challengeName
+          //         ];
+          //         // String preferenceName = 'setChallenge$index';
+          //         if (index == 0) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge0(challengeData);
+          //         } else if (index == 1) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge1(challengeData);
+          //         } else if (index == 2) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge2(challengeData);
+          //         } else if (index == 3) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge3(challengeData);
+          //         } else if (index == 4) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge4(challengeData);
+          //         } else if (index == 5) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge5(challengeData);
+          //         } else if (index == 6) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge6(challengeData);
+          //         } else if (index == 7) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge7(challengeData);
+          //         } else if (index == 8) {
+          //           SimplePreferences preferences = SimplePreferences();
+          //           await preferences.setChallenge8(challengeData);
+          //         }
+          //         // await preferences.setChallenge$index(challengeData);
+          //         // await preferences.setStringList(preferenceName, challengeData);
+          //         // print("hereeee");
+          //         // print(challengeLogo);
+          //       }
+          //     }
+          //   }
+          // } catch (e) {}
+
           try {
             final challenge = await http.get(
               Uri.http('10.1.177.123:9000',
@@ -193,138 +385,47 @@ class _Login_pageState extends State<Login_page> {
               headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
               },
-            ).timeout(Duration(seconds: 15));
+            );
             // print(challenge.body);
-            if (challenge.statusCode == 200) {
-              final jsonData = "[" + challenge.body + "]";
-              List<Map<dynamic, dynamic>> datas =
-                  (jsonDecode(jsonData) as List).cast<Map<String, dynamic>>();
-              print(datas);
-              if (datas.isNotEmpty) {
-                Map<dynamic, dynamic> data = datas.first;
-                String totalPoints = data['totalPoints'];
-                String equivalentETB = data['equivalentETB'];
-                String levelName = data['levelName'];
-                String levelColor = data['levelColor'];
-                List<String> userData = [
-                  totalPoints,
-                  equivalentETB,
-                  levelName,
-                  levelColor
-                ];
-                SimplePreferences preferences = SimplePreferences();
-                await preferences.setData(userData);
-                List levelDetails = data['levelDetails'];
-                List challengeDTO = data['userChallengeDTOs'];
-                // Map<dynamic, dynamic> bronze = levelDetails.first;
-                // String levelName1 = bronze["levelName"];
-                // String points = bronze["points"];
-                // String status = bronze["status"];
-                for (var levelDetail in levelDetails) {
-                  if (levelDetail['levelName'] == 'Bronze') {
-                    String levelName1 = levelDetail["levelName"];
-                    String points = levelDetail["points"];
-                    String status = levelDetail["status"];
-                    List<String> bronzeData = [levelName1, points, status];
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setBronze(bronzeData);
-                    // print("hereeee");
-                    // print(points);
-                    break; // Assuming there is only one "Silver" level; break out of the loop when found
-                  }
-                }
-                for (var levelDetail in levelDetails) {
-                  if (levelDetail['levelName'] == 'Silver') {
-                    String levelName1 = levelDetail["levelName"];
-                    String points = levelDetail["points"];
-                    String status = levelDetail["status"];
-                    List<String> silverData = [levelName1, points, status];
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setSilver(silverData);
-                    // print("hereeee");
-                    // print(points);
-                    break; // Assuming there is only one "Silver" level; break out of the loop when found
-                  }
-                }
-                for (var levelDetail in levelDetails) {
-                  if (levelDetail['levelName'] == 'Gold') {
-                    String levelName1 = levelDetail["levelName"];
-                    String points = levelDetail["points"];
-                    String status = levelDetail["status"];
-                    List<String> goldData = [levelName1, points, status];
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setGold(goldData);
-                    // print("hereeee");
-                    // print(points);
-                    break; // Assuming there is only one "Silver" level; break out of the loop when found
-                  }
-                }
-                for (var levelDetail in levelDetails) {
-                  if (levelDetail['levelName'] == 'Platinium') {
-                    String levelName1 = levelDetail["levelName"];
-                    String points = levelDetail["points"];
-                    String status = levelDetail["status"];
-                    List<String> platiniumData = [levelName1, points, status];
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setPlatinium(platiniumData);
-                    // print("hereeee");
-                    // print(points);
-                    break; // Assuming there is only one "Silver" level; break out of the loop when found
-                  }
-                }
-
-                // print(challengeDTO);
-                // print("hereeee");
-                for (int index = 0; index < challengeDTO.length; index++) {
-                  var length = challengeDTO[index];
-                  String challengeLogo = length["challengeLogo"];
-                  String affliateLink = length["affliateLink"];
-                  String awardPoints = length["awardPoints"];
-                  String pointsEarned = length["pointsEarned"];
-                  String challengeName = length["challengeName"];
-                  List<String> challengeData = [
-                    challengeLogo,
-                    affliateLink,
-                    awardPoints,
-                    pointsEarned,
-                    challengeName
-                  ];
-                  // String preferenceName = 'setChallenge$index';
-                  if (index == 0) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge0(challengeData);
-                  } else if (index == 1) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge1(challengeData);
-                  } else if (index == 2) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge2(challengeData);
-                  } else if (index == 3) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge3(challengeData);
-                  } else if (index == 4) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge4(challengeData);
-                  } else if (index == 5) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge5(challengeData);
-                  } else if (index == 6) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge6(challengeData);
-                  } else if (index == 7) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge7(challengeData);
-                  } else if (index == 8) {
-                    SimplePreferences preferences = SimplePreferences();
-                    await preferences.setChallenge8(challengeData);
-                  }
-                  // await preferences.setChallenge$index(challengeData);
-                  // await preferences.setStringList(preferenceName, challengeData);
-                  // print("hereeee");
-                  // print(challengeLogo);
-                }
-              }
+            var Data = jsonDecode(challenge.body);
+            // List<LevelDetail> levelDetails = [];
+            // List<UserChallengeDTO> userChallengeDTOs = [];
+            // List<ChallengeData> newChallenge = [];
+            // for (var challenge in Data) {
+            // Iterate through levelDetails in the challenge
+            for (var levelDetail in Data['levelDetails']) {
+              challengeLevelDetails.add(LevelDetail(
+                levelName: levelDetail['levelName'],
+                points: levelDetail['points'],
+                status: levelDetail['status'],
+              ));
             }
+
+            // Iterate through userChallengeDTOs in the challenge
+            for (var userChallengeDTO in Data['userChallengeDTOs']) {
+              challengeUserChallengeDTOs.add(UserChallengeDTO(
+                challengeLogo: userChallengeDTO['challengeLogo'],
+                challengeName: userChallengeDTO['challengeName'],
+                pointsEarned: userChallengeDTO['pointsEarned'],
+                awardPoints: userChallengeDTO['awardPoints'],
+                affliateLink: userChallengeDTO['affliateLink'],
+              ));
+            }
+            challengeData = ChallengeData(
+              totalPoints: Data['totalPoints'],
+              equivalentETB: Data['equivalentETB'],
+              levelName: Data['levelName'],
+              levelColor: Data['levelColor'],
+              // levelDetails: challengeLevelDetails,
+              // userChallengeDTOs: challengeUserChallengeDTOs,
+            );
+            // }
+            for (int i = 0; i < challengeLevelDetails.length; i++) {
+              print("hereeee we go !!!${challengeLevelDetails[i].levelName}");
+            }
+            // for (var index in challengeLevelDetails) {
+            //   print(challengeData.totalPoints);
+            // }
           } catch (e) {}
 
           setState(() {
@@ -333,7 +434,12 @@ class _Login_pageState extends State<Login_page> {
 
           // ignore: use_build_context_synchronously
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Home()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Home(
+                      challengeUserChallengeDTOs: challengeUserChallengeDTOs,
+                      challengeLevelDetails: challengeLevelDetails,
+                      challengeData: challengeData)));
           setState(() {
             loading = false;
           });
