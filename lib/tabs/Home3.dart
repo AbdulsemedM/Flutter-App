@@ -937,7 +937,6 @@ class _Home3State extends State<Home3> {
                               child: CustomPaint(
                                 painter: DashedBorderPainter(borderRadius: 3),
                                 child: Container(
-                                  // This nested container will contain the content of your main container
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                   ),
@@ -956,14 +955,14 @@ class _Home3State extends State<Home3> {
                                         ),
                                       ),
                                       Expanded(
-                                          child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 0, 10, 0),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              shareApp(
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0, 0, 10, 0),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                shareApp(
                                                   widget
                                                       .challengeUserChallengeDTOs[
                                                           index]
@@ -971,35 +970,18 @@ class _Home3State extends State<Home3> {
                                                   widget
                                                       .challengeUserChallengeDTOs[
                                                           index]
-                                                      .challengeName);
-                                            },
-                                            child: const Expanded(
+                                                      .challengeName,
+                                                );
+                                              },
                                               child: Align(
                                                 alignment:
                                                     Alignment.centerRight,
                                                 child: Icon(Icons.share),
-                                                // Icon(Icons.copy),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      )),
-                                      // Align(
-                                      //   alignment: Alignment.centerRight,
-                                      //   child: Padding(
-                                      //     padding:
-                                      //         EdgeInsets.fromLTRB(0, 0, 8, 0),
-                                      //     child: GestureDetector(
-                                      //       onTap: () {
-                                      //         shareApp();
-                                      //       },
-                                      //       child: Align(
-                                      //         alignment: Alignment.centerRight,
-                                      //         child: Icon(Icons.share),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      // )
+                                      ),
                                     ],
                                   ),
                                 ),
