@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loyalty_app/tabs/Home3.dart';
+// import 'package:loyalty_app/tabs/Home3.dart';
 // import 'package:loyalty_app/tabs/Michu.dart';
 
 import '../colors.dart';
@@ -84,14 +84,14 @@ class _Home2State extends State<Home2> {
           if (data['isEnabled'] == true) {
             // You can customize the onPressed action here
             // For example, navigate to the corresponding screen
-            // or show a message
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    Home3(), // Replace with your screen widget
-              ),
-            );
+            // // or show a message
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) =>
+            //         Home3(), // Replace with your screen widget
+            //   ),
+            // );
           }
         },
         disabled: data['isEnabled'] != true,

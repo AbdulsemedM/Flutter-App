@@ -13,8 +13,18 @@ import 'package:loyalty_app/utils/simple_preference.dart';
 import 'colors.dart';
 import 'login_page.dart';
 
+// ignore: must_be_immutable
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final List<UserChallengeDTO> challengeUserChallengeDTOs;
+  final List<LevelDetail> challengeLevelDetails;
+  final ChallengeData challengeData;
+
+  const Home({
+    Key? key,
+    required this.challengeUserChallengeDTOs,
+    required this.challengeLevelDetails,
+    required this.challengeData,
+  }) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -41,6 +51,10 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     pageController = PageController(initialPage: _tabIndex);
+    // List<UserChallengeDTO> challengeUserChallengeDTOs =
+    //     widget.challengeUserChallengeDTOs;
+    // List<LevelDetail> challengeLevelDetails = widget.challengeLevelDetails;
+    // ChallengeData challengeData = widget.challengeData;
   }
 
   @override
@@ -50,14 +64,18 @@ class _HomeState extends State<Home> {
   }
 
   /// widget list
-  final List<Widget> bottomBarPages = [
-    const Redeem(),
-    const Home3(),
-    const Favorite(),
-    // const Michu(),
-  ];
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> bottomBarPages = [
+      const Redeem(),
+      Home3(
+          challengeUserChallengeDTOs: widget.challengeUserChallengeDTOs,
+          challengeLevelDetails: widget.challengeLevelDetails,
+          challengeData: widget.challengeData),
+      const Favorite(),
+      // const Michu(),
+    ];
     return WillPopScope(
       onWillPop: () => _onBackButtonPressed(context),
       child: SafeArea(
