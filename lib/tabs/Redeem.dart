@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
+import 'package:http/http.dart' as http;
+
+List<RedeemOptions> newRedeemOptions = [];
 
 class Redeem extends StatefulWidget {
   const Redeem({super.key});
@@ -72,6 +77,13 @@ class _RedeemState extends State<Redeem> {
     // RedeemOptions(
     //     image: Image.asset(""), title: "Point Transfer", capacity: "349ETB"),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPackages();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -392,4 +404,26 @@ class _RedeemState extends State<Redeem> {
       ),
     );
   }
+}
+
+void fetchPackages() async {
+  try {
+    final response = await http.get(
+      Uri.http('10.1.177.123:9000', '/api/packages/getPackages'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    var packages = jsonDecode(response.body);
+
+    for (var package in packages) {
+      // print(transaction.date);
+      var packageData = RedeemOptions(
+          image: package['logo'],
+          title: package['packageName'],
+          capacity: package['isEnabled']);
+      newRedeemOptions.add(packageData);
+    }
+    print(newRedeemOptions.length);
+  } catch (e) {}
 }
