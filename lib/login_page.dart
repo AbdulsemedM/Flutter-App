@@ -1,32 +1,20 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-// import 'dart:convert';
 import 'dart:convert';
 import 'dart:io';
-
-// import 'package:cooplay/Forgot_pw.dart';
-// import 'package:cooplay/Signup.dart';
-// import 'package:cooplay/home.dart';
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-// import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:loyalty_app/Forgot_pw.dart';
 import 'package:loyalty_app/Home.dart';
-// import 'package:loyalty_app/HomePage.dart';
 import 'package:loyalty_app/Signup.dart';
 import 'package:loyalty_app/colors.dart';
-// import 'package:protest/tabs/Home.dart';
 import 'package:get/get.dart';
-// import 'package:loyalty_app/tabs/Home3.dart';
-// import 'package:loyalty_app/Home.dart';
+
 import 'package:loyalty_app/utils/simple_preference.dart';
 import 'package:http/http.dart' as http;
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:protest/LocalString.dart';
 
 // ignore: camel_case_types
 class Login_page extends StatefulWidget {
@@ -41,16 +29,12 @@ class ChallengeData {
   final String equivalentETB;
   final String levelName;
   final String levelColor;
-  // final List<LevelDetail> levelDetails;
-  // final List<UserChallengeDTO> userChallengeDTOs;
 
   ChallengeData({
     required this.totalPoints,
     required this.equivalentETB,
     required this.levelName,
     required this.levelColor,
-    // required this.levelDetails,
-    // required this.userChallengeDTOs,
   });
 }
 
@@ -89,15 +73,6 @@ class _Login_pageState extends State<Login_page> {
   TextEditingController pnumber = TextEditingController();
   TextEditingController password = TextEditingController();
   String? isOn = "false";
-
-  // late Color pair1;
-  // late Color pair2;
-  // late Color? black;
-  // late Color? primary;
-  // var pair1 = Colors_selector.pair1;
-  // var pair2 = Colors_selector.pair2;
-  // Color? pair3 = Colors_selector.pair3;
-  // Color? pair4 = Colors_selector.pair4;
   List<LevelDetail> challengeLevelDetails = [];
   List<UserChallengeDTO> challengeUserChallengeDTOs = [];
   late ChallengeData challengeData;
@@ -109,18 +84,6 @@ class _Login_pageState extends State<Login_page> {
     // _setColors();
     // WidgetsBinding.instance.addObserver(this);
   }
-
-  // Future<void> _checkDarkMode() async {
-  //   isOn = await SimplePreferences().getIsOn() ?? isOn;
-  //   print(isOn);
-  // }
-
-  // void _setColors() {
-  //   pair1 = (isOn != "true" ? Colors_selector.pair1 : Colors_selector.pair3);
-  //   pair2 = (isOn != "true" ? Colors_selector.pair2 : Colors_selector.pair4);
-  //   primary = (isOn != "true" ? Colors_selector.primaryColor : null);
-  //   black = (isOn != "true" ? Colors_selector.grey : null);
-  // }
 
   final List locale = [
     {'name': 'English', 'locale': Locale('en', 'US')},
@@ -237,146 +200,6 @@ class _Login_pageState extends State<Login_page> {
           } else {
             print('No data found in the response.');
           }
-          // try {
-          //   final challenge = await http.get(
-          //     Uri.http('10.1.177.123:9000',
-          //         'api/userChallenges/getByUsername/${pnumber.text.toString()}'),
-          //     headers: <String, String>{
-          //       'Content-Type': 'application/json; charset=UTF-8',
-          //     },
-          //   ).timeout(Duration(seconds: 15));
-          //   // print(challenge.body);
-          //   if (challenge.statusCode == 200) {
-          //     final jsonData = "[" + challenge.body + "]";
-          //     List<Map<dynamic, dynamic>> datas =
-          //         (jsonDecode(jsonData) as List).cast<Map<String, dynamic>>();
-          //     print(datas);
-          //     if (datas.isNotEmpty) {
-          //       Map<dynamic, dynamic> data = datas.first;
-          //       String totalPoints = data['totalPoints'];
-          //       String equivalentETB = data['equivalentETB'];
-          //       String levelName = data['levelName'];
-          //       String levelColor = data['levelColor'];
-          //       List<String> userData = [
-          //         totalPoints,
-          //         equivalentETB,
-          //         levelName,
-          //         levelColor
-          //       ];
-          //       SimplePreferences preferences = SimplePreferences();
-          //       await preferences.setData(userData);
-          //       List levelDetails = data['levelDetails'];
-          //       List challengeDTO = data['userChallengeDTOs'];
-          //       // Map<dynamic, dynamic> bronze = levelDetails.first;
-          //       // String levelName1 = bronze["levelName"];
-          //       // String points = bronze["points"];
-          //       // String status = bronze["status"];
-          //       for (var levelDetail in levelDetails) {
-          //         if (levelDetail['levelName'] == 'Bronze') {
-          //           String levelName1 = levelDetail["levelName"];
-          //           String points = levelDetail["points"];
-          //           String status = levelDetail["status"];
-          //           List<String> bronzeData = [levelName1, points, status];
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setBronze(bronzeData);
-          //           // print("hereeee");
-          //           // print(points);
-          //           break; // Assuming there is only one "Silver" level; break out of the loop when found
-          //         }
-          //       }
-          //       for (var levelDetail in levelDetails) {
-          //         if (levelDetail['levelName'] == 'Silver') {
-          //           String levelName1 = levelDetail["levelName"];
-          //           String points = levelDetail["points"];
-          //           String status = levelDetail["status"];
-          //           List<String> silverData = [levelName1, points, status];
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setSilver(silverData);
-          //           // print("hereeee");
-          //           // print(points);
-          //           break; // Assuming there is only one "Silver" level; break out of the loop when found
-          //         }
-          //       }
-          //       for (var levelDetail in levelDetails) {
-          //         if (levelDetail['levelName'] == 'Gold') {
-          //           String levelName1 = levelDetail["levelName"];
-          //           String points = levelDetail["points"];
-          //           String status = levelDetail["status"];
-          //           List<String> goldData = [levelName1, points, status];
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setGold(goldData);
-          //           // print("hereeee");
-          //           // print(points);
-          //           break; // Assuming there is only one "Silver" level; break out of the loop when found
-          //         }
-          //       }
-          //       for (var levelDetail in levelDetails) {
-          //         if (levelDetail['levelName'] == 'Platinium') {
-          //           String levelName1 = levelDetail["levelName"];
-          //           String points = levelDetail["points"];
-          //           String status = levelDetail["status"];
-          //           List<String> platiniumData = [levelName1, points, status];
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setPlatinium(platiniumData);
-          //           // print("hereeee");
-          //           // print(points);
-          //           break; // Assuming there is only one "Silver" level; break out of the loop when found
-          //         }
-          //       }
-
-          //       // print(challengeDTO);
-          //       // print("hereeee");
-          //       for (int index = 0; index < challengeDTO.length; index++) {
-          //         var length = challengeDTO[index];
-          //         String challengeLogo = length["challengeLogo"];
-          //         String affliateLink = length["affliateLink"];
-          //         String awardPoints = length["awardPoints"];
-          //         String pointsEarned = length["pointsEarned"];
-          //         String challengeName = length["challengeName"];
-          //         List<String> challengeData = [
-          //           challengeLogo,
-          //           affliateLink,
-          //           awardPoints,
-          //           pointsEarned,
-          //           challengeName
-          //         ];
-          //         // String preferenceName = 'setChallenge$index';
-          //         if (index == 0) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge0(challengeData);
-          //         } else if (index == 1) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge1(challengeData);
-          //         } else if (index == 2) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge2(challengeData);
-          //         } else if (index == 3) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge3(challengeData);
-          //         } else if (index == 4) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge4(challengeData);
-          //         } else if (index == 5) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge5(challengeData);
-          //         } else if (index == 6) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge6(challengeData);
-          //         } else if (index == 7) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge7(challengeData);
-          //         } else if (index == 8) {
-          //           SimplePreferences preferences = SimplePreferences();
-          //           await preferences.setChallenge8(challengeData);
-          //         }
-          //         // await preferences.setChallenge$index(challengeData);
-          //         // await preferences.setStringList(preferenceName, challengeData);
-          //         // print("hereeee");
-          //         // print(challengeLogo);
-          //       }
-          //     }
-          //   }
-          // } catch (e) {}
 
           try {
             final challenge = await http.get(
@@ -388,11 +211,7 @@ class _Login_pageState extends State<Login_page> {
             );
             // print(challenge.body);
             var Data = jsonDecode(challenge.body);
-            // List<LevelDetail> levelDetails = [];
-            // List<UserChallengeDTO> userChallengeDTOs = [];
-            // List<ChallengeData> newChallenge = [];
-            // for (var challenge in Data) {
-            // Iterate through levelDetails in the challenge
+
             for (var levelDetail in Data['levelDetails']) {
               challengeLevelDetails.add(LevelDetail(
                 levelName: levelDetail['levelName'],
@@ -416,16 +235,10 @@ class _Login_pageState extends State<Login_page> {
               equivalentETB: Data['equivalentETB'],
               levelName: Data['levelName'],
               levelColor: Data['levelColor'],
-              // levelDetails: challengeLevelDetails,
-              // userChallengeDTOs: challengeUserChallengeDTOs,
             );
-            // }
             for (int i = 0; i < challengeLevelDetails.length; i++) {
               print("hereeee we go !!!${challengeLevelDetails[i].levelName}");
             }
-            // for (var index in challengeLevelDetails) {
-            //   print(challengeData.totalPoints);
-            // }
           } catch (e) {}
 
           setState(() {
@@ -626,9 +439,9 @@ class _Login_pageState extends State<Login_page> {
                           ),
                         ),
 
-                        SizedBox(height: screenHeight * 0.01),
+                        SizedBox(height: screenHeight * 0.02),
                         Padding(
-                          padding: const EdgeInsets.only(left: 24),
+                          padding: EdgeInsets.only(left: screenWidth * 0.1),
                           child: Row(
                             children: [
                               GestureDetector(
@@ -697,51 +510,55 @@ class _Login_pageState extends State<Login_page> {
                         SizedBox(height: screenHeight * 0.02),
                         SizedBox(height: screenHeight * 0.08),
 
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  child: Text(
-                                    "Don't have an account? ".tr,
-                                    style: GoogleFonts.playfairDisplay(
-                                      color: Colors
-                                          .black, // You can use your color here
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Signup(),
-                                        ),
-                                      );
-                                    },
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.1),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
                                     child: Text(
-                                      "Signup here".tr,
+                                      "Don't have an account? ".tr,
                                       style: GoogleFonts.playfairDisplay(
-                                        color: Colors_selector
-                                            .primmary1, // You can use your color here
+                                        color: Colors
+                                            .black, // You can use your color here
                                         fontSize: 15,
-                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Signup(),
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        "Signup here".tr,
+                                        style: GoogleFonts.playfairDisplay(
+                                          color: Colors_selector
+                                              .primmary1, // You can use your color here
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         // SizedBox(height: screenHeight * 0.08),
                         // Text(

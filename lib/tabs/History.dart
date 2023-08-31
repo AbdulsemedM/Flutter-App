@@ -330,17 +330,22 @@ class _HistoryState extends State<History> {
             ),
           ),
           loading
-              ? Center(
-                  child: CircularProgressIndicator(
-                  color: Colors_selector.primmary1,
-                ))
+              ? Container(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: MediaQuery.of(context).size.width * 0.90,
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    color: Colors_selector.primmary1,
+                  )),
+                )
               : Container(
                   height: MediaQuery.of(context).size.height * 0.8,
                   width: MediaQuery.of(context).size.width * 0.90,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
-                      DateTime transactionDate = filteredTransactions[index].date;
+                      DateTime transactionDate =
+                          filteredTransactions[index].date;
 
                       String formattedDate =
                           DateFormat('yyyy-MM-dd').format(transactionDate);

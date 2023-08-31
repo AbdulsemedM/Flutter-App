@@ -149,7 +149,6 @@ class _HomeState extends State<Home> {
                     List<String> user = [];
                     SimplePreferences preferences = SimplePreferences();
                     await preferences.setUser(user);
-                    await preferences.setChallenge0(user);
                     // ignore: use_build_context_synchronously
                     Navigator.pushReplacement<void, void>(
                       context,
