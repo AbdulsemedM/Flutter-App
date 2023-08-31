@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:http/http.dart' as http;
-
-List<RedeemOptions> newRedeemOptions = [];
 
 class Redeem extends StatefulWidget {
   const Redeem({super.key});
@@ -18,71 +17,28 @@ class RedeemOptions {
   final String image;
   final String title;
   final String capacity;
+  final bool isEnabled;
 
   RedeemOptions({
     required this.image,
     required this.title,
     required this.capacity,
+    required this.isEnabled,
   });
 }
 
 class _RedeemState extends State<Redeem> {
-  final List<RedeemOptions> Data = [
-    RedeemOptions(
-        image: "assets/images/dstv.png",
-        title: "DStv",
-        capacity: "Meda package"),
-    RedeemOptions(
-        image: "assets/images/etb.png",
-        title: "To account",
-        capacity: "156 ETB"),
-    RedeemOptions(
-        image: "assets/images/topup.png",
-        title: "Mobile Top-up",
-        capacity: "156 ETB"),
-    // RedeemOptions(
-    //     image: "", title: "To wallet", capacity: "433ETB"),
-    RedeemOptions(
-        image: "assets/images/canal.png",
-        title: "Canal Plus",
-        capacity: "Gojo package"),
-    RedeemOptions(
-        image: "assets/images/donate.jpg",
-        title: "Donate",
-        capacity: "156 ETB"),
-    RedeemOptions(
-        image: "assets/images/dstv.png",
-        title: "DStv",
-        capacity: "Meda package"),
-    RedeemOptions(
-        image: "assets/images/etb.png",
-        title: "To account",
-        capacity: "156 ETB"),
-    RedeemOptions(
-        image: "assets/images/topup.png",
-        title: "Mobile Top-up",
-        capacity: "156 ETB"),
-    // RedeemOptions(
-    //     image: "", title: "To wallet", capacity: "433ETB"),
-    RedeemOptions(
-        image: "assets/images/canal.png",
-        title: "Canal Plus",
-        capacity: "Gojo package"),
-    RedeemOptions(
-        image: "assets/images/donate.jpg",
-        title: "Donate",
-        capacity: "156 ETB"),
-    // RedeemOptions(
-    //     image: Image.asset(""), title: "Git card", capacity: "673ETB"),
-    // RedeemOptions(
-    //     image: Image.asset(""), title: "Point Transfer", capacity: "349ETB"),
-  ];
+  List<RedeemOptions> redeemOptions = [];
 
   @override
   void initState() {
     super.initState();
     fetchPackages();
   }
+
+  bool loading = true;
+  String convert = "";
+  bool converts = false;
 
   @override
   Widget build(BuildContext context) {
@@ -134,85 +90,91 @@ class _RedeemState extends State<Redeem> {
                   ),
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.4,
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: GridView.builder(
-                    itemCount: Data.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 0,
-                        crossAxisSpacing: 4),
-                    itemBuilder: (BuildContext context, int index) {
-                      // return Container(
-                      //   width:
-                      //       30, // Adjust the width of the container as needed
-                      //   height:
-                      //       50, // Adjust the height of the container as needed
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(10),
-                      //     border: Border.all(color: Colors.grey, width: 2),
-                      //   ),
-                      //   child: Column(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: [
-                      //       Icon(
-                      //         Icons.abc,
-                      //         size: 20, // Adjust the icon size as needed
-                      //         color: Colors_selector
-                      //             .secondaryColor, // Adjust the icon color as needed
-                      //       ),
-                      //       // SizedBox(height: 10),
-                      //       Text(
-                      //         "name",
-                      //         style: TextStyle(
-                      //             fontSize: 10, fontWeight: FontWeight.bold),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // );
-                      return Container(
-                        height: 100,
-                        width: 110,
-                        child: Card(
-                          shadowColor: Colors.cyan,
-                          child: Column(
-                            children: [
-                              // SizedBox(
-                              //   height: 10,
-                              // ),
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Image.asset(
-                                    Data[index].image,
-                                    height: 40,
-                                    width: 70,
+              loading
+                  ? Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Colors_selector.primaryColor,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: GridView.builder(
+                          itemCount: redeemOptions.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  mainAxisSpacing: 0,
+                                  crossAxisSpacing: 4),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 100,
+                              width: 110,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (redeemOptions[index].isEnabled) {
+                                      convert = redeemOptions[index].title;
+                                      converts = true;
+                                    } else {
+                                      var message =
+                                          'Sorry ${redeemOptions[index].title} is not active for now';
+                                      Fluttertoast.showToast(
+                                          msg: message, fontSize: 18);
+                                      setState(() {
+                                        converts = false;
+                                        convert = "";
+                                      });
+                                    }
+                                  });
+                                },
+                                child: Card(
+                                  color: redeemOptions[index].isEnabled
+                                      ? Colors.white
+                                      : Colors.grey[200],
+                                  shadowColor: Colors.cyan,
+                                  child: Column(
+                                    children: [
+                                      // SizedBox(
+                                      //   height: 10,
+                                      // ),
+                                      Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Image.network(
+                                            redeemOptions[index].image,
+                                            height: 40,
+                                            width: 70,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: Text(
+                                          redeemOptions[index].title,
+                                          style: GoogleFonts.roboto(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 12),
+                                        ),
+                                      ),
+                                      // Text(
+                                      //   Data[index].capacity,
+                                      //   style: GoogleFonts.roboto(
+                                      //     color: Colors.grey,
+                                      //   ),
+                                      // ),
+                                    ],
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text(
-                                  Data[index].title,
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 12),
-                                ),
-                              ),
-                              // Text(
-                              //   Data[index].capacity,
-                              //   style: GoogleFonts.roboto(
-                              //     color: Colors.grey,
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              ),
+                            );
+                          }),
+                    ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Divider(
@@ -378,13 +340,15 @@ class _RedeemState extends State<Redeem> {
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Colors_selector
-                              .primmary1, // You can use your color here
+                          color: converts
+                              ? Colors_selector.primmary1
+                              : Colors_selector
+                                  .pair2, // You can use your color here
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Center(
                           child: Text(
-                            "Convert points to ETB",
+                            "Convert points to $convert",
                             style: GoogleFonts.roboto(
                               color:
                                   Colors.white, // You can use your color here
@@ -404,26 +368,34 @@ class _RedeemState extends State<Redeem> {
       ),
     );
   }
-}
 
-void fetchPackages() async {
-  try {
-    final response = await http.get(
-      Uri.http('10.1.177.123:9000', '/api/packages/getPackages'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-    );
-    var packages = jsonDecode(response.body);
+  void fetchPackages() async {
+    try {
+      final response = await http.get(
+        Uri.http('10.1.177.123:9000', '/api/packages/getPackages'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      var packages = jsonDecode(response.body);
+      List<RedeemOptions> newRedeemOptions = [];
 
-    for (var package in packages) {
-      // print(transaction.date);
-      var packageData = RedeemOptions(
-          image: package['logo'],
-          title: package['packageName'],
-          capacity: package['isEnabled']);
-      newRedeemOptions.add(packageData);
+      for (var package in packages) {
+        // print(transaction.date);
+        var packageData = RedeemOptions(
+            image: package['logo'],
+            title: package['packageName'],
+            capacity: package['packageId'].toString(),
+            isEnabled: package['isEnabeled']);
+        newRedeemOptions.add(packageData);
+      }
+      redeemOptions.addAll(newRedeemOptions);
+      print(redeemOptions[0].isEnabled);
+      setState(() {
+        loading = false;
+      });
+    } catch (e) {
+      print(e.toString());
     }
-    print(newRedeemOptions.length);
-  } catch (e) {}
+  }
 }
