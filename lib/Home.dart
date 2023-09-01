@@ -51,6 +51,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     pageController = PageController(initialPage: _tabIndex);
+    
     // List<UserChallengeDTO> challengeUserChallengeDTOs =
     //     widget.challengeUserChallengeDTOs;
     // List<LevelDetail> challengeLevelDetails = widget.challengeLevelDetails;
@@ -67,6 +68,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // widget.challengeLevelDetails.sort((a, b) => int.parse(a.challengeLevelDetails.points)
+    //     .compareTo(int.parse(b.widget.challengeLevelDetails.points)));
+
     final List<Widget> bottomBarPages = [
       const Redeem(),
       Home3(

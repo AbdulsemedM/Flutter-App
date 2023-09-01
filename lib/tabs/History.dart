@@ -444,7 +444,7 @@ class _HistoryState extends State<History> {
               : const Icon(Icons.swap_horiz_sharp, color: Colors.amber),
           source: transaction['naration'],
           date: DateTime.parse(transaction['generatedDate']),
-          amount: transaction['amount'],
+          amount: transaction['amount'].toString(),
           status: transaction['status'],
         );
         newTransactions.add(transactionData);
