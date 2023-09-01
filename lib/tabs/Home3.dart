@@ -894,8 +894,8 @@ class _Home3State extends State<Home3> {
                               child: CircleAvatar(
                                   backgroundColor: Colors.grey[200],
                                   radius: 30,
-                                  child: Image.asset(
-                                      "assets/images/${widget.challengeUserChallengeDTOs[index].challengeLogo}")),
+                                  child: Image.network(
+                                      "${widget.challengeUserChallengeDTOs[index].challengeLogo}")),
                             ),
                             Padding(
                               padding: EdgeInsets.all(3.0),
