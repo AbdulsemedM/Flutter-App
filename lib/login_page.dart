@@ -236,9 +236,20 @@ class _Login_pageState extends State<Login_page> {
               levelName: Data['levelName'],
               levelColor: Data['levelColor'],
             );
-            for (int i = 0; i < challengeLevelDetails.length; i++) {
-              print("hereeee we go !!!${challengeLevelDetails[i].levelName}");
-            }
+
+            List<String> data = [
+              challengeData.totalPoints,
+              challengeData.equivalentETB,
+              challengeData.levelName,
+              challengeData.levelColor
+            ];
+            print(data);
+            print("heeeee");
+            SimplePreferences preferences = SimplePreferences();
+            await preferences.setData(data);
+            // for (int i = 0; i < challengeLevelDetails.length; i++) {
+            //   print("hereeee we go !!!${challengeLevelDetails[i].levelName}");
+            // }
           } catch (e) {}
 
           setState(() {

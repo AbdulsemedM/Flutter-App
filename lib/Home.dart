@@ -51,6 +51,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     pageController = PageController(initialPage: _tabIndex);
+    
     // List<UserChallengeDTO> challengeUserChallengeDTOs =
     //     widget.challengeUserChallengeDTOs;
     // List<LevelDetail> challengeLevelDetails = widget.challengeLevelDetails;

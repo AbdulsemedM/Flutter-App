@@ -1,16 +1,29 @@
 import 'dart:convert';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:loyalty_app/utils/simple_preference.dart';
+
+TextEditingController amount = TextEditingController();
+double converted = 0;
 
 class Redeem extends StatefulWidget {
   const Redeem({super.key});
 
   @override
   State<Redeem> createState() => _RedeemState();
+}
+
+class Settings {
+  final double exchangeRate;
+  final double withdrawalLimit;
+
+  Settings({required this.exchangeRate, required this.withdrawalLimit});
 }
 
 class RedeemOptions {
@@ -29,11 +42,34 @@ class RedeemOptions {
 
 class _RedeemState extends State<Redeem> {
   List<RedeemOptions> redeemOptions = [];
+  List<Settings> setting = [];
+  bool enable = false;
+  FocusNode amountFocus = FocusNode();
+  List? data;
 
   @override
   void initState() {
+    setState(() {
+      amount.text = "";
+      convert = "";
+      converted = 0;
+      enable = false;
+    });
     super.initState();
     fetchPackages();
+    fetchSettings();
+    // KeyboardVisibilityNotification().addNewListener(
+    //   onChange: (bool visible) {
+    //     setState(() {
+    //       enable = visible;
+    //     });
+
+    //     // Disable the text field when the keyboard is closed
+    //     if (!visible) {
+    //       amountFocus.unfocus();
+    //     }
+    //   },
+    // );
   }
 
   bool loading = true;
@@ -84,7 +120,9 @@ class _RedeemState extends State<Redeem> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
                 child: Text(
-                  "Currently you have 1024 points",
+                  loading
+                      ? "Currently you have - points"
+                      : "Currently you have ${data?[0]} points",
                   style: GoogleFonts.roboto(
                     color: Colors.grey,
                   ),
@@ -108,15 +146,19 @@ class _RedeemState extends State<Redeem> {
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 3,
-                                  mainAxisSpacing: 0,
+                                  mainAxisSpacing: 2,
                                   crossAxisSpacing: 4),
                           itemBuilder: (BuildContext context, int index) {
                             return Container(
                               height: 100,
                               width: 110,
+                              color: convert == redeemOptions[index].title
+                                  ? Colors_selector.primaryColor
+                                  : Colors.white,
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
+                                    enable = true;
                                     if (redeemOptions[index].isEnabled) {
                                       convert = redeemOptions[index].title;
                                       converts = true;
@@ -194,7 +236,8 @@ class _RedeemState extends State<Redeem> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                   color: Colors_selector.primaryColor)),
-                          Text("10 points = 1 ETB",
+                          Text(
+                              "${setting.isNotEmpty ? setting[0].exchangeRate : 0} points = 1 ETB",
                               style: GoogleFonts.roboto(
                                   color: Colors.grey, fontSize: 15)),
                         ],
@@ -235,13 +278,60 @@ class _RedeemState extends State<Redeem> {
                                 child: Align(
                                   alignment: Alignment.centerRight,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "344|",
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 15,
-                                          // color: Color.fromRGBO(223, 182, 77, 1),
-                                          fontWeight: FontWeight.bold),
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors_selector.tertiaryColor,
+                                          border: Border.all(
+                                              color: Colors_selector.primmary1),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                            height: 20,
+                                            width: 50,
+                                            child: TextFormField(
+                                              onTapOutside: (event) {
+                                                amountFocus.unfocus();
+                                              },
+                                              enabled: enable,
+                                              onChanged: (value) => converted =
+                                                  double.parse(amount.text) /
+                                                      setting[0].exchangeRate,
+                                              keyboardType:
+                                                  TextInputType.number,
+                                              inputFormatters: <TextInputFormatter>[
+                                                LengthLimitingTextInputFormatter(
+                                                    5),
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              controller: amount,
+                                              focusNode: amountFocus,
+                                              // maxLength: 5,
+                                              decoration: InputDecoration(
+                                                focusedBorder:
+                                                    UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors_selector
+                                                          .primmary1),
+                                                ),
+                                                border: InputBorder.none,
+                                                // labelText: "Phone Number*".tr,
+                                                labelStyle:
+                                                    GoogleFonts.playfairDisplay(
+                                                  fontSize: 13,
+                                                  color: Colors_selector.grey,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              // onEditingComplete: () {
+                                              //   // Perform your setState operation here
+                                              //   amount.clear();
+                                              // },
+                                            )),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -254,7 +344,7 @@ class _RedeemState extends State<Redeem> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
-                                  "Balance 1024",
+                                  "Balance ${loading ? "-" : data?[0]}",
                                   style: GoogleFonts.roboto(color: Colors.grey),
                                 ),
                               ))
@@ -299,7 +389,7 @@ class _RedeemState extends State<Redeem> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      "3",
+                                      "${converted}",
                                       style: GoogleFonts.roboto(
                                           fontSize: 15,
                                           // color: Color.fromRGBO(223, 182, 77, 1),
@@ -316,7 +406,9 @@ class _RedeemState extends State<Redeem> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: Text(
-                                  "Balance 10 ETB",
+                                  loading
+                                      ? ""
+                                      : "Balance ${double.parse(data?[0]) / setting[0].exchangeRate} ETB",
                                   style: GoogleFonts.roboto(color: Colors.grey),
                                 ),
                               ))
@@ -325,7 +417,9 @@ class _RedeemState extends State<Redeem> {
                     ),
                   ),
                   Text(
-                    "Only 344 point will be converted",
+                    converted != 0
+                        ? "Only ${converted} points will be converted"
+                        : "",
                     style: GoogleFonts.roboto(color: Colors.grey),
                   ),
                   Padding(
@@ -369,8 +463,31 @@ class _RedeemState extends State<Redeem> {
     );
   }
 
+  void fetchSettings() async {
+    try {
+      final response = await http.get(
+          Uri.http('10.1.177.123:9000', '/api/settings/getSettings'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+      var settings = jsonDecode(response.body);
+      for (var set in settings) {
+        var sets = Settings(
+            exchangeRate: set['exchangeRate'],
+            withdrawalLimit: set['withdrawalLimit']);
+        setting.add(sets);
+      }
+      print(settings);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void fetchPackages() async {
     try {
+      data = await SimplePreferences().getData();
+      print(data);
+
       final response = await http.get(
         Uri.http('10.1.177.123:9000', '/api/packages/getPackages'),
         headers: <String, String>{
@@ -378,6 +495,7 @@ class _RedeemState extends State<Redeem> {
         },
       );
       var packages = jsonDecode(response.body);
+      // print(packages);
       List<RedeemOptions> newRedeemOptions = [];
 
       for (var package in packages) {
@@ -390,9 +508,10 @@ class _RedeemState extends State<Redeem> {
         newRedeemOptions.add(packageData);
       }
       redeemOptions.addAll(newRedeemOptions);
-      print(redeemOptions[0].isEnabled);
+      // print(data[0]);
       setState(() {
         loading = false;
+        converted = 0;
       });
     } catch (e) {
       print(e.toString());

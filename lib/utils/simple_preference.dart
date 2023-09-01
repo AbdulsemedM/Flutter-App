@@ -11,6 +11,7 @@ class SimplePreferences {
   static late String _keyLanguage;
   static late String _keyUser;
   static late String _keyIsOn;
+  static late String _keyData;
 
   static Future<SharedPreferences> init() async {
     // if (_preferences == null) {
@@ -18,6 +19,7 @@ class SimplePreferences {
     _keyLanguage = 'language';
     _keyUser = "user_key";
     _keyIsOn = "dark";
+    _keyData = "data_key";
     // }
     return _preferences;
   }
@@ -37,6 +39,15 @@ class SimplePreferences {
     prefs.setStringList(_keyUser, user); // Note: <String> is not needed here
     if (kDebugMode) {
       print("setUser: $user");
+    }
+  }
+
+  Future<void> setData(List<String> data) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setStringList(_keyData, data); // Note: <String> is not needed here
+    if (kDebugMode) {
+      print("setData: $data");
     }
   }
 
@@ -104,6 +115,16 @@ class SimplePreferences {
       print("getUser: $user");
     }
     return user;
+  }
+
+  Future<List?> getData() async {
+    final SharedPreferences prefs = _preferences;
+
+    final data = prefs.getStringList('data_key');
+    if (kDebugMode) {
+      print("getData: $data");
+    }
+    return data;
   }
 
   // Future<List?> getBronze() async {
