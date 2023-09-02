@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:http/http.dart' as http;
@@ -46,6 +47,7 @@ class _RedeemState extends State<Redeem> {
   bool enable = false;
   FocusNode amountFocus = FocusNode();
   List? data;
+  TextEditingController pnumber = TextEditingController();
 
   @override
   void initState() {
@@ -428,13 +430,17 @@ class _RedeemState extends State<Redeem> {
                       vertical: 10,
                     ),
                     child: GestureDetector(
-                      // onTap: () {
-                      //   login();
-                      // },
+                      onTap: () {
+                        converted > 1 &&
+                                (convert == "Safaricom" ||
+                                    convert == "Ethiotelecom")
+                            ? showChallengeDialog(context, converted, convert)
+                            : null;
+                      },
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: converts
+                          color: converted > 1
                               ? Colors_selector.primmary1
                               : Colors_selector
                                   .pair2, // You can use your color here
@@ -517,4 +523,114 @@ class _RedeemState extends State<Redeem> {
       print(e.toString());
     }
   }
+
+  void showChallengeDialog(
+          BuildContext context, double value, String convert) =>
+      showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (context) {
+            return Dialog(
+                backgroundColor: Colors_selector.tertiaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 15),
+                      Text(
+                        "You are about to buy a ${value.toInt()} birr $convert airtime."
+                            .tr,
+                        style: GoogleFonts.roboto(
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      // ElevatedButton(
+                      //     // ignore: duplicate_ignore
+                      //     style: ElevatedButton.styleFrom(
+                      //         primary: Colors_selector.primaryColor),
+                      //     child: Text(
+                      //       "Gifts".tr,
+                      //       style: const TextStyle(
+                      //           fontSize: 20, fontWeight: FontWeight.w600),
+                      //     ),
+                      //     onPressed: () {
+                      //       Navigator.of(context).pop();
+                      //       // Navigator.push(
+                      //       //     context,
+                      //       //     MaterialPageRoute(
+                      //       //         builder: (context) => Challenges()));
+                      //     }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Please enter the phone number to be recharged".tr,
+                        style: GoogleFonts.roboto(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors_selector.tertiaryColor,
+                              border:
+                                  Border.all(color: Colors_selector.primmary1),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  LengthLimitingTextInputFormatter(10),
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                controller: pnumber,
+                                decoration: InputDecoration(
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors_selector.primmary1),
+                                  ),
+                                  border: InputBorder.none,
+                                  labelText: "Phone Number*".tr,
+                                  labelStyle: GoogleFonts.playfairDisplay(
+                                    fontSize: 13,
+                                    color: Colors_selector.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors_selector.primaryColor),
+                          child: Text(
+                            "Redeem".tr,
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w600),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => Challenges()));
+                          }),
+                      const SizedBox(height: 15),
+                    ],
+                  ),
+                ));
+          });
 }
