@@ -435,7 +435,11 @@ class _RedeemState extends State<Redeem> {
                                 (convert == "Safaricom" ||
                                     convert == "Ethiotelecom")
                             ? showChallengeDialog(context, converted, convert)
-                            : null;
+                            : converted > 1 &&
+                                    (convert != "Safaricom" ||
+                                        convert != "Ethiotelecom")
+                                ? getPackage()
+                                : null;
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),
@@ -634,3 +638,5 @@ class _RedeemState extends State<Redeem> {
                 ));
           });
 }
+
+getPackage() {}
