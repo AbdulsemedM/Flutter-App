@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     pageController = PageController(initialPage: _tabIndex);
-    
+
     // List<UserChallengeDTO> challengeUserChallengeDTOs =
     //     widget.challengeUserChallengeDTOs;
     // List<LevelDetail> challengeLevelDetails = widget.challengeLevelDetails;
@@ -74,9 +74,11 @@ class _HomeState extends State<Home> {
     final List<Widget> bottomBarPages = [
       const Redeem(),
       Home3(
-          challengeUserChallengeDTOs: widget.challengeUserChallengeDTOs,
-          challengeLevelDetails: widget.challengeLevelDetails,
-          challengeData: widget.challengeData),
+        challengeUserChallengeDTOs: widget.challengeUserChallengeDTOs,
+        challengeLevelDetails: widget.challengeLevelDetails,
+        challengeData: widget.challengeData,
+      ),
+
       const Favorite(),
       // const Michu(),
     ];

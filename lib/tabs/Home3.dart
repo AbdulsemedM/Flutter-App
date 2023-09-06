@@ -1,21 +1,13 @@
-// import 'package:flutter/foundation.dart';
-// import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/tabs/History.dart';
-// import 'package:loyalty_app/tabs/Michu.dart';
 import 'package:loyalty_app/tabs/Redeem.dart';
-
 import 'package:share/share.dart';
 import '../login_page.dart';
-// import '../utils/simple_preference.dart';
-// import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Home3 extends StatefulWidget {
   final List<UserChallengeDTO> challengeUserChallengeDTOs;
@@ -49,83 +41,11 @@ class challengeData {
 class _Home3State extends State<Home3> {
   // final PageController _controller = PageController();
   // var _currentIndex = 0;
-  List<challengeData> challenge = [];
+  // List<challengeData> challenge = [];
 
   final PageController _pageController = PageController();
   bool loading = true;
   double _currentPage = 0;
-  // List? user;
-  // List? challenge0;
-  // List? challenge1;
-  // List? challenge2;
-  // List? challenge3;
-  // List? challenge4;
-  // List? challenge5;
-  // List? challenge6;
-  // List? challenge7;
-  // List? challenge8;
-  // List? bronze;
-  // List? silver;
-  // List? gold;
-  // List? platinium;
-  // List? data;
-  // late String totalPoints;
-  // late String toETB;
-  // late String status;
-  // late String color;
-  // late String bronzePoint = "";
-  // late String bronzeStatus = "";
-  // late String silverPoint = "";
-  // late String silverStatus = "";
-  // late String goldPoint = "";
-  // late String goldStatus = "";
-  // late String platiniumPoint = "";
-  // late String platiniumStatus = "";
-  // late String challenge0Image;
-  // late String challenge0name;
-  // late String challenge0earn;
-  // late String challenge0Points;
-  // late String challenge0Link;
-  // late String challenge1Image;
-  // late String challenge1name;
-  // late String challenge1earn;
-  // late String challenge1Points;
-  // late String challenge1Link;
-  // late String challenge2Image;
-  // late String challenge2name;
-  // late String challenge2earn;
-  // late String challenge2Points;
-  // late String challenge2Link;
-  // late String challenge3Image;
-  // late String challenge3name;
-  // late String challenge3earn;
-  // late String challenge3Points;
-  // late String challenge3Link;
-  // late String challenge4Image;
-  // late String challenge4name;
-  // late String challenge4earn;
-  // late String challenge4Points;
-  // late String challenge4Link;
-  // late String challenge5Image;
-  // late String challenge5name;
-  // late String challenge5earn;
-  // late String challenge5Points;
-  // late String challenge5Link;
-  // late String challenge6Image;
-  // late String challenge6name;
-  // late String challenge6earn;
-  // late String challenge6Points;
-  // late String challenge6Link;
-  // late String challenge7Image;
-  // late String challenge7name;
-  // late String challenge7earn;
-  // late String challenge7Points;
-  // late String challenge7Link;
-  // late String challenge8Image;
-  // late String challenge8name;
-  // late String challenge8earn;
-  // late String challenge8Points;
-  // late String challenge8Link;
 
   @override
   void initState() {
@@ -137,186 +57,6 @@ class _Home3State extends State<Home3> {
     });
     // getDatas();
   }
-
-  // Future<void> getDatas() async {
-  //   user = await SimplePreferences().getUser();
-  //   print(user);
-  //   data = await SimplePreferences().getData();
-  //   totalPoints = data?[0];
-  //   toETB = data?[1];
-  //   status = data?[2];
-  //   color = data?[3];
-  //   silver = await SimplePreferences().getSilver();
-  //   silverPoint = silver?[1];
-  //   silverStatus = silver?[2];
-  //   bronze = await SimplePreferences().getBronze();
-  //   bronzePoint = bronze?[1];
-  //   bronzeStatus = bronze?[2];
-  //   gold = await SimplePreferences().getGold();
-  //   goldPoint = gold?[1];
-  //   goldStatus = gold?[2];
-  //   platinium = await SimplePreferences().getPlatinium();
-  //   platiniumPoint = platinium?[1];
-  //   platiniumStatus = platinium?[2];
-  //   challenge0 = await SimplePreferences().getChallenge0();
-  //   if (challenge0 != null) {
-  //     challenge0name = challenge0?[4];
-  //     challenge0Image = challenge0?[0];
-  //     challenge0earn = challenge0?[2];
-  //     challenge0Points = challenge0?[3];
-  //     challenge0Link = challenge0?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge0earn,
-  //         link: challenge0Link,
-  //         name: challenge0name,
-  //         image: challenge0Image,
-  //         points: challenge0Points,
-  //       ),
-  //     ]);
-  //   }
-  //   challenge1 = await SimplePreferences().getChallenge1();
-  //   if (challenge1 != null) {
-  //     challenge1name = challenge1?[4];
-  //     challenge1Image = challenge1?[0];
-  //     challenge1earn = challenge1?[2];
-  //     challenge1Points = challenge1?[3];
-  //     challenge1Link = challenge1?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge1earn,
-  //         link: challenge1Link,
-  //         name: challenge1name,
-  //         image: challenge1Image,
-  //         points: challenge1Points,
-  //       ),
-  //     ]);
-  //   }
-  //   challenge2 = await SimplePreferences().getChallenge2();
-  //   if (challenge2 != null) {
-  //     challenge2name = challenge2?[4];
-  //     challenge2Image = challenge2?[0];
-  //     challenge2earn = challenge2?[2];
-  //     challenge2Points = challenge2?[3];
-  //     challenge2Link = challenge2?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge2earn,
-  //         link: challenge2Link,
-  //         name: challenge2name,
-  //         image: challenge2Image,
-  //         points: challenge2Points,
-  //       ),
-  //     ]);
-  //   }
-  //   challenge3 = await SimplePreferences().getChallenge3();
-  //   if (challenge3 != null) {
-  //     challenge3name = challenge3?[4];
-  //     challenge3Image = challenge3?[0];
-  //     challenge3earn = challenge3?[2];
-  //     challenge3Points = challenge3?[3];
-  //     challenge3Link = challenge3?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge3earn,
-  //         link: challenge3Link,
-  //         name: challenge3name,
-  //         image: challenge3Image,
-  //         points: challenge3Points,
-  //       ),
-  //     ]);
-  //   }
-  //   challenge4 = await SimplePreferences().getChallenge4();
-  //   if (challenge4 != null) {
-  //     challenge4name = challenge4?[4];
-  //     challenge4Image = challenge4?[0];
-  //     challenge4earn = challenge4?[2];
-  //     challenge4Points = challenge4?[3];
-  //     challenge4Link = challenge4?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge4earn,
-  //         link: challenge4Link,
-  //         name: challenge4name,
-  //         image: challenge4Image,
-  //         points: challenge4Points,
-  //       ),
-  //     ]);
-  //   }
-  //   challenge5 = await SimplePreferences().getChallenge5();
-  //   if (challenge5 != null) {
-  //     challenge5name = challenge5?[4];
-  //     challenge5Image = challenge5?[0];
-  //     challenge5earn = challenge5?[2];
-  //     challenge5Points = challenge5?[3];
-  //     challenge5Link = challenge5?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge5earn,
-  //         link: challenge5Link,
-  //         name: challenge5name,
-  //         image: challenge5Image,
-  //         points: challenge5Points,
-  //       ),
-  //     ]);
-  //   }
-  //   challenge6 = await SimplePreferences().getChallenge6();
-  //   if (challenge6 != null) {
-  //     challenge6name = challenge6?[4];
-  //     challenge6Image = challenge6?[0];
-  //     challenge6earn = challenge6?[2];
-  //     challenge6Points = challenge6?[3];
-  //     challenge6Link = challenge6?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge6earn,
-  //         link: challenge6Link,
-  //         name: challenge6name,
-  //         image: challenge6Image,
-  //         points: challenge6Points,
-  //       ),
-  //     ]);
-  //   }
-  //   challenge7 = await SimplePreferences().getChallenge7();
-  //   if (challenge7 != null) {
-  //     challenge7name = challenge7?[4];
-  //     challenge7Image = challenge7?[0];
-  //     challenge7earn = challenge7?[2];
-  //     challenge7Points = challenge7?[3];
-  //     challenge7Link = challenge7?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge7earn,
-  //         link: challenge7Link,
-  //         name: challenge7name,
-  //         image: challenge7Image,
-  //         points: challenge7Points,
-  //       ),
-  //     ]);
-  //   }
-  //   challenge8 = await SimplePreferences().getChallenge8();
-  //   if (challenge8 != null) {
-  //     challenge8name = challenge8?[4];
-  //     challenge8Image = challenge8?[0];
-  //     challenge8earn = challenge8?[2];
-  //     challenge8Points = challenge8?[3];
-  //     challenge8Link = challenge8?[1];
-  //     challenge.addAll([
-  //       challengeData(
-  //         earn: challenge8earn,
-  //         link: challenge8Link,
-  //         name: challenge8name,
-  //         image: challenge8Image,
-  //         points: challenge8Points,
-  //       ),
-  //     ]);
-  //   }
-  //   setState(() {
-  //     loading = false;
-  //   });
-  //   print("from home");
-  //   print(challenge.length);
-  // }
 
   @override
   void dispose() {
@@ -407,31 +147,8 @@ class _Home3State extends State<Home3> {
                               bottomLeft: Radius.circular(30)),
                         ),
                         child: Column(children: [
-                          // Row(
-                          //   children: [
-                          //     Align(
-                          //         alignment: Alignment.topLeft,
-                          //         child: Padding(
-                          //           padding: const EdgeInsets.all(8.0),
-                          //           child: CircleAvatar(
-                          //             radius: 30,
-                          //             backgroundColor: Colors.black,
-                          //             child:
-                          //                 Image.asset("assets/images/michu.png"),
-                          //           ),
-                          //         )),
-                          //     Padding(
-                          //       padding: const EdgeInsets.fromLTRB(45, 0, 0, 0),
-                          //       child: Text(
-                          //         "Id : 2131242342",
-                          //         style: GoogleFonts.roboto(
-                          //             fontSize: 17, color: Colors.white),
-                          //       ),
-                          //     )
-                          //   ],
-                          // ),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(20.0, 20, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(18.0, 20, 0, 0),
                             child: Align(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -444,13 +161,13 @@ class _Home3State extends State<Home3> {
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(20, 12, 0, 0),
+                                    const EdgeInsets.fromLTRB(18, 12, 0, 0),
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    "${widget.challengeData.totalPoints} ",
+                                    "${widget.challengeData.totalPoints}",
                                     style: GoogleFonts.roboto(
-                                        fontSize: 28, color: Colors.white),
+                                        fontSize: 26, color: Colors.white),
                                   ),
                                 ),
                               ),
@@ -462,7 +179,7 @@ class _Home3State extends State<Home3> {
                                   child: Text(
                                       " = ${widget.challengeData.equivalentETB} ETB",
                                       style: GoogleFonts.roboto(
-                                          fontSize: 20, color: Colors.grey)),
+                                          fontSize: 18, color: Colors.grey)),
                                 ),
                               )
                             ],
@@ -539,11 +256,21 @@ class _Home3State extends State<Home3> {
                                     child: Text(
                                       widget.challengeData.levelName,
                                       style: GoogleFonts.playfairDisplay(
-                                          color: Colors.black, fontSize: 12),
+                                          // fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                          fontSize: 12),
                                     ),
                                   )))
                         ],
                       ),
+                      // Expanded(
+                      //     child: Align(
+                      //         alignment: Alignment.topRight,
+                      //         child: Padding(
+                      //           padding:
+                      //               EdgeInsets.fromLTRB(0, 3, 3, 0),
+                      //           child: Icon(Icons.sync),
+                      //         ))),
                     ]),
                   ),
                 ),
@@ -917,20 +644,40 @@ class _Home3State extends State<Home3> {
                               padding: EdgeInsets.all(13.0),
                               child: Column(
                                 children: [
-                                  Text(
-                                      "Just share your ${widget.challengeUserChallengeDTOs[index].challengeName} affiliate link and",
-                                      style: GoogleFonts.roboto(fontSize: 17)),
-                                  Text(
-                                      "earn ${widget.challengeUserChallengeDTOs[index].awardPoints} points ",
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600)),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: RichText(
+                                        text: TextSpan(
+                                            style: GoogleFonts.roboto(
+                                                color: Colors.black),
+                                            children: <TextSpan>[
+                                          TextSpan(
+                                              text:
+                                                  "Just share your ${widget.challengeUserChallengeDTOs[index].challengeName} affiliate link and",
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: 15)),
+                                          TextSpan(
+                                              text:
+                                                  " earn ${widget.challengeUserChallengeDTOs[index].awardPoints} points ",
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w600))
+                                        ])),
+                                  ),
+                                  // Text(
+                                  //     "Just share your ${widget.challengeUserChallengeDTOs[index].challengeName} affiliate link and",
+                                  //     style: GoogleFonts.roboto(fontSize: 15)),
+                                  // Text(
+                                  //     "earn ${widget.challengeUserChallengeDTOs[index].awardPoints} points ",
+                                  //     style: GoogleFonts.roboto(
+                                  //         fontSize: 17,
+                                  //         fontWeight: FontWeight.w600)),
                                 ],
                               ),
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.83,
-                              height: MediaQuery.of(context).size.height * 0.08,
+                              width: MediaQuery.of(context).size.width * 0.82,
+                              height: MediaQuery.of(context).size.height * 0.07,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                               ),
@@ -938,7 +685,7 @@ class _Home3State extends State<Home3> {
                                 painter: DashedBorderPainter(borderRadius: 3),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Row(
                                     children: [
@@ -1014,6 +761,20 @@ class _Home3State extends State<Home3> {
       ),
     );
   }
+
+  Future<void> _handleRefresh() async {
+    // Perform the data refresh here, update the lists and object
+    // You can make network requests or update the data as needed
+
+    // For example:
+    // await fetchData();
+    // setState(() {
+    //   // Update widget's data
+    // });
+
+    // Call the callback function to notify the parent widget
+    // widget.onRefresh();
+  }
 }
 
 class DashedBorderPainter extends CustomPainter {
@@ -1028,8 +789,8 @@ class DashedBorderPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
 
-    final dashWidth = 5;
-    final dashSpace = 5;
+    final dashWidth = 3;
+    final dashSpace = 3;
 
     // Draw top dashed line
     double startX = 0;
