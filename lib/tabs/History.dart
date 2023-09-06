@@ -136,117 +136,6 @@ class _HistoryState extends State<History> {
       }
     }
 
-    // List<TransactionData> filteredTransactions = transactions
-    //     .where((transaction) => transaction.date == "$rangeSelect")
-    //     .toList();
-    // print(filteredTransactions.length);
-
-    // Color iconColor = Colors.white;
-
-    // final List<TransactionData> transactions = [
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.redeem,
-    //     color: Colors.green,
-    //   ),
-    //   source: "Collected from Michu",
-    //   date: "August 17, 2023",
-    //   amount: "+20",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.swap_horiz_sharp,
-    //     color: Colors.amber,
-    //   ),
-    //   source: "Converted to ETB",
-    //   date: "August 10, 2023",
-    //   amount: "-500",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.redeem,
-    //     color: Colors.green,
-    //   ),
-    //   source: "Collected from E-Birr",
-    //   date: "August 1, 2023",
-    //   amount: "+1000",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.swap_horiz_sharp,
-    //     color: Colors.amber,
-    //   ),
-    //   source: "Converted to DSTV package",
-    //   date: "July 30, 2023",
-    //   amount: "-250",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.swap_horiz_sharp,
-    //     color: Colors.amber,
-    //   ),
-    //   source: "Converted to mobile Top-up",
-    //   date: "July 25, 2023",
-    //   amount: "-50",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.redeem,
-    //     color: Colors.green,
-    //   ),
-    //   source: "Collected from My-Equb",
-    //   date: "July 1, 2023",
-    //   amount: "+2000",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.swap_horiz_sharp,
-    //     color: Colors.amber,
-    //   ),
-    //   source: "Transfered to Wallet",
-    //   date: "May 1, 2023",
-    //   amount: "-600",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.swap_horiz_sharp,
-    //     color: Colors.amber,
-    //   ),
-    //   source: "Converted to canal plus package",
-    //   date: "August 17, 2022",
-    //   amount: "-400",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.redeem,
-    //     color: Colors.green,
-    //   ),
-    //   source: "Collected from Deboo",
-    //   date: "October 8, 2022",
-    //   amount: "+600",
-    //   status: "Success",
-    // ),
-    // TransactionData(
-    //   icon: Icon(
-    //     Icons.redeem,
-    //     color: Colors.green,
-    //   ),
-    //   source: "Collected from mobile banking",
-    //   date: "January 3, 2022",
-    //   amount: "+200",
-    //   status: "Success",
-    // ),
-    // Add more transactions here
-    // ];
-
     return Scaffold(
       backgroundColor: Colors_selector.tertiaryColor,
       appBar: AppBar(
@@ -296,7 +185,7 @@ class _HistoryState extends State<History> {
       ),
       body: SafeArea(
           child: Container(
-        height: MediaQuery.of(context).size.height * 1.01,
+        height: MediaQuery.of(context).size.height * 1.02,
         width: MediaQuery.of(context).size.width * 1,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
@@ -339,7 +228,7 @@ class _HistoryState extends State<History> {
                   )),
                 )
               : Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.78,
                   width: MediaQuery.of(context).size.width * 0.90,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,

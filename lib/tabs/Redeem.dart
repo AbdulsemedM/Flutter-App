@@ -141,8 +141,8 @@ class _RedeemState extends State<Redeem> {
                       ),
                     )
                   : Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: MediaQuery.of(context).size.height * 0.37,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       child: GridView.builder(
                           itemCount: redeemOptions.length,
                           gridDelegate:
@@ -249,7 +249,7 @@ class _RedeemState extends State<Redeem> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.08,
+                      height: MediaQuery.of(context).size.height * 0.09,
                       width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(
                           color: Colors_selector.pair2,
