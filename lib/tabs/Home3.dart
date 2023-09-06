@@ -757,10 +757,10 @@ class _Home3State extends State<Home3> {
                                 ),
                                 widget.challengeLevelDetails[2].status == "2"
                                     ? const Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            2.0, 0, 0, 0),
+                                        padding:
+                                            EdgeInsets.fromLTRB(2.0, 0, 0, 0),
                                         child: CircleAvatar(
-                                            radius: 10,
+                                            radius: 7,
                                             backgroundColor: Colors.green,
                                             child: Icon(
                                               Icons.done,
@@ -838,7 +838,7 @@ class _Home3State extends State<Home3> {
                                         padding:
                                             EdgeInsets.fromLTRB(2.0, 0, 0, 0),
                                         child: CircleAvatar(
-                                            radius: 10,
+                                            radius: 7,
                                             backgroundColor: Colors.green,
                                             child: Icon(
                                               Icons.done,

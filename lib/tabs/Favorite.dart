@@ -1,7 +1,9 @@
 // import 'dart:ffi';
 
+import 'package:android_play_install_referrer/android_play_install_referrer.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter/rendering.dart';
 // import 'package:flutter_settings_screens/flutter_settings_screens.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
@@ -392,28 +394,38 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
                     child: ListTile(
-                      onTap: () async {
-                        // Create a dynamic link
-                        final DynamicLinkParameters parameters =
-                            DynamicLinkParameters(
-                          uriPrefix: 'https://your-app-page.link',
-                          link: Uri.parse(
-                              'https://your-app-page.link/some-content'),
-                          androidParameters: AndroidParameters(
-                            packageName: 'com.example.yourapp',
-                          ),
-                          // Add more platform-specific parameters if needed
-                        );
+                      // onTap: () async {
+                      //   // Create a dynamic link
+                      //   final DynamicLinkParameters parameters =
+                      //       DynamicLinkParameters(
+                      //     uriPrefix: 'https://your-app-page.link',
+                      //     link: Uri.parse(
+                      //         'https://your-app-page.link/some-content'),
+                      //     androidParameters: AndroidParameters(
+                      //       packageName: 'com.example.yourapp',
+                      //     ),
+                      //     // Add more platform-specific parameters if needed
+                      //   );
 
-                        final ShortDynamicLink dynamicUrl =
-                            await FirebaseDynamicLinks.instance
-                                .buildShortLink(parameters);
-                        final Uri shortUrl = dynamicUrl.shortUrl;
-                        print(shortUrl);
-                        // Share the dynamic link
-                        // ...
+                      //   final ShortDynamicLink dynamicUrl =
+                      //       await FirebaseDynamicLinks.instance
+                      //           .buildShortLink(parameters);
+                      //   final Uri shortUrl = dynamicUrl.shortUrl;
+                      //   print(shortUrl);
+                      //   // Share the dynamic link
+                      //   // ...
+                      // },
+                      onTap: () async {
+                        final referralLink = await getReferralLink();
+                        if (referralLink != null) {
+                          // You can display the referral link or perform any action with it
+                          print('Referral Link: $referralLink');
+                        } else {
+                          // Handle error
+                          print('Error getting referral link');
+                        }
                       },
-                      title: Text("Send Feedback".tr),
+                      title: Text("Feedbacks".tr),
                       leading: Icon(
                         Icons.feedback_outlined,
                         color: Colors_selector.primaryColor,
@@ -464,5 +476,30 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
           );
         });
     // return exitapp ?? false;
+  }
+
+  Future<String> getReferralLink() async {
+    try {
+      final referrer = await AndroidPlayInstallReferrer.installReferrer;
+      final utmParams = referrer.installReferrer; // Get the install referrer
+
+      // Replace 'YOUR_APP_ID' with your actual app's package name
+      final playStoreLink =
+          'https://play.google.com/store/apps/details?id=com.coop.michu_test.coop_michu&${referrer.installReferrer}';
+
+      // Append the utmParams to your Play Store link
+      final referralLink = '$playStoreLink&$utmParams';
+      Map<String, String> queryParams = Uri.parse(playStoreLink)
+          .queryParameters; // returns Map<String, String>
+      // Get the `utm_content` parameter.
+      String? utmContent = queryParams["utm_content"];
+      print("hereee");
+      print(utmContent);
+
+      return referralLink;
+    } on PlatformException catch (e) {
+      print('Failed to retrieve install referrer: $e');
+      return "null";
+    }
   }
 }
