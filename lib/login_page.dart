@@ -39,9 +39,9 @@ class ChallengeData {
 }
 
 class LevelDetail {
-  final String levelName;
-  final String points;
-  final String status;
+  late String levelName;
+  late String points;
+  late String status;
 
   LevelDetail({
     required this.levelName,
