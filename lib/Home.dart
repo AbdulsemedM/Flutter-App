@@ -152,9 +152,11 @@ class _HomeState extends State<Home> {
                   child: Text("No".tr)),
               TextButton(
                   onPressed: () async {
-                    List<String> user = [];
                     SimplePreferences preferences = SimplePreferences();
-                    await preferences.setUser(user);
+                    await preferences.setRefresh("null");
+                    List<String> user = [];
+                    SimplePreferences preferences1 = SimplePreferences();
+                    await preferences1.setUser(user);
                     // ignore: use_build_context_synchronously
                     Navigator.pushReplacement<void, void>(
                       context,

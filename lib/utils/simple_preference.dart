@@ -12,6 +12,7 @@ class SimplePreferences {
   static late String _keyUser;
   static late String _keyIsOn;
   static late String _keyData;
+  static late String _keyRefresh;
 
   static Future<SharedPreferences> init() async {
     // if (_preferences == null) {
@@ -20,6 +21,7 @@ class SimplePreferences {
     _keyUser = "user_key";
     _keyIsOn = "dark";
     _keyData = "data_key";
+    _keyRefresh = "Refresh_key";
     // }
     return _preferences;
   }
@@ -30,6 +32,15 @@ class SimplePreferences {
     prefs.setString(_keyLanguage, language);
     if (kDebugMode) {
       print("setLang: $language");
+    }
+  }
+
+  Future<void> setRefresh(String refresh) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString(_keyRefresh, refresh);
+    if (kDebugMode) {
+      print("setRef: $refresh");
     }
   }
 
@@ -59,13 +70,23 @@ class SimplePreferences {
   }
 
   Future<String?> getLanguage() async {
-    final SharedPreferences prefs = await _preferences;
+    final SharedPreferences prefs = _preferences;
 
     final language = prefs.getString('language');
     if (kDebugMode) {
       print("getLang: $language");
     }
     return language;
+  }
+
+  Future<String?> getRefresh() async {
+    final SharedPreferences prefs = _preferences;
+
+    final refresh = prefs.getString('Refresh_key');
+    if (kDebugMode) {
+      print("getRef: $refresh");
+    }
+    return refresh;
   }
 
   Future<List?> getUser() async {

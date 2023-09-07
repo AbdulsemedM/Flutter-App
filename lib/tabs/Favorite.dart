@@ -460,6 +460,7 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                     List<String> user = [];
                     SimplePreferences preferences = SimplePreferences();
                     await preferences.setUser(user);
+                    await preferences.setRefresh("null");
                     // ignore: use_build_context_synchronously
                     Navigator.pushReplacement<void, void>(
                       context,
