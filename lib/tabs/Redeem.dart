@@ -107,7 +107,7 @@ class _RedeemState extends State<Redeem> {
                     child: Text(
                   "Redeem your points",
                   style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.w700, fontSize: 20),
+                      fontWeight: FontWeight.bold, fontSize: 25),
                 )),
               ),
               Padding(
