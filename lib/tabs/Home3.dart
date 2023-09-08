@@ -51,6 +51,7 @@ class _Home3State extends State<Home3> {
   List<LevelDetail> challengeLevelDetails = [];
   List<String> data = [];
   bool refresh = false;
+  bool refresh1 = false;
 
   final PageController _pageController = PageController();
   bool loading = true;
@@ -123,7 +124,7 @@ class _Home3State extends State<Home3> {
                     width: MediaQuery.of(context).size.width * 1,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: refresh
+                        colors: refresh1
                             ? [hexToColor(data[3]), hexToColor(data[3])]
                             : [
                                 hexToColor(widget.challengeData.levelColor),
@@ -169,17 +170,21 @@ class _Home3State extends State<Home3> {
                                 ),
                               ),
                               Expanded(
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      _handleRefresh();
-                                    },
-                                    child: Icon(Icons.sync,
-                                        color: refresh
-                                            ? hexToColor(data[3])
-                                            : hexToColor(widget
-                                                .challengeData.levelColor)),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(18.0, 20, 8, 0),
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        _handleRefresh();
+                                      },
+                                      child: Icon(Icons.sync,
+                                          color: refresh1
+                                              ? hexToColor(data[3])
+                                              : hexToColor(widget
+                                                  .challengeData.levelColor)),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -193,7 +198,7 @@ class _Home3State extends State<Home3> {
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    refresh
+                                    refresh1
                                         ? data[0]
                                         : widget.challengeData.totalPoints,
                                     style: GoogleFonts.roboto(
@@ -207,7 +212,7 @@ class _Home3State extends State<Home3> {
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                   child: Text(
-                                      refresh
+                                      refresh1
                                           ? " = ${data[1]} ETB"
                                           : " = ${widget.challengeData.equivalentETB} ETB",
                                       style: GoogleFonts.roboto(
@@ -237,7 +242,7 @@ class _Home3State extends State<Home3> {
                                         children: [
                                           Icon(
                                             Icons.swap_horiz_sharp,
-                                            color: refresh
+                                            color: refresh1
                                                 ? hexToColor(data[3])
                                                 : hexToColor(widget
                                                     .challengeData.levelColor),
@@ -246,7 +251,7 @@ class _Home3State extends State<Home3> {
                                             " Exchange",
                                             style: GoogleFonts.roboto(
                                                 fontSize: 16,
-                                                color: refresh
+                                                color: refresh1
                                                     ? hexToColor(data[3])
                                                     : hexToColor(widget
                                                         .challengeData
@@ -844,7 +849,7 @@ class _Home3State extends State<Home3> {
                                       fontWeight: FontWeight.w700)),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(13.0),
+                              padding: EdgeInsets.all(7.0),
                               child: Column(
                                 children: [
                                   Padding(
@@ -1019,7 +1024,9 @@ class _Home3State extends State<Home3> {
           challengeData.levelColor
         ];
         // widget.challengeData = data;
+        SetData(data);
         refresh = true;
+        refresh1 = true;
         loading = false;
         setRef();
       });
@@ -1038,10 +1045,62 @@ class _Home3State extends State<Home3> {
     }
   }
 
+  _handleRefresh3() async {
+    final user = await SimplePreferences().getUser();
+    try {
+      final challenge = await http.get(
+        Uri.http('10.1.177.123:9000',
+            'api/userChallenges/getByUsername/${user?[0].toString()}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      var Data = jsonDecode(challenge.body);
+      print(Data);
+      setState(() {
+        challengeLevelDetails = [];
+        for (var levelDetail in Data['levelDetails']) {
+          challengeLevelDetails.add(LevelDetail(
+            levelName: levelDetail['levelName'],
+            points: levelDetail['points'],
+            status: levelDetail['status'],
+          ));
+          // print(levelDetail['status']);
+        }
+        loading = false;
+        refresh = true;
+      });
+    } catch (e) {}
+  }
+
+  _handleRefresh1() async {
+    final myData = await SimplePreferences().getData();
+    print(myData);
+
+    _handleRefresh3();
+    try {
+      setState(() {
+        // print(widget.challengeLevelDetails[3].status);
+        // challengeLevelDetails.addAll(level);
+        data = [];
+        data = [myData?[0], myData?[1], myData?[2], myData?[3]];
+        print("heeeeessss");
+        print(data);
+        // data = myData!.isNotEmpty ? myData : [" "];
+        refresh1 = true;
+        setRef();
+      });
+    } catch (e) {
+      print(e.toString());
+      const message = 'Something went wrong! please try again.';
+      Fluttertoast.showToast(msg: e.toString(), fontSize: 18);
+    }
+  }
+
   void getref() async {
     final ref = await SimplePreferences().getRefresh();
     if (ref == "true") {
-      _handleRefresh();
+      _handleRefresh1();
       setState(() {
         refresh = false;
         loading = true;
@@ -1053,6 +1112,11 @@ class _Home3State extends State<Home3> {
     SimplePreferences preferences = SimplePreferences();
     await preferences.setRefresh("true");
   }
+}
+
+void SetData(List<String> data) async {
+  SimplePreferences preferences = SimplePreferences();
+  await preferences.setData(data);
 }
 
 class DashedBorderPainter extends CustomPainter {
@@ -1118,3 +1182,47 @@ class DashedBorderPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+
+// class DataModel extends ChangeNotifier {
+//   late ChallengeData challengeData;
+//   List<LevelDetail> challengeLevelDetails = [];
+//   List<String> data = [];
+
+//   void addItem(String item) async {
+//     final user = await SimplePreferences().getUser();
+//     try {
+//       final challenge = await http.get(
+//         Uri.http('10.1.177.123:9000',
+//             'api/userChallenges/getByUsername/${user?[0].toString()}'),
+//         headers: <String, String>{
+//           'Content-Type': 'application/json; charset=UTF-8',
+//         },
+//       );
+//       var Data = jsonDecode(challenge.body);
+//       challengeData = ChallengeData(
+//         totalPoints: Data['totalPoints'],
+//         equivalentETB: Data['equivalentETB'],
+//         levelName: Data['levelName'],
+//         levelColor: Data['levelColor'],
+//       );
+//       // print(challengeLevelDetails[1].status);
+//       challengeLevelDetails = [];
+//       for (var levelDetail in Data['levelDetails']) {
+//         challengeLevelDetails.add(LevelDetail(
+//           levelName: levelDetail['levelName'],
+//           points: levelDetail['points'],
+//           status: levelDetail['status'],
+//         ));
+//         // print(levelDetail['status']);
+//       }
+//       // challengeLevelDetails.addAll(level);
+//       data = [
+//         challengeData.totalPoints,
+//         challengeData.equivalentETB,
+//         challengeData.levelName,
+//         challengeData.levelColor
+//       ];
+//     } catch (e) {}
+//     notifyListeners();
+//   }
+// }

@@ -255,6 +255,8 @@ class _Login_pageState extends State<Login_page> {
           setState(() {
             loading = false;
           });
+          SimplePreferences preferences = SimplePreferences();
+          await preferences.setRefresh("null");
 
           // ignore: use_build_context_synchronously
           Navigator.pushReplacement(
@@ -370,85 +372,85 @@ class _Login_pageState extends State<Login_page> {
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.03),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.1),
-                            child: SizedBox(
-                              height: 55, // Adjust the height as needed
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: TextField(
-                                    controller: pnumber,
-                                    decoration: InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.phone_android,
-                                      ),
-                                      border: InputBorder.none,
-                                      labelText: "Phone Number".tr,
-                                      labelStyle: GoogleFonts.playfairDisplay(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.1),
+                          child: SizedBox(
+                            height: 55, // Adjust the height as needed
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: TextField(
+                                  controller: pnumber,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                      Icons.phone_android,
                                     ),
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
+                                    border: InputBorder.none,
+                                    labelText: "Phone Number".tr,
+                                    labelStyle: GoogleFonts.playfairDisplay(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
                                 ),
                               ),
                             ),
                           ),
+                        ),
 
                         SizedBox(height: screenHeight * 0.02),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.1),
-                            child: SizedBox(
-                              height: 55, // Adjust the height as needed
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: TextField(
-                                    controller: password,
-                                    obscureText: !_passwordVisible,
-                                    decoration: InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.lock,
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.1),
+                          child: SizedBox(
+                            height: 55, // Adjust the height as needed
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: TextField(
+                                  controller: password,
+                                  obscureText: !_passwordVisible,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(
+                                      Icons.lock,
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _passwordVisible
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
                                       ),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(
-                                          _passwordVisible
-                                              ? Icons.visibility
-                                              : Icons.visibility_off,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _passwordVisible = !_passwordVisible;
-                                          });
-                                        },
-                                      ),
-                                      border: InputBorder.none,
-                                      labelText: "Password".tr,
-                                      labelStyle: GoogleFonts.playfairDisplay(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _passwordVisible = !_passwordVisible;
+                                        });
+                                      },
+                                    ),
+                                    border: InputBorder.none,
+                                    labelText: "Password".tr,
+                                    labelStyle: GoogleFonts.playfairDisplay(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
+                        ),
 
                         SizedBox(height: screenHeight * 0.02),
                         Padding(
