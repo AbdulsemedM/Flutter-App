@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +11,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/tabs/History.dart';
 import 'package:loyalty_app/tabs/Redeem.dart';
+import 'package:loyalty_app/utils/capture.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
+import 'package:loyalty_app/utils/widgetToImage.dart';
 import 'package:share/share.dart';
 import '../login_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 class Home3 extends StatefulWidget {
   final List<UserChallengeDTO> challengeUserChallengeDTOs;
@@ -51,6 +56,9 @@ class _Home3State extends State<Home3> {
   List<LevelDetail> challengeLevelDetails = [];
   List<String> data = [];
   bool refresh = false;
+  bool refresh1 = false;
+  late GlobalKey key1;
+  late Uint8List bytes1;
 
   final PageController _pageController = PageController();
   bool loading = true;
@@ -80,6 +88,24 @@ class _Home3State extends State<Home3> {
 
     Share.share(
       "Check out $appName! Download it from $storeLink",
+      subject: "Share $appName",
+    );
+  }
+
+  void shareApp1(String link, String app, Uint8List imageBytes) async {
+    // Replace the following variables with your app's name and store link
+    String appName = app;
+    String storeLink = link;
+
+    // Write the image bytes to a temporary file
+    final tempDir = await getTemporaryDirectory();
+    final tempFile = File('${tempDir.path}/temp_image.png');
+    await tempFile.writeAsBytes(imageBytes);
+
+    // Share the temporary file
+    await Share.shareFiles(
+      [tempFile.path],
+      text: "Check out $appName! Download it from $storeLink",
       subject: "Share $appName",
     );
   }
@@ -116,457 +142,649 @@ class _Home3State extends State<Home3> {
                 ),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(23, 23, 23, 23),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.27,
-                    width: MediaQuery.of(context).size.width * 1,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: refresh
-                            ? [hexToColor(data[3]), hexToColor(data[3])]
-                            : [
-                                hexToColor(widget.challengeData.levelColor),
-                                hexToColor(widget.challengeData.levelColor)
-                              ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Row(children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        width: MediaQuery.of(context).size.width * 0.61,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.black,
-                              Colors.black,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.zero,
-                              bottomRight: Radius.zero,
-                              topLeft: Radius.circular(30),
-                              bottomLeft: Radius.circular(30)),
-                        ),
-                        child: Column(children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(18.0, 20, 0, 0),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    "AVAILABLE POINTS",
-                                    style:
-                                        GoogleFonts.roboto(color: Colors.grey),
-                                  ),
-                                ),
+                WidgetToImage(
+                  builder: (key) {
+                    this.key1 = key;
+
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(23, 23, 23, 23),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.27,
+                            width: MediaQuery.of(context).size.width * 1,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: refresh1
+                                    ? [hexToColor(data[3]), hexToColor(data[3])]
+                                    : [
+                                        hexToColor(
+                                            widget.challengeData.levelColor),
+                                        hexToColor(
+                                            widget.challengeData.levelColor)
+                                      ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
                               ),
-                              Expanded(
-                                child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      _handleRefresh();
-                                    },
-                                    child: Icon(Icons.sync,
-                                        color: refresh
-                                            ? hexToColor(data[3])
-                                            : hexToColor(widget
-                                                .challengeData.levelColor)),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                width: MediaQuery.of(context).size.width * 0.61,
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.black,
+                                      Colors.black,
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.zero,
+                                      bottomRight: Radius.zero,
+                                      topLeft: Radius.circular(30),
+                                      bottomLeft: Radius.circular(30)),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(18, 12, 0, 0),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    refresh
-                                        ? data[0]
-                                        : widget.challengeData.totalPoints,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 26, color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                                  child: Text(
-                                      refresh
-                                          ? " = ${data[1]} ETB"
-                                          : " = ${widget.challengeData.equivalentETB} ETB",
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 18, color: Colors.grey)),
-                                ),
-                              )
-                            ],
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                Redeem(), // Replace with your screen widget
-                                          ),
-                                        );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.swap_horiz_sharp,
-                                            color: refresh
-                                                ? hexToColor(data[3])
-                                                : hexToColor(widget
-                                                    .challengeData.levelColor),
-                                          ),
-                                          Text(
-                                            " Exchange",
-                                            style: GoogleFonts.roboto(
-                                                fontSize: 16,
-                                                color: refresh
-                                                    ? hexToColor(data[3])
-                                                    : hexToColor(widget
-                                                        .challengeData
-                                                        .levelColor)),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                History(), // Replace with your screen widget
-                                          ),
-                                        );
-                                      },
-                                      child: Padding(
+                                child: Column(children: [
+                                  Row(
+                                    children: [
+                                      Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            30.0, 0, 0, 0),
-                                        child: Text(
-                                          " History >",
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 16,
-                                              color: Colors.white),
+                                            18.0, 20, 0, 0),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "AVAILABLE POINTS",
+                                            style: GoogleFonts.roboto(
+                                                color: Colors.grey),
+                                          ),
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )
-                        ]),
-                      ),
-                      Column(
-                        children: [
-                          Expanded(
-                              child: Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(18.0),
-                                    child: Text(
-                                      refresh
-                                          ? data[2]
-                                          : widget.challengeData.levelName,
-                                      style: GoogleFonts.playfairDisplay(
-                                          // fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                          fontSize: 12),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              18.0, 20, 8, 0),
+                                          child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                _handleRefresh();
+                                              },
+                                              child: Icon(Icons.sync,
+                                                  color: refresh1
+                                                      ? hexToColor(data[3])
+                                                      : hexToColor(widget
+                                                          .challengeData
+                                                          .levelColor)),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            14, 12, 0, 0),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            refresh1
+                                                ? data[0]
+                                                : widget
+                                                    .challengeData.totalPoints,
+                                            style: GoogleFonts.roboto(
+                                                fontSize: 20,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 20, 0, 0),
+                                          child: Text(
+                                              refresh1
+                                                  ? " = ${data[1]} ETB"
+                                                  : " = ${widget.challengeData.equivalentETB} ETB",
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: 18,
+                                                  color: Colors.grey)),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.bottomLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Redeem(), // Replace with your screen widget
+                                                  ),
+                                                );
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.swap_horiz_sharp,
+                                                    color: refresh1
+                                                        ? hexToColor(data[3])
+                                                        : hexToColor(widget
+                                                            .challengeData
+                                                            .levelColor),
+                                                  ),
+                                                  Text(
+                                                    " Exchange",
+                                                    style: GoogleFonts.roboto(
+                                                        fontSize: 16,
+                                                        color: refresh1
+                                                            ? hexToColor(
+                                                                data[3])
+                                                            : hexToColor(widget
+                                                                .challengeData
+                                                                .levelColor)),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        History(), // Replace with your screen widget
+                                                  ),
+                                                );
+                                              },
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        30.0, 0, 0, 0),
+                                                child: Text(
+                                                  " History >",
+                                                  style: GoogleFonts.roboto(
+                                                      fontSize: 16,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  )))
-                        ],
-                      ),
-                    ]),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(23, 7, 23, 5),
-                  child: Row(
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            width: MediaQuery.of(context).size.width * 0.18,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                    color: refresh
-                                        ? ((challengeLevelDetails[0].status ==
-                                                "2"
-                                            ? Colors.green
-                                            : challengeLevelDetails[0].status ==
-                                                    "1"
-                                                ? Colors.amber
-                                                : Colors.grey))
-                                        : ((widget.challengeLevelDetails[0]
-                                                    .status ==
-                                                "2"
-                                            ? Colors.green
-                                            : widget.challengeLevelDetails[0]
-                                                        .status ==
-                                                    "1"
-                                                ? Colors.amber
-                                                : Colors.grey))),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Center(
-                              child: Icon(
-                                Icons.emoji_events,
-                                color: Colors.brown.shade500,
+                                  )
+                                ]),
                               ),
-                            ),
+                              Column(
+                                children: [
+                                  Expanded(
+                                      child: Align(
+                                          alignment: Alignment.bottomCenter,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(18.0),
+                                            child: Text(
+                                              refresh
+                                                  ? data[2]
+                                                  : widget
+                                                      .challengeData.levelName,
+                                              style: GoogleFonts.playfairDisplay(
+                                                  // fontWeight: FontWeight.w400,
+                                                  color: Colors.black,
+                                                  fontSize: 12),
+                                            ),
+                                          )))
+                                ],
+                              ),
+                            ]),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5.0, 0, 4),
-                            child: Row(
-                              children: [
-                                Text(
-                                  refresh
-                                      ? (challengeLevelDetails[0].levelName)
-                                      : (widget
-                                          .challengeLevelDetails[0].levelName),
-                                  style: GoogleFonts.roboto(
-                                      color: refresh
-                                          ? ((challengeLevelDetails[0].status ==
-                                                  "2"
-                                              ? Colors.green
-                                              : challengeLevelDetails[0]
-                                                          .status ==
-                                                      "1"
-                                                  ? Colors.amber
-                                                  : Colors.grey))
-                                          : ((widget.challengeLevelDetails[0]
-                                                      .status ==
-                                                  "2"
-                                              ? Colors.green
-                                              : widget.challengeLevelDetails[0]
-                                                          .status ==
-                                                      "1"
-                                                  ? Colors.amber
-                                                  : Colors.grey)),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                refresh
-                                    ? (challengeLevelDetails[0].status == "2"
-                                        ? const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                2.0, 0, 0, 0),
-                                            child: CircleAvatar(
-                                                radius: 7,
-                                                backgroundColor: Colors.green,
-                                                child: Icon(
-                                                  Icons.done,
-                                                  size: 12,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        : Container())
-                                    : (widget.challengeLevelDetails[0].status ==
-                                            "2"
-                                        ? const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                2.0, 0, 0, 0),
-                                            child: CircleAvatar(
-                                                radius: 7,
-                                                backgroundColor: Colors.green,
-                                                child: Icon(
-                                                  Icons.done,
-                                                  size: 12,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        : Container())
-                              ],
-                            ),
-                          ),
-                          Text(
-                            refresh
-                                ? (challengeLevelDetails[0].points)
-                                : (widget.challengeLevelDetails[0].points),
-                            style: GoogleFonts.roboto(
-                                fontSize: 12, color: Colors_selector.grey),
-                          )
-                        ],
-                      ),
-                      Container(
-                        height: 2,
-                        width: MediaQuery.of(context).size.width *
-                            0.04, // Width of the line
-                        decoration: BoxDecoration(
-                          color: refresh
-                              ? ((challengeLevelDetails[0].status == "2"
-                                  ? Colors.green
-                                  : challengeLevelDetails[0].status == "1"
-                                      ? Colors.amber
-                                      : Colors.grey))
-                              : ((widget.challengeLevelDetails[0].status == "2"
-                                  ? Colors.green
-                                  : widget.challengeLevelDetails[0].status ==
-                                          "1"
-                                      ? Colors.amber
-                                      : Colors.grey)), // Color of the line
-                          // Adjust as needed
                         ),
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            width: MediaQuery.of(context).size.width * 0.18,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                    color: refresh
-                                        ? (challengeLevelDetails[1].status ==
-                                                "2"
-                                            ? Colors.green
-                                            : challengeLevelDetails[1].status ==
-                                                    "1"
-                                                ? Colors.amber
-                                                : Colors.grey)
-                                        : (widget.challengeLevelDetails[1]
-                                                    .status ==
-                                                "2"
-                                            ? Colors.green
-                                            : widget.challengeLevelDetails[1]
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(23, 7, 23, 5),
+                          child: Row(
+                            children: [
+                              Column(
+                                children: [
+                                  Container(
+                                    height: 80,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.18,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: refresh
+                                                ? ((challengeLevelDetails[0]
+                                                            .status ==
+                                                        "2"
+                                                    ? Colors.green
+                                                    : challengeLevelDetails[0]
+                                                                .status ==
+                                                            "1"
+                                                        ? Colors.amber
+                                                        : Colors.grey))
+                                                : ((widget
+                                                            .challengeLevelDetails[
+                                                                0]
+                                                            .status ==
+                                                        "2"
+                                                    ? Colors.green
+                                                    : widget.challengeLevelDetails[0]
+                                                                .status ==
+                                                            "1"
+                                                        ? Colors.amber
+                                                        : Colors.grey))),
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.emoji_events,
+                                        color: Colors.brown.shade500,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 5.0, 0, 4),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          refresh
+                                              ? (challengeLevelDetails[0]
+                                                  .levelName)
+                                              : (widget.challengeLevelDetails[0]
+                                                  .levelName),
+                                          style: GoogleFonts.roboto(
+                                              color: refresh
+                                                  ? ((challengeLevelDetails[0]
+                                                              .status ==
+                                                          "2"
+                                                      ? Colors.green
+                                                      : challengeLevelDetails[0]
+                                                                  .status ==
+                                                              "1"
+                                                          ? Colors.amber
+                                                          : Colors.grey))
+                                                  : ((widget
+                                                              .challengeLevelDetails[
+                                                                  0]
+                                                              .status ==
+                                                          "2"
+                                                      ? Colors.green
+                                                      : widget.challengeLevelDetails[0]
+                                                                  .status ==
+                                                              "1"
+                                                          ? Colors.amber
+                                                          : Colors.grey)),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        refresh
+                                            ? (challengeLevelDetails[0]
                                                         .status ==
-                                                    "1"
-                                                ? Colors.amber
-                                                : Colors.grey)),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                              child: Icon(Icons.star_half,
-                                  color: Color.fromRGBO(168, 166, 167, 1)),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5.0, 0, 4),
-                            child: Row(
-                              children: [
-                                Text(
-                                  refresh
-                                      ? challengeLevelDetails[1].levelName
-                                      : widget
-                                          .challengeLevelDetails[1].levelName,
-                                  style: GoogleFonts.roboto(
-                                      color: refresh
-                                          ? (challengeLevelDetails[1].status ==
-                                                  "2"
-                                              ? Colors.green
-                                              : challengeLevelDetails[1]
-                                                          .status ==
-                                                      "1"
-                                                  ? Colors.amber
-                                                  : Colors.grey)
-                                          : (widget.challengeLevelDetails[1]
+                                                    "2"
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            2.0, 0, 0, 0),
+                                                    child: CircleAvatar(
+                                                        radius: 7,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        child: Icon(
+                                                          Icons.done,
+                                                          size: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  )
+                                                : Container())
+                                            : (widget.challengeLevelDetails[0]
+                                                        .status ==
+                                                    "2"
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            2.0, 0, 0, 0),
+                                                    child: CircleAvatar(
+                                                        radius: 7,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        child: Icon(
+                                                          Icons.done,
+                                                          size: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  )
+                                                : Container())
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    refresh
+                                        ? (challengeLevelDetails[0].points)
+                                        : (widget
+                                            .challengeLevelDetails[0].points),
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 12,
+                                        color: Colors_selector.grey),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                height: 2,
+                                width: MediaQuery.of(context).size.width *
+                                    0.04, // Width of the line
+                                decoration: BoxDecoration(
+                                  color: refresh
+                                      ? ((challengeLevelDetails[0].status == "2"
+                                          ? Colors.green
+                                          : challengeLevelDetails[0].status ==
+                                                  "1"
+                                              ? Colors.amber
+                                              : Colors.grey))
+                                      : ((widget.challengeLevelDetails[0]
+                                                  .status ==
+                                              "2"
+                                          ? Colors.green
+                                          : widget.challengeLevelDetails[0]
                                                       .status ==
-                                                  "2"
-                                              ? Colors.green
-                                              : widget.challengeLevelDetails[1]
-                                                          .status ==
-                                                      "1"
-                                                  ? Colors.amber
-                                                  : Colors.grey),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
+                                                  "1"
+                                              ? Colors.amber
+                                              : Colors
+                                                  .grey)), // Color of the line
+                                  // Adjust as needed
                                 ),
-                                refresh
-                                    ? (challengeLevelDetails[1].status == "2"
-                                        ? const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                2.0, 0, 0, 0),
-                                            child: CircleAvatar(
-                                                radius: 7,
-                                                backgroundColor: Colors.green,
-                                                child: Icon(
-                                                  Icons.done,
-                                                  size: 12,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        : Container())
-                                    : (widget.challengeLevelDetails[1].status ==
-                                            "2"
-                                        ? const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                2.0, 0, 0, 0),
-                                            child: CircleAvatar(
-                                                radius: 7,
-                                                backgroundColor: Colors.green,
-                                                child: Icon(
-                                                  Icons.done,
-                                                  size: 12,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        : Container())
-                              ],
-                            ),
-                          ),
-                          Text(
-                            refresh
-                                ? challengeLevelDetails[1].points
-                                : widget.challengeLevelDetails[1].points,
-                            style: GoogleFonts.roboto(
-                                fontSize: 12, color: Colors_selector.grey),
-                          )
-                        ],
-                      ),
-                      Container(
-                        height: 2,
-                        width: MediaQuery.of(context).size.width *
-                            0.04, // Width of the line
-                        decoration: BoxDecoration(
-                          color: refresh
-                              ? (challengeLevelDetails[1].status == "2"
-                                  ? Colors.green
-                                  : challengeLevelDetails[1].status == "1"
-                                      ? Colors.amber
-                                      : Colors.grey)
-                              : (widget.challengeLevelDetails[1].status == "2"
-                                  ? Colors.green
-                                  : widget.challengeLevelDetails[1].status ==
-                                          "1"
-                                      ? Colors.amber
-                                      : Colors.grey), // Color of the line
-                          // Adjust as needed
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            width: MediaQuery.of(context).size.width * 0.18,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                    height: 80,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.18,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: refresh
+                                                ? (challengeLevelDetails[1]
+                                                            .status ==
+                                                        "2"
+                                                    ? Colors.green
+                                                    : challengeLevelDetails[1]
+                                                                .status ==
+                                                            "1"
+                                                        ? Colors.amber
+                                                        : Colors.grey)
+                                                : (widget
+                                                            .challengeLevelDetails[
+                                                                1]
+                                                            .status ==
+                                                        "2"
+                                                    ? Colors.green
+                                                    : widget.challengeLevelDetails[1]
+                                                                .status ==
+                                                            "1"
+                                                        ? Colors.amber
+                                                        : Colors.grey)),
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child: Icon(Icons.star_half,
+                                          color:
+                                              Color.fromRGBO(168, 166, 167, 1)),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 5.0, 0, 4),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          refresh
+                                              ? challengeLevelDetails[1]
+                                                  .levelName
+                                              : widget.challengeLevelDetails[1]
+                                                  .levelName,
+                                          style: GoogleFonts.roboto(
+                                              color: refresh
+                                                  ? (challengeLevelDetails[1]
+                                                              .status ==
+                                                          "2"
+                                                      ? Colors.green
+                                                      : challengeLevelDetails[1]
+                                                                  .status ==
+                                                              "1"
+                                                          ? Colors.amber
+                                                          : Colors.grey)
+                                                  : (widget
+                                                              .challengeLevelDetails[
+                                                                  1]
+                                                              .status ==
+                                                          "2"
+                                                      ? Colors.green
+                                                      : widget.challengeLevelDetails[1]
+                                                                  .status ==
+                                                              "1"
+                                                          ? Colors.amber
+                                                          : Colors.grey),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        refresh
+                                            ? (challengeLevelDetails[1]
+                                                        .status ==
+                                                    "2"
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            2.0, 0, 0, 0),
+                                                    child: CircleAvatar(
+                                                        radius: 7,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        child: Icon(
+                                                          Icons.done,
+                                                          size: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  )
+                                                : Container())
+                                            : (widget.challengeLevelDetails[1]
+                                                        .status ==
+                                                    "2"
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            2.0, 0, 0, 0),
+                                                    child: CircleAvatar(
+                                                        radius: 7,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        child: Icon(
+                                                          Icons.done,
+                                                          size: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  )
+                                                : Container())
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    refresh
+                                        ? challengeLevelDetails[1].points
+                                        : widget
+                                            .challengeLevelDetails[1].points,
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 12,
+                                        color: Colors_selector.grey),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                height: 2,
+                                width: MediaQuery.of(context).size.width *
+                                    0.04, // Width of the line
+                                decoration: BoxDecoration(
+                                  color: refresh
+                                      ? (challengeLevelDetails[1].status == "2"
+                                          ? Colors.green
+                                          : challengeLevelDetails[1].status ==
+                                                  "1"
+                                              ? Colors.amber
+                                              : Colors.grey)
+                                      : (widget.challengeLevelDetails[1]
+                                                  .status ==
+                                              "2"
+                                          ? Colors.green
+                                          : widget.challengeLevelDetails[1]
+                                                      .status ==
+                                                  "1"
+                                              ? Colors.amber
+                                              : Colors
+                                                  .grey), // Color of the line
+                                  // Adjust as needed
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Container(
+                                    height: 80,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.18,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: refresh
+                                                ? (challengeLevelDetails[2]
+                                                            .status ==
+                                                        "2"
+                                                    ? Colors.green
+                                                    : challengeLevelDetails[2]
+                                                                .status ==
+                                                            "1"
+                                                        ? Colors.amber
+                                                        : Colors.grey)
+                                                : (widget
+                                                            .challengeLevelDetails[
+                                                                2]
+                                                            .status ==
+                                                        "2"
+                                                    ? Colors.green
+                                                    : widget.challengeLevelDetails[2]
+                                                                .status ==
+                                                            "1"
+                                                        ? Colors.amber
+                                                        : Colors.grey)),
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.stars,
+                                        color: Color.fromRGBO(223, 182, 77, 1),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 5.0, 0, 4),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          refresh
+                                              ? challengeLevelDetails[2]
+                                                  .levelName
+                                              : widget.challengeLevelDetails[2]
+                                                  .levelName,
+                                          style: GoogleFonts.roboto(
+                                              color: refresh
+                                                  ? (challengeLevelDetails[2]
+                                                              .status ==
+                                                          "2"
+                                                      ? Colors.green
+                                                      : challengeLevelDetails[2]
+                                                                  .status ==
+                                                              "1"
+                                                          ? Colors.amber
+                                                          : Colors.grey)
+                                                  : (widget
+                                                              .challengeLevelDetails[
+                                                                  2]
+                                                              .status ==
+                                                          "2"
+                                                      ? Colors.green
+                                                      : widget.challengeLevelDetails[2]
+                                                                  .status ==
+                                                              "1"
+                                                          ? Colors.amber
+                                                          : Colors.grey),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        refresh
+                                            ? (challengeLevelDetails[2]
+                                                        .status ==
+                                                    "2"
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            2.0, 0, 0, 0),
+                                                    child: CircleAvatar(
+                                                        radius: 7,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        child: Icon(
+                                                          Icons.done,
+                                                          size: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  )
+                                                : Container())
+                                            : (widget.challengeLevelDetails[2]
+                                                        .status ==
+                                                    "2"
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            2.0, 0, 0, 0),
+                                                    child: CircleAvatar(
+                                                        radius: 7,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        child: Icon(
+                                                          Icons.done,
+                                                          size: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  )
+                                                : Container())
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    refresh
+                                        ? challengeLevelDetails[2].points
+                                        : widget
+                                            .challengeLevelDetails[2].points,
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 12,
+                                        color: Colors_selector.grey),
+                                  )
+                                ],
+                              ),
+                              Container(
+                                height: 2,
+                                width: MediaQuery.of(context).size.width *
+                                    0.04, // Width of the line
+                                decoration: BoxDecoration(
                                     color: refresh
                                         ? (challengeLevelDetails[2].status ==
                                                 "2"
@@ -583,212 +801,139 @@ class _Home3State extends State<Home3> {
                                                         .status ==
                                                     "1"
                                                 ? Colors.amber
-                                                : Colors.grey)),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                              child: Icon(
-                                Icons.stars,
-                                color: Color.fromRGBO(223, 182, 77, 1),
+                                                : Colors
+                                                    .grey) // Adjust as needed
+                                    ),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5.0, 0, 4),
-                            child: Row(
-                              children: [
-                                Text(
-                                  refresh
-                                      ? challengeLevelDetails[2].levelName
-                                      : widget
-                                          .challengeLevelDetails[2].levelName,
-                                  style: GoogleFonts.roboto(
-                                      color: refresh
-                                          ? (challengeLevelDetails[2].status ==
-                                                  "2"
-                                              ? Colors.green
-                                              : challengeLevelDetails[2]
-                                                          .status ==
-                                                      "1"
-                                                  ? Colors.amber
-                                                  : Colors.grey)
-                                          : (widget.challengeLevelDetails[2]
-                                                      .status ==
-                                                  "2"
-                                              ? Colors.green
-                                              : widget.challengeLevelDetails[2]
-                                                          .status ==
-                                                      "1"
-                                                  ? Colors.amber
-                                                  : Colors.grey),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                refresh
-                                    ? (challengeLevelDetails[2].status == "2"
-                                        ? const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                2.0, 0, 0, 0),
-                                            child: CircleAvatar(
-                                                radius: 7,
-                                                backgroundColor: Colors.green,
-                                                child: Icon(
-                                                  Icons.done,
-                                                  size: 12,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        : Container())
-                                    : (widget.challengeLevelDetails[2].status ==
-                                            "2"
-                                        ? const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                2.0, 0, 0, 0),
-                                            child: CircleAvatar(
-                                                radius: 7,
-                                                backgroundColor: Colors.green,
-                                                child: Icon(
-                                                  Icons.done,
-                                                  size: 12,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        : Container())
-                              ],
-                            ),
-                          ),
-                          Text(
-                            refresh
-                                ? challengeLevelDetails[2].points
-                                : widget.challengeLevelDetails[2].points,
-                            style: GoogleFonts.roboto(
-                                fontSize: 12, color: Colors_selector.grey),
-                          )
-                        ],
-                      ),
-                      Container(
-                        height: 2,
-                        width: MediaQuery.of(context).size.width *
-                            0.04, // Width of the line
-                        decoration: BoxDecoration(
-                            color: refresh
-                                ? (challengeLevelDetails[2].status == "2"
-                                    ? Colors.green
-                                    : challengeLevelDetails[2].status == "1"
-                                        ? Colors.amber
-                                        : Colors.grey)
-                                : (widget.challengeLevelDetails[2].status == "2"
-                                    ? Colors.green
-                                    : widget.challengeLevelDetails[2].status ==
-                                            "1"
-                                        ? Colors.amber
-                                        : Colors.grey) // Adjust as needed
-                            ),
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            height: 80,
-                            width: MediaQuery.of(context).size.width * 0.18,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(
-                                    color: refresh
-                                        ? (challengeLevelDetails[3].status ==
-                                                "2"
-                                            ? Colors.green
-                                            : challengeLevelDetails[3].status ==
-                                                    "1"
-                                                ? Colors.amber
-                                                : Colors.grey)
-                                        : (widget.challengeLevelDetails[3]
-                                                    .status ==
-                                                "2"
-                                            ? Colors.green
-                                            : widget.challengeLevelDetails[3]
-                                                        .status ==
-                                                    "1"
-                                                ? Colors.amber
-                                                : Colors.grey)),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                              child: Icon(Icons.star, color: Colors.cyan),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5.0, 0, 4),
-                            child: Row(
-                              children: [
-                                Text(
-                                  refresh
-                                      ? challengeLevelDetails[3].levelName
-                                      : widget
-                                          .challengeLevelDetails[3].levelName,
-                                  style: GoogleFonts.roboto(
-                                      color: refresh
-                                          ? (challengeLevelDetails[3].status ==
-                                                  "2"
-                                              ? Colors.green
-                                              : challengeLevelDetails[3]
-                                                          .status ==
-                                                      "1"
-                                                  ? Colors.amber
-                                                  : Colors.grey)
-                                          : (widget.challengeLevelDetails[3]
-                                                      .status ==
-                                                  "2"
-                                              ? Colors.green
+                              Column(
+                                children: [
+                                  Container(
+                                    height: 80,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.18,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(
+                                            color: refresh
+                                                ? (challengeLevelDetails[3]
+                                                            .status ==
+                                                        "2"
+                                                    ? Colors.green
+                                                    : challengeLevelDetails[3]
+                                                                .status ==
+                                                            "1"
+                                                        ? Colors.amber
+                                                        : Colors.grey)
+                                                : (widget
+                                                            .challengeLevelDetails[
+                                                                3]
+                                                            .status ==
+                                                        "2"
+                                                    ? Colors.green
+                                                    : widget.challengeLevelDetails[3]
+                                                                .status ==
+                                                            "1"
+                                                        ? Colors.amber
+                                                        : Colors.grey)),
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: const Center(
+                                      child:
+                                          Icon(Icons.star, color: Colors.cyan),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 5.0, 0, 4),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          refresh
+                                              ? challengeLevelDetails[3]
+                                                  .levelName
                                               : widget.challengeLevelDetails[3]
-                                                          .status ==
-                                                      "1"
-                                                  ? Colors.amber
-                                                  : Colors.grey),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                refresh
-                                    ? (challengeLevelDetails[3].status == "2"
-                                        ? const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                2.0, 0, 0, 0),
-                                            child: CircleAvatar(
-                                                radius: 7,
-                                                backgroundColor: Colors.green,
-                                                child: Icon(
-                                                  Icons.done,
-                                                  size: 12,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        : Container())
-                                    : (widget.challengeLevelDetails[3].status ==
-                                            "2"
-                                        ? const Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                2.0, 0, 0, 0),
-                                            child: CircleAvatar(
-                                                radius: 7,
-                                                backgroundColor: Colors.green,
-                                                child: Icon(
-                                                  Icons.done,
-                                                  size: 12,
-                                                  color: Colors.white,
-                                                )),
-                                          )
-                                        : Container())
-                              ],
-                            ),
+                                                  .levelName,
+                                          style: GoogleFonts.roboto(
+                                              color: refresh
+                                                  ? (challengeLevelDetails[3]
+                                                              .status ==
+                                                          "2"
+                                                      ? Colors.green
+                                                      : challengeLevelDetails[3]
+                                                                  .status ==
+                                                              "1"
+                                                          ? Colors.amber
+                                                          : Colors.grey)
+                                                  : (widget
+                                                              .challengeLevelDetails[
+                                                                  3]
+                                                              .status ==
+                                                          "2"
+                                                      ? Colors.green
+                                                      : widget.challengeLevelDetails[3]
+                                                                  .status ==
+                                                              "1"
+                                                          ? Colors.amber
+                                                          : Colors.grey),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        refresh
+                                            ? (challengeLevelDetails[3]
+                                                        .status ==
+                                                    "2"
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            2.0, 0, 0, 0),
+                                                    child: CircleAvatar(
+                                                        radius: 7,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        child: Icon(
+                                                          Icons.done,
+                                                          size: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  )
+                                                : Container())
+                                            : (widget.challengeLevelDetails[3]
+                                                        .status ==
+                                                    "2"
+                                                ? const Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            2.0, 0, 0, 0),
+                                                    child: CircleAvatar(
+                                                        radius: 7,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        child: Icon(
+                                                          Icons.done,
+                                                          size: 12,
+                                                          color: Colors.white,
+                                                        )),
+                                                  )
+                                                : Container())
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    refresh
+                                        ? challengeLevelDetails[3].points
+                                        : widget
+                                            .challengeLevelDetails[3].points,
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 12,
+                                        color: Colors_selector.grey),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
-                          Text(
-                            refresh
-                                ? challengeLevelDetails[3].points
-                                : widget.challengeLevelDetails[3].points,
-                            style: GoogleFonts.roboto(
-                                fontSize: 12, color: Colors_selector.grey),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                        ), ///////////////////////////////////////////////////////////////////////////////////////////
+                      ],
+                    );
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.all(14.0),
@@ -798,6 +943,41 @@ class _Home3State extends State<Home3> {
                     color: Colors_selector.grey, // Adjust the color as needed
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    // color: refresh
+                    //     ? hexToColor(data[3])
+                    //     : hexToColor(widget.challengeData.levelColor),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: refresh
+                            ? hexToColor(data[3])
+                            : hexToColor(widget.challengeData
+                                .levelColor), // Set the background color here
+                        // Other styling properties can be configured here as well
+                        // For example, you can set text color using textStyle
+                        textStyle: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () async {
+                        final bytes1 = await Utils.capture(key1);
+                        setState(() {
+                          this.bytes1 = bytes1;
+                        });
+                        shareApp1("your_link", "your_app_name", bytes1);
+                      },
+
+                      // Text("data"),
+                      // Text("data"),
+                      child: Text(
+                        "Share your status with your friends.",
+                        style: GoogleFonts.roboto(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                // buildImage(bytes1) ?? Container(),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: MediaQuery.of(context).size.width * 0.90,
@@ -844,7 +1024,7 @@ class _Home3State extends State<Home3> {
                                       fontWeight: FontWeight.w700)),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(13.0),
+                              padding: EdgeInsets.all(7.0),
                               child: Column(
                                 children: [
                                   Padding(
@@ -1019,7 +1199,9 @@ class _Home3State extends State<Home3> {
           challengeData.levelColor
         ];
         // widget.challengeData = data;
+        SetData(data);
         refresh = true;
+        refresh1 = true;
         loading = false;
         setRef();
       });
@@ -1038,10 +1220,62 @@ class _Home3State extends State<Home3> {
     }
   }
 
+  _handleRefresh3() async {
+    final user = await SimplePreferences().getUser();
+    try {
+      final challenge = await http.get(
+        Uri.http('10.1.177.123:9000',
+            'api/userChallenges/getByUsername/${user?[0].toString()}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      var Data = jsonDecode(challenge.body);
+      print(Data);
+      setState(() {
+        challengeLevelDetails = [];
+        for (var levelDetail in Data['levelDetails']) {
+          challengeLevelDetails.add(LevelDetail(
+            levelName: levelDetail['levelName'],
+            points: levelDetail['points'],
+            status: levelDetail['status'],
+          ));
+          // print(levelDetail['status']);
+        }
+        loading = false;
+        refresh = true;
+      });
+    } catch (e) {}
+  }
+
+  _handleRefresh1() async {
+    final myData = await SimplePreferences().getData();
+    print(myData);
+
+    _handleRefresh3();
+    try {
+      setState(() {
+        // print(widget.challengeLevelDetails[3].status);
+        // challengeLevelDetails.addAll(level);
+        data = [];
+        data = [myData?[0], myData?[1], myData?[2], myData?[3]];
+        print("heeeeessss");
+        print(data);
+        // data = myData!.isNotEmpty ? myData : [" "];
+        refresh1 = true;
+        setRef();
+      });
+    } catch (e) {
+      print(e.toString());
+      const message = 'Something went wrong! please try again.';
+      Fluttertoast.showToast(msg: e.toString(), fontSize: 18);
+    }
+  }
+
   void getref() async {
     final ref = await SimplePreferences().getRefresh();
     if (ref == "true") {
-      _handleRefresh();
+      _handleRefresh1();
       setState(() {
         refresh = false;
         loading = true;
@@ -1053,6 +1287,14 @@ class _Home3State extends State<Home3> {
     SimplePreferences preferences = SimplePreferences();
     await preferences.setRefresh("true");
   }
+}
+
+Widget buildImage(Uint8List bytes) =>
+    bytes != null ? Image.memory(bytes) : Container();
+
+void SetData(List<String> data) async {
+  SimplePreferences preferences = SimplePreferences();
+  await preferences.setData(data);
 }
 
 class DashedBorderPainter extends CustomPainter {
@@ -1118,3 +1360,47 @@ class DashedBorderPainter extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+
+// class DataModel extends ChangeNotifier {
+//   late ChallengeData challengeData;
+//   List<LevelDetail> challengeLevelDetails = [];
+//   List<String> data = [];
+
+//   void addItem(String item) async {
+//     final user = await SimplePreferences().getUser();
+//     try {
+//       final challenge = await http.get(
+//         Uri.http('10.1.177.123:9000',
+//             'api/userChallenges/getByUsername/${user?[0].toString()}'),
+//         headers: <String, String>{
+//           'Content-Type': 'application/json; charset=UTF-8',
+//         },
+//       );
+//       var Data = jsonDecode(challenge.body);
+//       challengeData = ChallengeData(
+//         totalPoints: Data['totalPoints'],
+//         equivalentETB: Data['equivalentETB'],
+//         levelName: Data['levelName'],
+//         levelColor: Data['levelColor'],
+//       );
+//       // print(challengeLevelDetails[1].status);
+//       challengeLevelDetails = [];
+//       for (var levelDetail in Data['levelDetails']) {
+//         challengeLevelDetails.add(LevelDetail(
+//           levelName: levelDetail['levelName'],
+//           points: levelDetail['points'],
+//           status: levelDetail['status'],
+//         ));
+//         // print(levelDetail['status']);
+//       }
+//       // challengeLevelDetails.addAll(level);
+//       data = [
+//         challengeData.totalPoints,
+//         challengeData.equivalentETB,
+//         challengeData.levelName,
+//         challengeData.levelColor
+//       ];
+//     } catch (e) {}
+//     notifyListeners();
+//   }
+// }
