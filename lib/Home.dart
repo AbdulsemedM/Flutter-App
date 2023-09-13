@@ -3,7 +3,7 @@ import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loyalty_app/tabs/Favorite.dart';
+// import 'package:loyalty_app/tabs/Favorite.dart';
 // import 'package:loyalty_app/tabs/History.dart';
 import 'package:loyalty_app/tabs/Home3.dart';
 import 'package:loyalty_app/tabs/MyProfile.dart';

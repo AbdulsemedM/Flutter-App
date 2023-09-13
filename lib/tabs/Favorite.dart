@@ -1,7 +1,7 @@
 // import 'dart:ffi';
 
 import 'package:android_play_install_referrer/android_play_install_referrer.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter/rendering.dart';
@@ -80,21 +80,6 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
   updateLanguage(Locale locale) async {
     Get.back();
     Get.updateLocale(locale);
-    // await SimplePreferences.setLanguage(locale as String);
-
-    // final SharedPreferences prefs = await _prefs;
-    // if (locale == 'am_Et') {
-    //   await prefs.setBool('isAmharic', true);
-    //   await prefs.setBool('isOromiffa', false);
-    // }
-    // if (locale == 'en_US') {
-    //   await prefs.setBool('isAmharic', false);
-    //   await prefs.setBool('isOromiffa', false);
-    // }
-    // if (locale == 'or_ET') {
-    //   await prefs.setBool('isAmharic', false);
-    //   await prefs.setBool('isOromiffa', true);
-    // }
   }
 
   buildLanguageDialog(BuildContext context) {
@@ -417,6 +402,7 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
                       // },
                       onTap: () async {
                         final referralLink = await getReferralLink();
+                        // ignore: unnecessary_null_comparison
                         if (referralLink != null) {
                           // You can display the referral link or perform any action with it
                           print('Referral Link: $referralLink');
