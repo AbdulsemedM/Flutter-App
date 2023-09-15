@@ -38,10 +38,10 @@ class _MyProfileState extends State<MyProfile> {
   }
 
   final List locale = [
-    {'name': 'English', 'locale': Locale('en', 'US')},
-    {'name': 'Afaan Oromoo', 'locale': Locale('or', 'ET')},
-    {'name': 'አማርኛ', 'locale': Locale('am', 'ET')},
-    {'name': 'Somali', 'locale': Locale('en', 'US')},
+    {'name': 'English', 'locale': const Locale('en', 'US')},
+    {'name': 'Afaan Oromoo', 'locale': const Locale('or', 'ET')},
+    {'name': 'አማርኛ', 'locale': const Locale('am', 'ET')},
+    {'name': 'Somali', 'locale': const Locale('en', 'US')},
   ];
   updateLanguage(Locale locale) async {
     Get.back();
@@ -54,7 +54,7 @@ class _MyProfileState extends State<MyProfile> {
         builder: (builder) {
           return AlertDialog(
             backgroundColor: Colors_selector.pair2,
-            title: Text('Choose Language'),
+            title: const Text('Choose Language'),
             content: Container(
               width: double.maxFinite,
               child: ListView.separated(
@@ -122,13 +122,13 @@ class _MyProfileState extends State<MyProfile> {
                     Navigator.pushReplacement<void, void>(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => Login_page(),
+                        builder: (BuildContext context) => const Login_page(),
                       ),
                     );
                   },
                   child: Text(
                     "Yes".tr,
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ))
             ],
           );
@@ -170,7 +170,7 @@ class _MyProfileState extends State<MyProfile> {
                     child: BigUserCard(
                       backgroundColor: myColor,
                       settingColor: Colors.white,
-                      userName: "James Bond",
+                      userName: "Justin Foley",
                       userProfilePic: const NetworkImage(
                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4lihOt46X7hUMohEzLcHRy5kIMz_Y65T9AQ&usqp=CAU",
                           scale: 0.1),
@@ -247,7 +247,8 @@ class _MyProfileState extends State<MyProfile> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Forgot_pw()),
+                          MaterialPageRoute(
+                              builder: (context) => const Forgot_pw()),
                         );
                       },
                       icons: Icons.password,
@@ -263,6 +264,27 @@ class _MyProfileState extends State<MyProfile> {
                       //   onChanged: (value) {},
                       // ),
                     ),
+                    // SettingsItem(
+                    //   onTap: () {
+                    //     _onBackButtonPressed(context);
+                    //   },
+                    //   icons: Icons.logout,
+                    //   iconStyle: IconStyle(
+                    //     iconsColor: Colors.white,
+                    //     withBackground: true,
+                    //     backgroundColor: Colors_selector.primaryColor,
+                    //   ),
+                    //   title: 'Logout',
+                    //   // subtitle: "Multilingual Support",
+                    //   // trailing: Switch.adaptive(
+                    //   //   value: false,
+                    //   //   onChanged: (value) {},
+                    //   // ),
+                    // ),
+                  ],
+                ),
+                SettingsGroup(
+                  items: [
                     SettingsItem(
                       onTap: () {
                         _onBackButtonPressed(context);
@@ -274,11 +296,6 @@ class _MyProfileState extends State<MyProfile> {
                         backgroundColor: Colors_selector.primaryColor,
                       ),
                       title: 'Logout',
-                      // subtitle: "Multilingual Support",
-                      // trailing: Switch.adaptive(
-                      //   value: false,
-                      //   onChanged: (value) {},
-                      // ),
                     ),
                   ],
                 ),
