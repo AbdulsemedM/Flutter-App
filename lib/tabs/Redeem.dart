@@ -132,7 +132,7 @@ class _RedeemState extends State<Redeem> {
               ),
               loading
                   ? Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.1,
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: Center(
                         child: CircularProgressIndicator(
@@ -141,7 +141,9 @@ class _RedeemState extends State<Redeem> {
                       ),
                     )
                   : Container(
-                      height: MediaQuery.of(context).size.height * 0.37,
+                      height: redeemOptions.length < 4
+                          ? MediaQuery.of(context).size.height * 0.19
+                          : MediaQuery.of(context).size.height * 0.35,
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: GridView.builder(
                           itemCount: redeemOptions.length,
