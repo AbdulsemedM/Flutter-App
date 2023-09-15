@@ -293,7 +293,7 @@ class _MyProfileState extends State<MyProfile> {
                       iconStyle: IconStyle(
                         iconsColor: Colors.white,
                         withBackground: true,
-                        backgroundColor: Colors_selector.primaryColor,
+                        backgroundColor: Colors.red,
                       ),
                       title: 'Logout',
                     ),
