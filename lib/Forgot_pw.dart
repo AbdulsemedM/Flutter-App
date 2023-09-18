@@ -74,9 +74,9 @@ class _Forgot_pwState extends State<Forgot_pw> {
                 padding: const EdgeInsets.fromLTRB(
                     0, 10, 20, 10), // Add padding values as needed
                 child: Text(
-                  'Forgot Password?',
+                  'Forgot'.tr,
                   style: GoogleFonts.playfairDisplay(
-                    fontSize: 36,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -86,7 +86,8 @@ class _Forgot_pwState extends State<Forgot_pw> {
                 padding: const EdgeInsets.fromLTRB(
                     20, 10, 20, 20), // Add padding values as needed
                 child: Text(
-                  "Don't worry! It occurs. Please enter the phone number linked with your account",
+                  "Don't worry! It occurs. Please enter the phone number linked with your account"
+                      .tr,
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 15,
                     fontWeight: FontWeight.bold,

@@ -100,7 +100,7 @@ class _Confirm_OTPState extends State<Confirm_OTP> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 20, 10),
                       child: Text(
-                        'OTP Verification',
+                        'OTP Verification'.tr,
                         style: GoogleFonts.playfairDisplay(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class _Confirm_OTPState extends State<Confirm_OTP> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                       child: Text(
-                        "Enter the verification code we just sent to your mobile phone",
+                        "Enter the verification code we just sent to your mobile phone".tr,
                         style: GoogleFonts.playfairDisplay(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
