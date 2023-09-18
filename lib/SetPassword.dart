@@ -74,7 +74,7 @@ class _SetPasswordState extends State<SetPassword> {
                 padding: const EdgeInsets.fromLTRB(
                     0, 10, 20, 10), // Add padding values as needed
                 child: Text(
-                  'Create new password?',
+                  'Create new password?'.tr,
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,

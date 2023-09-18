@@ -188,7 +188,7 @@ class _SignupState extends State<Signup> {
                         padding: const EdgeInsets.fromLTRB(
                             20, 10, 20, 10), // Add padding values as needed
                         child: Text(
-                          'Hello, Register here to get started!',
+                          "Hello, Register here to get started!".tr,
                           style: GoogleFonts.playfairDisplay(
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
