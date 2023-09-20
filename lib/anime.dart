@@ -8,6 +8,7 @@ class anime extends StatefulWidget {
   State<anime> createState() => _animeState();
 }
 
+// ignore: camel_case_types
 class _animeState extends State<anime> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _rotationAnimation;
@@ -81,14 +82,6 @@ class _animeState extends State<anime> with TickerProviderStateMixin {
               width: 75,
               height: 75,
               decoration: BoxDecoration(
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //       color: Colors.black12.withOpacity(0.8),
-                  //       offset: Offset(-0.6, -0.6)),
-                  //   BoxShadow(
-                  //       color: Colors.black.withOpacity(0.8),
-                  //       offset: Offset(0.6, 0.6)),
-                  // ],
                   color: Colors_selector.primaryColor,
                   borderRadius: BorderRadius.circular(_radiusAnimation.value)),
             ),

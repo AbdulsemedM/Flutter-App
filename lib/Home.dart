@@ -3,11 +3,8 @@ import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:loyalty_app/tabs/Favorite.dart';
-// import 'package:loyalty_app/tabs/History.dart';
 import 'package:loyalty_app/tabs/Home3.dart';
 import 'package:loyalty_app/tabs/MyProfile.dart';
-// import 'package:loyalty_app/tabs/Michu.dart';
 import 'package:loyalty_app/tabs/Redeem.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
 
@@ -32,13 +29,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  /// Controller to handle PageView and also handles initial page
   final _pageController = PageController(initialPage: 0);
-
-  /// Controller to handle bottom nav bar and also handles initial page
-  // final _controller = NotchBottomBarController(index: 0);
-  // int maxCount = 5;
-
   int _tabIndex = 1;
   int get tabIndex => _tabIndex;
   set tabIndex(int v) {
@@ -52,11 +43,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     pageController = PageController(initialPage: _tabIndex);
-
-    // List<UserChallengeDTO> challengeUserChallengeDTOs =
-    //     widget.challengeUserChallengeDTOs;
-    // List<LevelDetail> challengeLevelDetails = widget.challengeLevelDetails;
-    // ChallengeData challengeData = widget.challengeData;
   }
 
   @override
@@ -69,9 +55,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // widget.challengeLevelDetails.sort((a, b) => int.parse(a.challengeLevelDetails.points)
-    //     .compareTo(int.parse(b.widget.challengeLevelDetails.points)));
-
     final List<Widget> bottomBarPages = [
       const Redeem(),
       Home3(
@@ -173,6 +156,5 @@ class _HomeState extends State<Home> {
             ],
           );
         });
-    // return exitapp ?? false;
   }
 }

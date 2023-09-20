@@ -4,9 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SimplePreferences {
-  // late final Future<SharedPreferences> _preferences = SharedPreferences
-  //     .getInstance(); // Use 'late' keyword for lazy initialization
-
   static late SharedPreferences _preferences;
   static late String _keyLanguage;
   static late String _keyUser;
@@ -15,14 +12,12 @@ class SimplePreferences {
   static late String _keyRefresh;
 
   static Future<SharedPreferences> init() async {
-    // if (_preferences == null) {
     _preferences = await SharedPreferences.getInstance();
     _keyLanguage = 'language';
     _keyUser = "user_key";
     _keyIsOn = "dark";
     _keyData = "data_key";
     _keyRefresh = "Refresh_key";
-    // }
     return _preferences;
   }
 
@@ -117,6 +112,4 @@ class SimplePreferences {
     print("getLang: $isOn");
     return isOn;
   }
-
-  // static init() {}
 }
