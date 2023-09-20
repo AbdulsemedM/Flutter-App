@@ -22,7 +22,6 @@ class _Forgot_pwState extends State<Forgot_pw> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          // backgroundColor: Colors_selector.primaryColor,
           body: SafeArea(
         child: SingleChildScrollView(
             child: SizedBox(
@@ -45,7 +44,6 @@ class _Forgot_pwState extends State<Forgot_pw> {
                 backgroundColor: Colors_selector.tertiaryColor,
                 elevation: 0, // Set elevation to 0 to remove shadow
 
-                // title: Text("title"),
                 leading: Container(
                   decoration: BoxDecoration(
                     color: Colors_selector.pair1,
@@ -127,98 +125,6 @@ class _Forgot_pwState extends State<Forgot_pw> {
                 ),
               ),
               const SizedBox(height: 20),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 25),
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //         color: Colors_selector.tertiaryColor,
-              //         border: Border.all(color: Colors_selector.tertiaryColor),
-              //         borderRadius: BorderRadius.circular(20)),
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(left: 10),
-              //       child: TextField(
-              //         obscureText: !_passwordVisible,
-              //         decoration: InputDecoration(
-              //           enabledBorder: UnderlineInputBorder(
-              //             borderSide:
-              //                 BorderSide(color: Colors_selector.secondaryColor),
-              //           ),
-              //           focusedBorder: UnderlineInputBorder(
-              //             borderSide:
-              //                 BorderSide(color: Colors_selector.secondaryColor),
-              //           ),
-              //           border: InputBorder.none,
-              //           labelText: "New Password".tr,
-              //           suffixIcon: IconButton(
-              //             icon: Icon(
-              //               // Based on passwordVisible state choose the icon
-              //               _passwordVisible
-              //                   ? Icons.visibility
-              //                   : Icons.visibility_off,
-              //               color: Theme.of(context).primaryColorDark,
-              //             ),
-              //             onPressed: () {
-              //               // Update the state i.e. toogle the state of passwordVisible variable
-              //               setState(() {
-              //                 _passwordVisible = !_passwordVisible;
-              //               });
-              //             },
-              //           ),
-              //         ),
-              //         // keyboardType: TextInputType.number,
-              //         // inputFormatters: <TextInputFormatter>[
-              //         //   FilteringTextInputFormatter.digitsOnly
-              //         // ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
-              // Padding(
-              //     padding: const EdgeInsets.symmetric(horizontal: 25),
-              //     child: Container(
-              //       decoration: BoxDecoration(
-              //           color: Colors_selector.tertiaryColor,
-              //           border: Border.all(color: Colors_selector.tertiaryColor),
-              //           borderRadius: BorderRadius.circular(20)),
-              //       child: Padding(
-              //         padding: const EdgeInsets.only(left: 10),
-              //         child: TextField(
-              //           obscureText: !_passwordVisible1,
-              //           decoration: InputDecoration(
-              //             enabledBorder: UnderlineInputBorder(
-              //               borderSide:
-              //                   BorderSide(color: Colors_selector.secondaryColor),
-              //             ),
-              //             focusedBorder: UnderlineInputBorder(
-              //               borderSide:
-              //                   BorderSide(color: Colors_selector.secondaryColor),
-              //             ),
-              //             border: InputBorder.none,
-              //             labelText: "Confirm Password".tr,
-              //             suffixIcon: IconButton(
-              //               icon: Icon(
-              //                 // Based on passwordVisible state choose the icon
-              //                 _passwordVisible1
-              //                     ? Icons.visibility
-              //                     : Icons.visibility_off,
-              //                 color: Theme.of(context).primaryColorDark,
-              //               ),
-              //               onPressed: () {
-              //                 // Update the state i.e. toogle the state of passwordVisible variable
-              //                 setState(() {
-              //                   _passwordVisible1 = !_passwordVisible1;
-              //                 });
-              //               },
-              //             ),
-              //             // keyboardType: TextInputType.number,
-              //             // inputFormatters: <TextInputFormatter>[
-              //             //   FilteringTextInputFormatter.digitsOnly
-              //             // ],
-              //           ),
-              //         ),
-              //       ),
-              //     )),
               const SizedBox(height: 20),
               Padding(
                 padding:

@@ -9,6 +9,7 @@ class WidgetToImage extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _WidgetToImageState createState() => _WidgetToImageState();
 }
 
