@@ -1,19 +1,9 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:loyalty_app/Profile2.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/login_page.dart';
-// import 'package:loyalty_app/tabs/Favorite.dart';
 import 'package:loyalty_app/tabs/History.dart';
-// import 'package:loyalty_app/tabs/Home.dart';
-// import 'package:loyalty_app/tabs/Home2.dart';
-// import 'package:loyalty_app/tabs/Home3.dart';
-// import 'package:loyalty_app/tabs/Profile.dart';
 import 'package:loyalty_app/tabs/Redeem.dart';
-// import 'package:loyalty_app/tabs/Search.dart';
 import 'package:flutter/material.dart';
-// import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:get/get.dart';
 import 'package:loyalty_app/utils/simple_preference.dart';
 
@@ -39,17 +29,11 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  /// widget list
   final List<Widget> bottomBarPages = [
     // const Home3(),
     const Redeem(),
     const History(),
-    // const Michu(),
   ];
-  // int _selectedIndex = 0;
-  // List<String> title = ['Home'.tr, 'redeem'.tr, 'Settings'.tr, 'Profile'.tr];
-
-  // List<Widget> _tabs = [Home2(), Search(), Favorite(), Profile()];
 
   @override
   Widget build(BuildContext context) {
@@ -57,48 +41,6 @@ class _HomePageState extends State<HomePage> {
       onWillPop: () => _onBackButtonPressed(context),
       child: Scaffold(
           backgroundColor: Colors_selector.primaryColor,
-          // appBar: AppBar(
-          //   leading: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: ClipRRect(
-          //       borderRadius: BorderRadius.circular(25.0),
-          //       child: GestureDetector(
-          //         onTap: () {
-          //           Navigator.push(
-          //             context,
-          //             MaterialPageRoute(builder: (context) => Profile2()),
-          //           );
-          //         },
-          //         child: Image.network(
-          //           "https://media.licdn.com/dms/image/C4E03AQH5LjXhQmWWrg/profile-displayphoto-shrink_800_800/0/1657298878780?e=2147483647&v=beta&t=uEtiMEuRFMp1gmPv3orz0TTxgo-tSTbHpAc8W2LGqkU",
-          //           height: 50.0,
-          //           width: 50.0,
-          //           fit: BoxFit.cover,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          //   elevation: 0.0,
-          //   backgroundColor: Colors_selector.primaryColor,
-          //   title: Text(
-          //     title[_selectedIndex].tr,
-          //     style: TextStyle(color: Colors_selector.secondaryColor),
-          //   ),
-          //   automaticallyImplyLeading: false,
-          //   centerTitle: true,
-          //   actions: [
-          //     IconButton(
-          //       icon: const Icon(Icons.monetization_on_sharp,
-          //           color: Colors.yellowAccent),
-          //       tooltip: 'Conis',
-          //       onPressed: () {},
-          //     ),
-          //     Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: Container(child: Center(child: Text("4.2"))),
-          //     )
-          //   ],
-          // ),
           body: PageView(
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
@@ -158,10 +100,7 @@ class _HomePageState extends State<HomePage> {
               print('current selected index $index');
               _pageController.jumpToPage(index);
             },
-          )
-
-// bottomNavigationBar:GNav(
-          ),
+          )),
     );
   }
 
@@ -199,6 +138,5 @@ class _HomePageState extends State<HomePage> {
             ],
           );
         });
-    // return exitapp ?? false;
   }
 }
