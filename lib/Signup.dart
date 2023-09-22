@@ -1,12 +1,9 @@
 // ignore: file_names
 import 'dart:convert';
-// import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:protest/Confirm_OTP.dart';
 import 'package:loyalty_app/colors.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -33,9 +30,6 @@ class _SignupState extends State<Signup> {
   bool loading = false;
 
   Signup() async {
-    // String pn = pnumber.text;
-    // print(pn);
-
     if (fname.text.isEmpty) {
       const message = 'First name is mandatory';
       Future.delayed(const Duration(milliseconds: 100), () {
@@ -64,16 +58,7 @@ class _SignupState extends State<Signup> {
         ],
         "email": email.text,
       };
-      // Map<String, String> headers = {
-      //   'Content-Type': 'application/json',
-      //   // 'Content-Length': body.length.toString(),
-      //   // Add any other headers if required
-      // };
-      // const apiUrl = 'http://63.34.29.151:9000/api/users/createUser';
       print(body);
-      // setState(() {
-      //   loading = false;
-      // });
       try {
         var response = await http.post(
           Uri.http("10.1.177.123:9000", "api/users/createUser"),
@@ -130,11 +115,6 @@ class _SignupState extends State<Signup> {
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors_selector.tertiaryColor,
-          // appBar: AppBar(
-          //   title: Text("Signup".tr),
-          //   backgroundColor: Colors_selector.primaryColor,
-          // ),
-
           body: SingleChildScrollView(
             child: SafeArea(
               child: SizedBox(
@@ -156,8 +136,6 @@ class _SignupState extends State<Signup> {
                       AppBar(
                         backgroundColor: Colors_selector.tertiaryColor,
                         elevation: 0, // Set elevation to 0 to remove shadow
-
-                        // title: Text("title"),
                         leading: Container(
                           decoration: BoxDecoration(
                             color: Colors_selector.tertiaryColor,
@@ -225,7 +203,6 @@ class _SignupState extends State<Signup> {
                         ),
                       ),
                       const SizedBox(height: 20),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
                         child: Container(
@@ -255,7 +232,6 @@ class _SignupState extends State<Signup> {
                         ),
                       ),
                       const SizedBox(height: 20),
-
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
                         child: Container(
@@ -288,7 +264,6 @@ class _SignupState extends State<Signup> {
                               )),
                         ),
                       ),
-
                       const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -301,10 +276,6 @@ class _SignupState extends State<Signup> {
                           child: Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: TextFormField(
-                                // keyboardType: TextInputType.number,
-                                // inputFormatters: <TextInputFormatter>[
-                                //   FilteringTextInputFormatter.digitsOnly
-                                // ],
                                 controller: email,
                                 decoration: InputDecoration(
                                   focusedBorder: UnderlineInputBorder(
@@ -322,7 +293,6 @@ class _SignupState extends State<Signup> {
                               )),
                         ),
                       ),
-
                       const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -338,10 +308,6 @@ class _SignupState extends State<Signup> {
                               controller: password,
                               obscureText: !_passwordVisible1,
                               decoration: InputDecoration(
-                                // enabledBorder: UnderlineInputBorder(
-                                //   borderSide: BorderSide(
-                                //       color: Colors_selector.secondaryColor),
-                                // ),
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Colors_selector.primmary1),
@@ -354,7 +320,6 @@ class _SignupState extends State<Signup> {
                                   fontWeight: FontWeight.bold,
                                 ),
                                 suffixIcon: IconButton(
-                                  // tooltip: "show password",
                                   icon: Icon(
                                     // Based on passwordVisible state choose the icon
                                     _passwordVisible1
@@ -370,7 +335,6 @@ class _SignupState extends State<Signup> {
                                   },
                                 ),
                               ),
-                              // onChanged: (passwprd) => Password = passwprd,
                             ),
                           ),
                         ),
@@ -418,40 +382,10 @@ class _SignupState extends State<Signup> {
                                   },
                                 ),
                               ),
-                              // onChanged: (cpassword) => Cpassword = cpassword,
                             ),
                           ),
                         ),
                       ),
-                      // const SizedBox(height: 20),
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 25),
-                      //   child: Container(
-                      //     decoration: BoxDecoration(
-                      //         color: Colors_selector.tertiaryColor,
-                      //         border:
-                      //             Border.all(color: Colors_selector.tertiaryColor),
-                      //         borderRadius: BorderRadius.circular(20)),
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.only(left: 10),
-                      //       child: TextFormField(
-                      //         controller: rcode,
-                      //         decoration: InputDecoration(
-                      //             // enabledBorder: UnderlineInputBorder(
-                      //             //   borderSide: BorderSide(
-                      //             //       color: Colors_selector.secondaryColor),
-                      //             // ),
-                      //             focusedBorder: UnderlineInputBorder(
-                      //               borderSide: BorderSide(
-                      //                   color: Colors_selector.primmary1),
-                      //             ),
-                      //             border: InputBorder.none,
-                      //             labelText: "Referal Code".tr),
-                      //         // onChanged: (rcode) => Rcode = rcode,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       const SizedBox(
                         height: 20,
                       ),
