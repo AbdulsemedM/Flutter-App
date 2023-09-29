@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -28,9 +28,9 @@ class _Profile2State extends State<Profile2> {
             tooltip: 'Conis',
             onPressed: () {},
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(child: Center(child: Text("data"))),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(child: Text("data")),
           )
         ],
       ),
