@@ -136,7 +136,7 @@ class _Confirm_OTPState extends State<Confirm_OTP> {
                                   otpControllers[3], focusNodes[3]),
                             ],
                           ),
-                          SizedBox(height: 40),
+                          const SizedBox(height: 40),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 80, vertical: 5),
@@ -196,17 +196,17 @@ class _Confirm_OTPState extends State<Confirm_OTP> {
         maxLength: 1,
         decoration: InputDecoration(
           counterText: '',
-          contentPadding: EdgeInsets.symmetric(vertical: 10),
+          contentPadding: const EdgeInsets.symmetric(vertical: 10),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+            borderSide: const BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.circular(8),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue),
+            borderSide: const BorderSide(color: Colors.blue),
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        style: TextStyle(fontSize: 20),
+        style: const TextStyle(fontSize: 20),
       ),
     );
   }
