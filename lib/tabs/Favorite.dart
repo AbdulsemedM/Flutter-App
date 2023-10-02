@@ -1,12 +1,8 @@
 // import 'dart:ffi';
 
 import 'package:android_play_install_referrer/android_play_install_referrer.dart';
-// import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter/rendering.dart';
-// import 'package:flutter_settings_screens/flutter_settings_screens.dart';
-// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:launch_review/launch_review.dart';
@@ -17,8 +13,6 @@ import 'package:loyalty_app/colors.dart';
 import 'package:loyalty_app/login_page.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
-// import 'package:loyalty_app/main.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/simple_preference.dart';
 
