@@ -261,7 +261,7 @@ class _ProfileState extends State<Profile> {
   Widget _buildProfileImage() => CircleAvatar(
         radius: 50,
         backgroundColor: Colors_selector.primaryColor,
-        backgroundImage: NetworkImage(
+        backgroundImage: const NetworkImage(
             "https://media.licdn.com/dms/image/C4E03AQH5LjXhQmWWrg/profile-displayphoto-shrink_100_100/0/1657298878780?e=1678924800&v=beta&t=PbUKUn0qwRpF43rYt0bISoE6PYYusRI3BrvkMU3SP0Y"),
       );
 }
