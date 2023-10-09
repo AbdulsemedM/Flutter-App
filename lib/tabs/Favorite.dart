@@ -46,25 +46,6 @@ class _FavoriteState extends State<Favorite> with WidgetsBindingObserver {
     print(isOn);
   }
 
-  // checkDarkMode() {
-  //   print("${isOn!}here");
-  //   if (isOn == "true") {
-  //     setState(() {
-  //       Colors_selector.pair1 = Color(0xff546e7a);
-  //       Colors_selector.pair2 = Color(0xff546e7a);
-  //       Colors_selector.primaryColor = Colors.lightBlue[400];
-  //       Colors_selector.primmary1 = Color(0xFF08B1F0);
-  //     });
-  //   } else {
-  //     setState(() {
-  //       Colors_selector.pair1 = Color(0xffe0f7fa);
-  //       Colors_selector.pair2 = Color(0xffe1f5fe);
-  //       Colors_selector.primaryColor = Colors.lightBlue[400];
-  //       Colors_selector.primmary1 = Color(0xFF08B1F0);
-  //     });
-  //   }
-  // }
-
   final List locale = [
     {'name': 'English', 'locale': Locale('en', 'US')},
     {'name': 'Afaan Oromoo', 'locale': Locale('or', 'ET')},
