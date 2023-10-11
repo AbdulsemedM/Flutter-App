@@ -39,8 +39,6 @@ class TransactionData {
 }
 
 class _HistoryState extends State<History> {
-  // final PageController _controller = PageController();
-  // var _currentIndex = 0;
   final PageController _pageController = PageController();
   bool loading = true;
   List<TransactionData> transactions = [];
