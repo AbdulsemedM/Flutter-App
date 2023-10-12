@@ -4,16 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:loyalty_app/colors.dart';
-// import 'package:loyalty_app/login_page.dart';
 import 'package:loyalty_app/menu/Challenges.dart';
 import 'package:loyalty_app/menu/Help.dart';
 import 'package:loyalty_app/menu/Locations.dart';
 import 'package:loyalty_app/menu/Products.dart';
 import 'package:loyalty_app/menu/register/Register.dart';
 import 'package:loyalty_app/menu/Share.dart';
-// import 'package:protest/menu/convert_coins.dart';
 import 'package:get/get.dart';
-// import 'package:hovering/hovering.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
@@ -26,8 +23,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Widget _menuSelector({required IconData icon, required String name}) {
     return Container(
-      width: 60, // Adjust the width of the container as needed
-      height: 80, // Adjust the height of the container as needed
+      width: 60,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.grey, width: 2),
