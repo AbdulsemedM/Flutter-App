@@ -2,11 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:loyalty_app/tabs/Home3.dart';
-// import 'package:loyalty_app/tabs/Michu.dart';
-
 import '../colors.dart';
 import '../utils/simple_preference.dart';
 import 'package:http/http.dart' as http;
