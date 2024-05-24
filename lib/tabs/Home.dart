@@ -275,7 +275,7 @@ class _HomeState extends State<Home> {
                   ),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors_selector.primaryColor),
+                          backgroundColor: Colors_selector.primaryColor),
                       child: Text(
                         "withdraw".tr,
                         style: const TextStyle(
@@ -297,7 +297,7 @@ class _HomeState extends State<Home> {
                   ),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors_selector.primaryColor),
+                          backgroundColor: Colors_selector.primaryColor),
                       child: Text(
                         "Convert".tr,
                         style: const TextStyle(
@@ -338,7 +338,7 @@ class _HomeState extends State<Home> {
                   ElevatedButton(
                       // ignore: duplicate_ignore
                       style: ElevatedButton.styleFrom(
-                          primary: Colors_selector.primaryColor),
+                          backgroundColor: Colors_selector.primaryColor),
                       child: Text(
                         "Gifts".tr,
                         style: const TextStyle(
@@ -364,7 +364,7 @@ class _HomeState extends State<Home> {
                   ),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors_selector.primaryColor),
+                          backgroundColor: Colors_selector.primaryColor),
                       child: Text(
                         "Challenges".tr,
                         style: const TextStyle(

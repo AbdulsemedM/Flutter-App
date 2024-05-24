@@ -181,7 +181,7 @@ class _ATMState extends State<ATM> {
                   SizedBox(height: 30),
                   ElevatedButton(
                       style:
-                          ElevatedButton.styleFrom(primary: Colors_selector.primaryColor),
+                          ElevatedButton.styleFrom(backgroundColor: Colors_selector.primaryColor),
                       child: Text(
                         "Convert",
                         style: TextStyle(

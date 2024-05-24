@@ -310,9 +310,7 @@ class _register3State extends State<register3> {
   }) =>
       ElevatedButton(
         style: ElevatedButton.styleFrom(
-            minimumSize: Size.fromHeight(40),
-            primary: Colors_selector.secondaryColor,
-            onPrimary: Colors_selector.primaryColor,
+            foregroundColor: Colors_selector.primaryColor, backgroundColor: Colors_selector.secondaryColor, minimumSize: Size.fromHeight(40),
             textStyle: const TextStyle(fontSize: 15)),
         onPressed: onClicked,
         child: Row(

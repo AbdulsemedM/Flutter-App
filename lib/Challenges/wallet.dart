@@ -241,7 +241,7 @@ class _WalletState extends State<Wallet> {
                   SizedBox(height: 30),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          primary: Colors_selector.primaryColor),
+                          backgroundColor: Colors_selector.primaryColor),
                       child: Text(
                         "Convert",
                         style: TextStyle(

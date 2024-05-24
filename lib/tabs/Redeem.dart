@@ -621,7 +621,7 @@ class _RedeemState extends State<Redeem> {
                       ),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: Colors_selector.primaryColor),
+                              backgroundColor: Colors_selector.primaryColor),
                           child: Text(
                             "Redeem".tr,
                             style: const TextStyle(
