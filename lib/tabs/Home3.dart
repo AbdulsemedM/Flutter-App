@@ -81,7 +81,7 @@ class _Home3State extends State<Home3> {
     super.dispose();
   }
 
-  void shareApp(String link, String app) {
+  void App(String link, String app) {
     // Replace the following variables with your app's name and store link
     String appName = app;
     String storeLink = link;
@@ -1124,7 +1124,7 @@ class _Home3State extends State<Home3> {
                                                 0, 0, 10, 0),
                                             child: GestureDetector(
                                               onTap: () {
-                                                shareApp(
+                                                App(
                                                   widget
                                                       .challengeUserChallengeDTOs[
                                                           index]
